@@ -37,6 +37,23 @@ namespace Nodify.Calculator
             });
         }
 
+        public ICommand AddEditorCommand { get; }
+        public ICommand CloseEditorCommand { get; }
+
+        private EditorViewModel? _selectedEditor;
+        public EditorViewModel? SelectedEditor
+        {
+            get => _selectedEditor;
+            set => SetProperty(ref _selectedEditor, value);
+        }
+
+        private bool _autoSelectNewEditor = true;
+        public bool AutoSelectNewEditor
+        {
+            get => _autoSelectNewEditor;
+            set => SetProperty(ref _autoSelectNewEditor , value); 
+        }
+
         private void OnOpenInnerCalculator(EditorViewModel parentEditor, CalculatorViewModel calculator)
         {
             var editor = Editors.FirstOrDefault(e => e.Calculator == calculator);
@@ -56,21 +73,5 @@ namespace Nodify.Calculator
             }
         }
 
-        public ICommand AddEditorCommand { get; }
-        public ICommand CloseEditorCommand { get; }
-
-        private EditorViewModel? _selectedEditor;
-        public EditorViewModel? SelectedEditor
-        {
-            get => _selectedEditor;
-            set => SetProperty(ref _selectedEditor, value);
-        }
-
-        private bool _autoSelectNewEditor = true;
-        public bool AutoSelectNewEditor
-        {
-            get => _autoSelectNewEditor;
-            set => SetProperty(ref _autoSelectNewEditor , value); 
-        }
     }
 }
