@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace Nodify
 {
-    public interface INodifyObservableCollection<T>
+    public interface INodifyObservableCollection<T>: ICollection<T>, INotifyPropertyChanged, INotifyCollectionChanged
     {
         /// <summary>
         /// Called when a new item is added
@@ -32,7 +32,7 @@ namespace Nodify
         INodifyObservableCollection<T> WhenCleared(Action<IList<T>> cleared);
     }
 
-    public class NodifyObservableCollection<T> : Collection<T>, INodifyObservableCollection<T>, INotifyPropertyChanged, INotifyCollectionChanged
+    public class NodifyObservableCollection<T> : Collection<T>, INodifyObservableCollection<T>
     {
         protected static readonly PropertyChangedEventArgs IndexerPropertyChanged = new PropertyChangedEventArgs("Item[]");
         protected static readonly PropertyChangedEventArgs CountPropertyChanged = new PropertyChangedEventArgs("Count");

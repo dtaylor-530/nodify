@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="7.0.1" />
+    <PackageReference Include="DevZest.WpfDocking.Net60" Version="3.0.0" />
+    <PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.72.0" />
+    <PackageReference Include="SpicyTaco.AutoGrid" Version="1.2.29" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Examples\Nodify.Shared\Nodify.Shared.csproj" />
+    <ProjectReference Include="..\Nodify.Core\Nodify.Core.csproj" />
+    <ProjectReference Include="..\NodifyOperations\NodifyOperations.csproj" />
+    <ProjectReference Include="..\Nodify\Nodify.csproj" />
+  </ItemGroup>
+
+</Project>

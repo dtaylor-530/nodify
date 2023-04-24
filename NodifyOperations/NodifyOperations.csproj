@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\UtilityStandard\Utility.Conversions\Utility.Conversions\Utility.Conversions.csproj" />
+    <ProjectReference Include="..\Examples\Nodify.Shared\Nodify.Shared.csproj" />
+    <ProjectReference Include="..\Nodify.Core\Nodify.Core.csproj" />
+  </ItemGroup>
+
+</Project>
