@@ -30,6 +30,11 @@ namespace Nodify
         /// The offset is applied in a rectangle shape around the point, perpendicular to the edges.
         /// </summary>
         Edge,
+
+        /// <summary>
+        /// The offset is applied as a fixed margin.
+        /// </summary>
+        Static
     }
 
     /// <summary>
@@ -75,6 +80,27 @@ namespace Nodify
     }
 
     /// <summary>
+    /// The shape of the arrowhead.
+    /// </summary>
+    public enum ArrowHeadShape
+    {
+        /// <summary>
+        /// The default arrowhead.
+        /// </summary>
+        Arrowhead,
+
+        /// <summary>
+        /// An ellipse.
+        /// </summary>
+        Ellipse,
+
+        /// <summary>
+        /// A rectangle.
+        /// </summary>
+        Rectangle
+    }
+
+    /// <summary>
     /// Represents the base class for shapes that are drawn from a <see cref="Source"/> point to a <see cref="Target"/> point.
     /// </summary>
     public abstract class BaseConnection : Shape
@@ -83,13 +109,15 @@ namespace Nodify
 
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(nameof(Source), typeof(Point), typeof(BaseConnection), new FrameworkPropertyMetadata(BoxValue.Point, FrameworkPropertyMetadataOptions.AffectsRender));
         public static readonly DependencyProperty TargetProperty = DependencyProperty.Register(nameof(Target), typeof(Point), typeof(BaseConnection), new FrameworkPropertyMetadata(BoxValue.Point, FrameworkPropertyMetadataOptions.AffectsRender));
-        public static readonly DependencyProperty SourceOffsetProperty = DependencyProperty.Register(nameof(SourceOffset), typeof(Size), typeof(BaseConnection), new FrameworkPropertyMetadata(BoxValue.Size, FrameworkPropertyMetadataOptions.AffectsRender));
-        public static readonly DependencyProperty TargetOffsetProperty = DependencyProperty.Register(nameof(TargetOffset), typeof(Size), typeof(BaseConnection), new FrameworkPropertyMetadata(BoxValue.Size, FrameworkPropertyMetadataOptions.AffectsRender));
-        public static readonly DependencyProperty OffsetModeProperty = DependencyProperty.Register(nameof(OffsetMode), typeof(ConnectionOffsetMode), typeof(BaseConnection), new FrameworkPropertyMetadata(default(ConnectionOffsetMode), FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty SourceOffsetProperty = DependencyProperty.Register(nameof(SourceOffset), typeof(Size), typeof(BaseConnection), new FrameworkPropertyMetadata(BoxValue.ConnectionOffset, FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty TargetOffsetProperty = DependencyProperty.Register(nameof(TargetOffset), typeof(Size), typeof(BaseConnection), new FrameworkPropertyMetadata(BoxValue.ConnectionOffset, FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty SourceOffsetModeProperty = DependencyProperty.Register(nameof(SourceOffsetMode), typeof(ConnectionOffsetMode), typeof(BaseConnection), new FrameworkPropertyMetadata(ConnectionOffsetMode.Static, FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty TargetOffsetModeProperty = DependencyProperty.Register(nameof(TargetOffsetMode), typeof(ConnectionOffsetMode), typeof(BaseConnection), new FrameworkPropertyMetadata(ConnectionOffsetMode.Static, FrameworkPropertyMetadataOptions.AffectsRender));
         public static readonly DependencyProperty DirectionProperty = DependencyProperty.Register(nameof(Direction), typeof(ConnectionDirection), typeof(BaseConnection), new FrameworkPropertyMetadata(default(ConnectionDirection), FrameworkPropertyMetadataOptions.AffectsRender));
-        public static readonly DependencyProperty ArrowHeadEndsProperty = DependencyProperty.Register(nameof(ArrowEnds), typeof(ArrowHeadEnds), typeof(BaseConnection), new FrameworkPropertyMetadata(ArrowHeadEnds.End, FrameworkPropertyMetadataOptions.AffectsRender));
         public static readonly DependencyProperty SpacingProperty = DependencyProperty.Register(nameof(Spacing), typeof(double), typeof(BaseConnection), new FrameworkPropertyMetadata(BoxValue.Double0, FrameworkPropertyMetadataOptions.AffectsRender));
         public static readonly DependencyProperty ArrowSizeProperty = DependencyProperty.Register(nameof(ArrowSize), typeof(Size), typeof(BaseConnection), new FrameworkPropertyMetadata(BoxValue.ArrowSize, FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty ArrowEndsProperty = DependencyProperty.Register(nameof(ArrowEnds), typeof(ArrowHeadEnds), typeof(BaseConnection), new FrameworkPropertyMetadata(ArrowHeadEnds.End, FrameworkPropertyMetadataOptions.AffectsRender));
+        public static readonly DependencyProperty ArrowShapeProperty = DependencyProperty.Register(nameof(ArrowShape), typeof(ArrowHeadShape), typeof(BaseConnection), new FrameworkPropertyMetadata(ArrowHeadShape.Arrowhead, FrameworkPropertyMetadataOptions.AffectsRender));
         public static readonly DependencyProperty SplitCommandProperty = DependencyProperty.Register(nameof(SplitCommand), typeof(ICommand), typeof(BaseConnection));
         public static readonly DependencyProperty DisconnectCommandProperty = Connector.DisconnectCommandProperty.AddOwner(typeof(BaseConnection));
 
@@ -130,12 +158,21 @@ namespace Nodify
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="ConnectionOffsetMode"/> to apply when drawing the connection.
+        /// Gets or sets the <see cref="ConnectionOffsetMode"/> to apply to the <see cref="Source"/> when drawing the connection.
         /// </summary>
-        public ConnectionOffsetMode OffsetMode
+        public ConnectionOffsetMode SourceOffsetMode
         {
-            get => (ConnectionOffsetMode)GetValue(OffsetModeProperty);
-            set => SetValue(OffsetModeProperty, value);
+            get => (ConnectionOffsetMode)GetValue(SourceOffsetModeProperty);
+            set => SetValue(SourceOffsetModeProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="ConnectionOffsetMode"/> to apply to the <see cref="Target"/> when drawing the connection.
+        /// </summary>
+        public ConnectionOffsetMode TargetOffsetMode
+        {
+            get => (ConnectionOffsetMode)GetValue(TargetOffsetModeProperty);
+            set => SetValue(TargetOffsetModeProperty, value);
         }
 
         /// <summary>
@@ -148,12 +185,21 @@ namespace Nodify
         }
 
         /// <summary>
-        /// Gets or sets the arrow ends.
+        /// Gets or sets the arrowhead ends.
         /// </summary>
         public ArrowHeadEnds ArrowEnds 
         { 
-            get => (ArrowHeadEnds)GetValue(ArrowHeadEndsProperty);
-            set => SetValue(ArrowHeadEndsProperty, value); 
+            get => (ArrowHeadEnds)GetValue(ArrowEndsProperty);
+            set => SetValue(ArrowEndsProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the arrowhead ends.
+        /// </summary>
+        public ArrowHeadShape ArrowShape
+        {
+            get => (ArrowHeadShape)GetValue(ArrowShapeProperty);
+            set => SetValue(ArrowShapeProperty, value);
         }
 
         /// <summary>
@@ -237,24 +283,24 @@ namespace Nodify
                     Point source = Source + sourceOffset;
                     Point target = Target + targetOffset;
 
-                    (Point arrowSource, Point arrowTarget) = DrawLineGeometry(context, source, target);
+                    var (arrowStart, arrowEnd) = DrawLineGeometry(context, source, target);
 
                     if (ArrowSize.Width != 0d && ArrowSize.Height != 0d)
                     {
-                        switch(ArrowEnds)
+                        var reverseDirection = Direction == ConnectionDirection.Forward ? ConnectionDirection.Backward : ConnectionDirection.Forward;
+                        switch (ArrowEnds)
                         {
-                            case ArrowHeadEnds.Start: 
-                                DrawArrowGeometry(context, arrowTarget, arrowSource, ConnectionDirection.Backward);
-                                break; 
+                            case ArrowHeadEnds.Start:
+                                DrawArrowGeometry(context, arrowStart.ArrowStartSource, arrowStart.ArrowStartTarget, reverseDirection, ArrowShape);
+                                break;
                             case ArrowHeadEnds.End:
-                                DrawArrowGeometry(context, arrowSource, arrowTarget, ConnectionDirection.Forward);
+                                DrawArrowGeometry(context, arrowEnd.ArrowEndSource, arrowEnd.ArrowEndTarget, Direction, ArrowShape);
                                 break;
                             case ArrowHeadEnds.Both:
-                                DrawArrowGeometry(context, arrowSource, arrowTarget, ConnectionDirection.Forward);
-                                DrawArrowGeometry(context, arrowTarget, arrowSource, ConnectionDirection.Backward);
+                                DrawArrowGeometry(context, arrowEnd.ArrowEndSource, arrowEnd.ArrowEndTarget, Direction, ArrowShape);
+                                DrawArrowGeometry(context, arrowStart.ArrowStartSource, arrowStart.ArrowStartTarget, reverseDirection, ArrowShape);
                                 break;
                             case ArrowHeadEnds.None:
-                                break;
                             default:
                                 break;
                         }
@@ -265,87 +311,157 @@ namespace Nodify
             }
         }
 
-        protected abstract (Point ArrowSource, Point ArrowTarget) DrawLineGeometry(StreamGeometryContext context, Point source, Point target);
+        protected abstract ((Point ArrowStartSource, Point ArrowStartTarget), (Point ArrowEndSource, Point ArrowEndTarget)) DrawLineGeometry(StreamGeometryContext context, Point source, Point target);
 
-        protected virtual void DrawArrowGeometry(StreamGeometryContext context, Point source, Point target, ConnectionDirection arrowDirection = ConnectionDirection.Forward)
+        protected virtual void DrawArrowGeometry(StreamGeometryContext context, Point source, Point target, ConnectionDirection arrowDirection = ConnectionDirection.Forward, ArrowHeadShape shape = ArrowHeadShape.Arrowhead)
         {
-            (Point from, Point to) = GetArrowHeadPoints(source, target, arrowDirection);
+            switch (shape)
+            {
+                case ArrowHeadShape.Ellipse:
+                    DrawEllipseArrowhead(context, source, target, arrowDirection);
+                    break;
+                case ArrowHeadShape.Rectangle:
+                    DrawRectangleArrowhead(context, source, target, arrowDirection);
+                    break;
+                case ArrowHeadShape.Arrowhead:
+                default:
+                    DrawDefaultArrowhead(context, source, target, arrowDirection);
+                    break;
+            }
+        }
+
+        protected virtual void DrawDefaultArrowhead(StreamGeometryContext context, Point source, Point target, ConnectionDirection arrowDirection = ConnectionDirection.Forward)
+        {
+            double headWidth = ArrowSize.Width;
+            double headHeight = ArrowSize.Height / 2;
+
+            double direction = arrowDirection == ConnectionDirection.Forward ? 1d : -1d;
+            var from = new Point(target.X - headWidth * direction, target.Y + headHeight);
+            var to = new Point(target.X - headWidth * direction, target.Y - headHeight);
 
             context.BeginFigure(target, true, true);
             context.LineTo(from, true, true);
             context.LineTo(to, true, true);
         }
 
-        protected virtual (Point From, Point To) GetArrowHeadPoints(Point source, Point target, ConnectionDirection arrowDirection)
+        protected virtual void DrawRectangleArrowhead(StreamGeometryContext context, Point source, Point target, ConnectionDirection arrowDirection = ConnectionDirection.Forward)
         {
             double headWidth = ArrowSize.Width;
-            double headHeight = ArrowSize.Height;
+            double headHeight = ArrowSize.Height / 2;
 
             double direction = arrowDirection == ConnectionDirection.Forward ? 1d : -1d;
-            var from = new Point(target.X - headWidth * direction, target.Y + headHeight);
-            var to = new Point(target.X - headWidth * direction, target.Y - headHeight);
-            return (from, to);
+            var bottomRight = new Point(target.X, target.Y + headHeight);
+            var bottomLeft = new Point(target.X - headWidth * direction, target.Y + headHeight);
+            var topLeft = new Point(target.X - headWidth  * direction, target.Y - headHeight);
+            var topRight = new Point(target.X, target.Y - headHeight);
+
+            context.BeginFigure(target, true, true);
+            context.LineTo(bottomRight, true, true);
+            context.LineTo(bottomLeft, true, true);
+            context.LineTo(topLeft, true, true);
+            context.LineTo(topRight, true, true);
+        }
+
+        protected virtual void DrawEllipseArrowhead(StreamGeometryContext context, Point source, Point target, ConnectionDirection arrowDirection = ConnectionDirection.Forward)
+        {
+            const double ControlPointRatio = 0.55228474983079356; // (Math.Sqrt(2) - 1) * 4 / 3;
+
+            double direction = arrowDirection == ConnectionDirection.Forward ? 1d : -1d;
+            var targetLocation = new Point(target.X - ArrowSize.Width / 2 * direction, target.Y);
+
+            double headWidth = ArrowSize.Width / 2;
+            double headHeight = ArrowSize.Height / 2;
+
+            double x0 = targetLocation.X - headWidth;
+            double x1 = targetLocation.X - headWidth * ControlPointRatio;
+            double x2 = targetLocation.X;
+            double x3 = targetLocation.X + headWidth * ControlPointRatio;
+            double x4 = targetLocation.X + headWidth;
+
+            double y0 = targetLocation.Y - headHeight;
+            double y1 = targetLocation.Y - headHeight * ControlPointRatio;
+            double y2 = targetLocation.Y;
+            double y3 = targetLocation.Y + headHeight * ControlPointRatio;
+            double y4 = targetLocation.Y + headHeight;
+
+            context.BeginFigure(new Point(x2, y0), true, true);
+            context.BezierTo(new Point(x3, y0), new Point(x4, y1), new Point(x4, y2), true, true);
+            context.BezierTo(new Point(x4, y3), new Point(x3, y4), new Point(x2, y4), true, true);
+            context.BezierTo(new Point(x1, y4), new Point(x0, y3), new Point(x0, y2), true, true);
+            context.BezierTo(new Point(x0, y1), new Point(x1, y0), new Point(x2, y0), true, true);
         }
 
         /// <summary>
-        /// Gets the resulting offset after applying the <see cref="OffsetMode"/>.
+        /// Gets the resulting offset after applying the <see cref="SourceOffsetMode"/>.
         /// </summary>
         /// <returns></returns>
         protected virtual (Vector SourceOffset, Vector TargetOffset) GetOffset()
         {
-            Vector delta = Target - Source;
-            Vector delta2 = Source - Target;
+            Vector sourceDelta = Target - Source;
+            Vector targetDelta = Source - Target;
+            double arrowDirection = Direction == ConnectionDirection.Forward ? 1d : -1d;
 
-            return OffsetMode switch
+            return (GetOffset(SourceOffsetMode, sourceDelta, SourceOffset, arrowDirection), GetOffset(TargetOffsetMode, targetDelta, TargetOffset, -arrowDirection));
+
+            static Vector GetOffset(ConnectionOffsetMode mode, Vector delta, Size currentOffset, double arrowDirection) => mode switch
             {
-                ConnectionOffsetMode.Rectangle => (GetRectangleModeOffset(delta, SourceOffset), GetRectangleModeOffset(delta2, TargetOffset)),
-                ConnectionOffsetMode.Circle => (GetCircleModeOffset(delta, SourceOffset), GetCircleModeOffset(delta2, TargetOffset)),
-                ConnectionOffsetMode.Edge => (GetEdgeModeOffset(delta, SourceOffset), GetEdgeModeOffset(delta2, TargetOffset)),
-                ConnectionOffsetMode.None => (ZeroVector, ZeroVector),
-                _ => throw new ArgumentOutOfRangeException()
+                ConnectionOffsetMode.Rectangle => GetRectangleModeOffset(delta, currentOffset),
+                ConnectionOffsetMode.Circle => GetCircleModeOffset(delta, currentOffset),
+                ConnectionOffsetMode.Edge => GetEdgeModeOffset(delta, currentOffset),
+                ConnectionOffsetMode.Static => GetStaticModeOffset(arrowDirection, currentOffset),
+                ConnectionOffsetMode.None => ZeroVector,
+                _ => throw new NotImplementedException()
             };
-        }
 
-        private static Vector GetEdgeModeOffset(Vector delta, Size offset)
-        {
-            double xOffset = Math.Min(Math.Abs(delta.X) / 2d, offset.Width) * Math.Sign(delta.X);
-            double yOffset = Math.Min(Math.Abs(delta.Y) / 2d, offset.Height) * Math.Sign(delta.Y);
-
-            return new Vector(xOffset, yOffset);
-        }
-
-        private static Vector GetCircleModeOffset(Vector delta, Size offset)
-        {
-            if (delta.LengthSquared > 0d)
+            static Vector GetStaticModeOffset(double direction, Size offset)
             {
-                delta.Normalize();
+                double xOffset = offset.Width * direction;
+                double yOffset = offset.Height * direction;
+
+                return new Vector(xOffset, yOffset);
             }
 
-            return new Vector(delta.X * offset.Width, delta.Y * offset.Height);
-        }
-
-        private static Vector GetRectangleModeOffset(Vector delta, Size offset)
-        {
-            if (delta.LengthSquared > 0d)
+            static Vector GetEdgeModeOffset(Vector delta, Size offset)
             {
-                delta.Normalize();
+                double xOffset = Math.Min(Math.Abs(delta.X) / 2d, offset.Width) * Math.Sign(delta.X);
+                double yOffset = Math.Min(Math.Abs(delta.Y) / 2d, offset.Height) * Math.Sign(delta.Y);
+
+                return new Vector(xOffset, yOffset);
             }
 
-            double angle = Math.Atan2(delta.Y, delta.X);
-            var result = new Vector();
+            static Vector GetCircleModeOffset(Vector delta, Size offset)
+            {
+                if (delta.LengthSquared > 0d)
+                {
+                    delta.Normalize();
+                }
 
-            if (offset.Width * 2d * Math.Abs(delta.Y) < offset.Height * 2d * Math.Abs(delta.X))
-            {
-                result.X = Math.Sign(delta.X) * offset.Width;
-                result.Y = Math.Tan(angle) * result.X;
-            }
-            else
-            {
-                result.Y = Math.Sign(delta.Y) * offset.Height;
-                result.X = 1.0d / Math.Tan(angle) * result.Y;
+                return new Vector(delta.X * offset.Width, delta.Y * offset.Height);
             }
 
-            return result;
+            static Vector GetRectangleModeOffset(Vector delta, Size offset)
+            {
+                if (delta.LengthSquared > 0d)
+                {
+                    delta.Normalize();
+                }
+
+                double angle = Math.Atan2(delta.Y, delta.X);
+                var result = new Vector();
+
+                if (offset.Width * 2d * Math.Abs(delta.Y) < offset.Height * 2d * Math.Abs(delta.X))
+                {
+                    result.X = Math.Sign(delta.X) * offset.Width;
+                    result.Y = Math.Tan(angle) * result.X;
+                }
+                else
+                {
+                    result.Y = Math.Sign(delta.Y) * offset.Height;
+                    result.X = 1.0d / Math.Tan(angle) * result.Y;
+                }
+
+                return result;
+            }
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs e)

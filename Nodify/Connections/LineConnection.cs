@@ -14,28 +14,29 @@ namespace Nodify
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LineConnection), new FrameworkPropertyMetadata(typeof(LineConnection)));
         }
 
-        protected override (Point ArrowSource, Point ArrowTarget) DrawLineGeometry(StreamGeometryContext context, Point source, Point target)
+        protected override ((Point ArrowStartSource, Point ArrowStartTarget), (Point ArrowEndSource, Point ArrowEndTarget)) DrawLineGeometry(StreamGeometryContext context, Point source, Point target)
         {
             double direction = Direction == ConnectionDirection.Forward ? 1d : -1d;
             var spacing = new Vector(Spacing * direction, 0d);
-            var arrowOffset = new Vector(ArrowSize.Width * direction, 0d);
-            Point endPoint = Spacing > 0 ? target - arrowOffset : target;
+
+            Point p1 = source + spacing;
+            Point p2 = target - spacing;
 
             context.BeginFigure(source, false, false);
-            context.LineTo(source + spacing, true, true);
-            context.LineTo(endPoint - spacing, true, true);
-            context.LineTo(endPoint, true, true);
+            context.LineTo(p1, true, true);
+            context.LineTo(p2, true, true);
+            context.LineTo(target, true, true);
 
-            return (source, target);
+            return ((target, source), (source, target));
         }
 
-        protected override (Point From, Point To) GetArrowHeadPoints(Point source, Point target, ConnectionDirection arrowDirection)
+        protected override void DrawDefaultArrowhead(StreamGeometryContext context, Point source, Point target, ConnectionDirection arrowDirection = ConnectionDirection.Forward)
         {
-            if(Spacing < 1d)
+            if (Spacing < 1d)
             {
                 Vector delta = source - target;
                 double headWidth = ArrowSize.Width;
-                double headHeight = ArrowSize.Height;
+                double headHeight = ArrowSize.Height / 2;
 
                 double angle = Math.Atan2(delta.Y, delta.X);
                 double sinT = Math.Sin(angle);
@@ -43,10 +44,15 @@ namespace Nodify
 
                 var from = new Point(target.X + (headWidth * cosT - headHeight * sinT), target.Y + (headWidth * sinT + headHeight * cosT));
                 var to = new Point(target.X + (headWidth * cosT + headHeight * sinT), target.Y - (headHeight * cosT - headWidth * sinT));
-                return (from, to);
-            }
 
-            return base.GetArrowHeadPoints(source, target, arrowDirection);
+                context.BeginFigure(target, true, true);
+                context.LineTo(from, true, true);
+                context.LineTo(to, true, true);
+            }
+            else
+            {
+                base.DrawDefaultArrowhead(context, source, target, arrowDirection);
+            }
         }
     }
 }
