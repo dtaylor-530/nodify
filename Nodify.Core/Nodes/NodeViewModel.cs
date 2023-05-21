@@ -44,16 +44,6 @@ namespace Nodify.Core
         public INodifyObservableCollection<ConnectorViewModel> Input => input;
 
         public INodifyObservableCollection<ConnectorViewModel> Output => output;
-        //{
-        //    get => _output;
-        //    set
-        //    {
-        //        if (SetProperty(ref _output, value) && _output != null)
-        //        {
-        //            _output.Node = this;
-        //        }
-        //    }
-        //}
 
         public virtual async void OnInputValueChanged()
         {
