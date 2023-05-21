@@ -20,7 +20,6 @@ namespace Nodify.Demo
             var builder = new ContainerBuilder();
 
             builder.RegisterType<MethodsOperationsFactory>().As<IOperationsFactory>().SingleInstance();
-            builder.RegisterType<StandardOperationsFactory>().As<IOperationsFactory>().SingleInstance();
             builder.RegisterType<CustomOperationsFactory>().As<IOperationsFactory>().SingleInstance();
 
             var x = new MessagesViewModel();

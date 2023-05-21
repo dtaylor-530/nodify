@@ -174,9 +174,13 @@ namespace Nodify.Demo
                         var op = new OperationNodeViewModel
                         {
                             Title = info.Title,
-                            Output = new ConnectorViewModel(),
+                            //Output = new ConnectorViewModel(),
                         };
-
+                        var connector = new ConnectorViewModel
+                        {
+                            Node = op
+                        };
+                        op.Output.AddRange(new[] { connector });
                         op.Input.AddRange(inputs);
                         op.OnInputValueChanged();
                         return op;

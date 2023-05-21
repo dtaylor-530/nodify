@@ -45,22 +45,21 @@ namespace Nodify.Demo.Infrastructure
         public const string Target = nameof(Target);
         public IEnumerable<OperationInfo> GetOperations()
         {
-            return new OperationInfo[] {
-                new OperationInfo
-                {
-                    Title=Source,
+            yield return new OperationInfo
+            {
+                    Title = Source,
                     Type = OperationType.Normal,
-                    Operation =new SourceOperation(),
+                    Operation = new SourceOperation(),
                     MinInput = 1,
                     MaxInput = 1
-                }  ,  new OperationInfo
-                {
-                    Title=Target,
-                    Type = OperationType.Normal,
-                    Operation =new TargetOperation(),
-                    MinInput = 1,
-                    MaxInput = 1
-                }
+            };
+            yield return new OperationInfo
+            {
+                Title = Target,
+                Type = OperationType.Normal,
+                Operation = new TargetOperation(),
+                MinInput = 1,
+                MaxInput = 1
             };
         }
 

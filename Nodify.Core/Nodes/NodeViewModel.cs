@@ -10,8 +10,7 @@ namespace Nodify.Core
     {
         public event Action<NodeViewModel> InputChanged;
 
-        private ConnectorViewModel? _output;
-        private NodifyObservableCollection<ConnectorViewModel> input { get; } = new();
+        private NodifyObservableCollection<ConnectorViewModel> input = new(), output = new();
 
 
         public NodeViewModel()
@@ -44,17 +43,17 @@ namespace Nodify.Core
 
         public INodifyObservableCollection<ConnectorViewModel> Input => input;
 
-        public ConnectorViewModel? Output
-        {
-            get => _output;
-            set
-            {
-                if (SetProperty(ref _output, value) && _output != null)
-                {
-                    _output.Node = this;
-                }
-            }
-        }
+        public INodifyObservableCollection<ConnectorViewModel> Output => output;
+        //{
+        //    get => _output;
+        //    set
+        //    {
+        //        if (SetProperty(ref _output, value) && _output != null)
+        //        {
+        //            _output.Node = this;
+        //        }
+        //    }
+        //}
 
         public virtual async void OnInputValueChanged()
         {

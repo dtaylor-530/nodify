@@ -71,9 +71,12 @@ namespace Nodify.Core
                     DisconnectConnector(input);
                 }
 
-                if (x.Output != null)
+                if (x.Output.Any())
                 {
-                    DisconnectConnector(x.Output);
+                    foreach (var output in x.Output)
+                    {
+                        DisconnectConnector(output);
+                    }
                 }
             });
 

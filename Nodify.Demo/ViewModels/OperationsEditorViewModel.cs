@@ -25,7 +25,7 @@ namespace Nodify.Demo.ViewModels
             var pending = PendingConnection;
             if (pending.IsVisible)
             {
-                var connector = pending.Source.IsInput ? op.Output : op.Input.FirstOrDefault();
+                var connector = pending.Source.IsInput ? op.Output.FirstOrDefault() : op.Input.FirstOrDefault();
                 if (connector != null && CanCreateConnection(pending.Source, connector))
                 {
                     CreateConnection(pending.Source, connector);

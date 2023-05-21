@@ -105,7 +105,7 @@
                     <DataTemplate DataType="{x:Type core:NodeViewModel}">
                         <nodify:Node Content="{Binding Title}"
                                  Input="{Binding Input}"
-                                 Output="{Binding Output, Converter={StaticResource ItemToListConverter}}"
+                                 Output="{Binding Output}"
                                  Padding="5 0 0 0" >
                             <nodify:Node.Style>
                                 <Style TargetType="{x:Type nodify:Node}"

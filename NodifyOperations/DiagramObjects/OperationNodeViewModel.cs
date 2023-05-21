@@ -15,7 +15,7 @@ namespace Nodify.Demo
         }
 
 
-        public override async void OnInputValueChanged()
+        public override void OnInputValueChanged()
         {
 
             MessagesViewModel.OnNext(this);

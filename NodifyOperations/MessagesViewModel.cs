@@ -27,7 +27,11 @@ namespace Nodify.Demo
                     {
                         try
                         {
-                            node.Output.Value = Operations[next.Key.Name].Operation.Execute(nodeMessage.Inputs);
+                            foreach(var output in node.Output)
+                            {
+                                output.Value = Operations[next.Key.Name].Operation.Execute(nodeMessage.Inputs);
+                            }
+          
                         }
                         catch(Exception ex)
                         {

@@ -7,7 +7,7 @@
 
 
 
-    <local:ItemToListConverter x:Key="ItemToListConverter" />
+    <!--<local:ItemToListConverter x:Key="ItemToListConverter" />-->
 
     <DataTemplate DataType="{x:Type core:MenuViewModel}">
         <Border Padding="7"
@@ -94,7 +94,7 @@
                                       Target="{Binding Input.Anchor}"
                                       SourceOffset="10 0"
                                       TargetOffset="20 0"
-                                      OffsetMode="Circle" />
+                                      SourceOffsetMode="Circle" />
     </DataTemplate>
 
     <DataTemplate x:Key="PendingConnectionTemplate"
@@ -106,26 +106,6 @@
                                       StartedCommand="{Binding DataContext.StartConnectionCommand, RelativeSource={RelativeSource AncestorType={x:Type nodify:NodifyEditor}}}"
                                       CompletedCommand="{Binding DataContext.CreateConnectionCommand, RelativeSource={RelativeSource AncestorType={x:Type nodify:NodifyEditor}}}" />
     </DataTemplate>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <!--<DataTemplate DataType="{x:Type local:ExpandoOperationViewModel}">
