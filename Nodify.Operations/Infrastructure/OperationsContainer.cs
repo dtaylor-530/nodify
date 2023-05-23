@@ -3,8 +3,6 @@ using System.Linq;
 
 namespace Nodify.Operations
 {
-
-
     public sealed class OperationAttribute : Attribute
     {
         public uint MaxInput { get; set; }

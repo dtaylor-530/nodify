@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!--<PackageReference Include="Autofac" Version="7.0.1" />-->
     <PackageReference Include="DryIoc" Version="5.4.0" />
     <PackageReference Include="System.Reactive" Version="6.0.0" />
   </ItemGroup>

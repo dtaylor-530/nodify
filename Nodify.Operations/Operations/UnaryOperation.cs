@@ -1,5 +1,4 @@
-﻿using Nodify.Operations;
-using System;
+﻿using System;
 using static Utility.Conversions.ConversionHelper;
 
 namespace Nodify.Operations
