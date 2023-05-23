@@ -28,6 +28,9 @@ namespace Nodify.Demo.ViewModels
             observable
                 .Subscribe(a =>
                 {
+                    if (a.Name == nameof(NodeViewModel.Size))
+                        return;
+
                     foreach (var input in Input.Where(a => a.Title == "Input3"))
                         input.Value = a;
                 });
@@ -39,7 +42,7 @@ namespace Nodify.Demo.ViewModels
             {
                 if (connectorViewModel.Value is var value)
                 {
-                    container.Resolve<ViewModel>().Value = value;
+                    //container.Resolve<ViewModel>().Value = value;
                 }
             }
             base.OnInputValueChanged(connectorViewModel);
