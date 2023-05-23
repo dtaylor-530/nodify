@@ -1,8 +1,7 @@
-﻿using NodifyOperations;
-using System;
+﻿using System;
 using static Utility.Conversions.ConversionHelper;
 
-namespace NodifyOperations
+namespace Nodify.Operations
 {
     public class BinaryOperation : IOperation
     {

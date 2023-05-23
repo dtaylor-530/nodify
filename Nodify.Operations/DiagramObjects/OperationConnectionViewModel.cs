@@ -2,7 +2,7 @@
 using Nodify.Core;
 using System;
 
-namespace NodifyOperations
+namespace Nodify.Operations
 {
     public class OperationConnectionViewModel : ConnectionViewModel
     {

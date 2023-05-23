@@ -3,7 +3,7 @@
                     xmlns:op2="clr-namespace:Nodify.Demo"
                     xmlns:core="clr-namespace:Nodify.Core;assembly=Nodify.Core"  
                     xmlns:nod="clr-namespace:Nodify;assembly=Nodify.Shared"
-                    xmlns:op="clr-namespace:NodifyOperations;assembly=NodifyOperations"
+                    xmlns:op="clr-namespace:Nodify.Operations;assembly=Nodify.Operations"
                     xmlns:st="http://schemas.spicytaco.io/"
                     
                     >

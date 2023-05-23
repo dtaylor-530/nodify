@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Nodify.Demo"
              xmlns:op="clr-namespace:Nodify.Demo"
-             xmlns:op2="clr-namespace:Nodify.Demo;assembly=NodifyOperations"
              xmlns:core="clr-namespace:Nodify.Core;assembly=Nodify.Core"
              xmlns:nodify="https://miroiu.github.io/nodify"
              xmlns:shared="clr-namespace:Nodify;assembly=Nodify.Shared"           

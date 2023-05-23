@@ -1,8 +1,8 @@
-﻿using NodifyOperations;
+﻿using Nodify.Operations;
 using System;
 using static Utility.Conversions.ConversionHelper;
 
-namespace NodifyOperations
+namespace Nodify.Operations
 {
     public class UnaryOperation : IOperation
     {

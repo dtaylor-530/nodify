@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NodifyOperations
+namespace Nodify.Operations
 {
 
     public enum OperationType

@@ -1,11 +1,11 @@
-﻿using NodifyOperations;
+﻿using Nodify.Operations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NodifyOperations.Infrastructure
+namespace Nodify.Operations.Infrastructure
 {
     public interface IOperationsFactory
     {

@@ -2,7 +2,7 @@
 using DryIoc;
 using Nodify.Core;
 using Nodify.Demo.Infrastructure;
-using NodifyOperations;
+using Nodify.Operations;
 using System;
 using System.Linq;
 using System.Reactive.Linq;

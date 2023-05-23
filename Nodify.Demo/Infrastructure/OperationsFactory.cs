@@ -1,5 +1,5 @@
-﻿using NodifyOperations;
-using NodifyOperations.Infrastructure;
+﻿using Nodify.Operations;
+using Nodify.Operations.Infrastructure;
 using System;
 using System.Collections.Generic;
 using static Utility.Conversions.ConversionHelper;
@@ -28,7 +28,6 @@ namespace Nodify.Demo.Infrastructure
             //};
         }
     }
-
 
     public class MethodsOperationsFactory : IOperationsFactory
     {

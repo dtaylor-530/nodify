@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Windows;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace NodifyOperations
+namespace Nodify.Operations
 {
     public static class OperationFactory
     {

@@ -1,5 +1,5 @@
 ﻿using Nodify.Core;
-using NodifyOperations;
+using Nodify.Operations;
 using System;
 using System.Reactive.Linq;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading;
 using DryIoc;
 using Nodify;
 
-namespace NodifyOperations
+namespace Nodify.Operations
 {
     public class Resolver : ObservableObject, IObserver<ObservableObject>
     {

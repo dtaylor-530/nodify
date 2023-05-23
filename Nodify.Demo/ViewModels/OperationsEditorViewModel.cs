@@ -1,14 +1,9 @@
 ﻿//using Autofac;
 using DryIoc;
 using Nodify.Core;
-using Nodify.Demo.Infrastructure;
-using NodifyOperations;
-using System;
+using Nodify.Operations;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Nodify.Demo.ViewModels

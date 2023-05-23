@@ -1,4 +1,4 @@
-﻿namespace NodifyOperations
+﻿namespace Nodify.Operations
 {
     public class Keys
     {

@@ -1,7 +1,7 @@
-﻿using NodifyOperations;
+﻿using Nodify.Operations;
 using System;
 
-namespace NodifyOperations
+namespace Nodify.Operations
 {
     public class ValueOperation : IOperation
     {

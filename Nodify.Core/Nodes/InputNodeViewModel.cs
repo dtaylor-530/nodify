@@ -1,7 +1,7 @@
 ﻿using Nodify;
 using Nodify.Core;
 
-namespace NodifyOperations
+namespace Nodify.Core
 {
     public class InputNodeViewModel : NodeViewModel
     {

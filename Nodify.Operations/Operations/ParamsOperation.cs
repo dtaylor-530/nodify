@@ -1,9 +1,9 @@
-﻿using NodifyOperations;
+﻿using Nodify.Operations;
 using System;
 using System.Linq;
 using static Utility.Conversions.ConversionHelper;
 
-namespace NodifyOperations
+namespace Nodify.Operations
 {
     public class ParamsOperation : IOperation
     {

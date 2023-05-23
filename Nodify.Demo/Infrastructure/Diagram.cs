@@ -1,8 +1,7 @@
-﻿//using Autofac;
-using DryIoc;
+﻿using DryIoc;
 using Nodify.Core;
-using NodifyOperations;
-using System.ComponentModel;
+using Nodify.Demo.ViewModels;
+using Nodify.Operations;
 using IContainer = DryIoc.IContainer;
 
 namespace Nodify.Demo.Infrastructure

@@ -25,10 +25,10 @@ namespace Nodify.Demo
 
         private void MainViewModel_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            foreach (Diagram item in e.NewItems)
-            {
+            //foreach (Diagram item in e.NewItems)
+            //{
                 TabsViewModel.AddEditorCommand.Execute(container.Resolve<OperationsEditorViewModel>());
-            }
+           // }
         }
 
         public MessagesViewModel MessagesViewModel => container.Resolve<MessagesViewModel>();

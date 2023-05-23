@@ -1,6 +1,6 @@
-﻿using NodifyOperations;
+﻿using Nodify.Operations;
 
-namespace NodifyOperations
+namespace Nodify.Operations
 {
     public interface IOperation
     {

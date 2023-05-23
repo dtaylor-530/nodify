@@ -1,14 +1,14 @@
 ﻿
 using Nodify.Core;
 using Nodify.Demo.ViewModels;
-using NodifyOperations.Infrastructure;
-using NodifyOperations;
+using Nodify.Operations.Infrastructure;
+using Nodify.Operations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Subjects;
 using System.Windows.Input;
-using OperationKeys = NodifyOperations.Keys;
+using OperationKeys = Nodify.Operations.Keys;
 using DemoKeys = Nodify.Demo.Keys;
 using DryIoc;
 
@@ -34,7 +34,7 @@ namespace Nodify.Demo.Infrastructure
             RegisterOperations(builder);
             builder.Register<IOperationsFactory, MethodsOperationsFactory>();
             builder.Register<IOperationsFactory, CustomOperationsFactory>();
-            builder.Register<IObserver<ObservableObject>, NodifyOperations.Resolver>();
+            builder.Register<IObserver<ObservableObject>, Nodify.Operations.Resolver>();
             builder.Register<Diagram, Diagram1>();
             builder.Register<DiagramsViewModel>();
             builder.Register<MainViewModel>();

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using ICommand = System.Windows.Input.ICommand;
 using DryIoc;
-using NodifyOperations;
+using Nodify.Operations;
 
 namespace Nodify.Demo
 {
