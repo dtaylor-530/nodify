@@ -1,29 +1,39 @@
-﻿using Nodify.Core;
-using Nodify.Demo.Infrastructure;
+﻿using DryIoc;
+using Nodify.Core;
 using Nodify.Demo.ViewModels;
+using System.Linq;
 
 namespace Nodify.Demo
 {
     public class MainViewModel
     {
-        DiagramsViewModel DiagramsViewModel = new DiagramsViewModel();
 
-        public MainViewModel()
+        private readonly IContainer container;
+
+        public MainViewModel(IContainer container)
         {
-            //TabsViewModel.AddEditorCommand.Execute(default);
-            TabsViewModel.AddEditorCommand.Execute(DiagramsViewModel);
-            DiagramsViewModel.PropertyChanged += DiagramsViewModel_PropertyChanged;
+            this.container = container;
+            TabsViewModel.AddEditorCommand.Execute(container.Resolve<DiagramsViewModel>());
+
+            var selected = container.Resolve<NodifyObservableCollection<Diagram>>(serviceKey:Keys.SelectedDiagram);
+            selected.CollectionChanged += MainViewModel_CollectionChanged;
+            if (selected.FirstOrDefault() is Diagram item)
+            {
+                TabsViewModel.AddEditorCommand.Execute(container.Resolve<OperationsEditorViewModel>());
+            }
         }
 
-        private void DiagramsViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void MainViewModel_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(DiagramsViewModel.SelectedDiagram))
-                TabsViewModel.AddEditorCommand.Execute(new OperationsEditorViewModel(DiagramsViewModel.SelectedDiagram));
+            foreach (Diagram item in e.NewItems)
+            {
+                TabsViewModel.AddEditorCommand.Execute(container.Resolve<OperationsEditorViewModel>());
+            }
         }
 
-        public MessagesViewModel MessagesViewModel { get; set; }
-        public TabsViewModel TabsViewModel { get; } = new OperationTabsViewModel();
-        public InterfaceViewModel InterfaceViewModel { get; } = new InterfaceViewModel();
+        public MessagesViewModel MessagesViewModel => container.Resolve<MessagesViewModel>();
+        public TabsViewModel TabsViewModel => container.Resolve<TabsViewModel>();
+        public InterfaceViewModel InterfaceViewModel => container.Resolve<InterfaceViewModel>();
 
 
     }

@@ -1,8 +1,12 @@
-﻿using Nodify.Core;
+﻿//using Autofac;
+using DryIoc;
+using Nodify.Core;
 using Nodify.Demo.Infrastructure;
+using NodifyOperations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,13 +15,20 @@ namespace Nodify.Demo.ViewModels
 {
     public class OperationsEditorViewModel : EditorViewModel
     {
-        public OperationsEditorViewModel(Diagram diagram) : base(diagram)
+        private readonly IContainer container;
+
+        private IDictionary<string, OperationInfo> operations => container.Resolve<IDictionary<string, OperationInfo>>(Keys.Operations);
+
+        public OperationsEditorViewModel(IContainer container) : base(container.Resolve<NodifyObservableCollection<Diagram>>(Keys.SelectedDiagram).FirstOrDefault())
         {
+            this.container = container;
         }
+
+        protected override IEnumerable<MenuItemViewModel> MenuItems => container.Resolve<IEnumerable<MenuItemViewModel>>();
 
         protected override void OperationsMenu_Selected(Point location, MenuItemViewModel menuItem)
         {
-            NodeViewModel op = OperationFactory.CreateNode(Globals.Operations[menuItem.Content]);
+            NodeViewModel op = OperationFactory.CreateNode(operations[menuItem.Content]);
             op.Location = location;
 
             Nodes.Add(op);
@@ -33,10 +44,6 @@ namespace Nodify.Demo.ViewModels
             }
         }
 
-        protected override IEnumerable<MenuItemViewModel> MenuItems()
-        {
-            return Globals.Operations.Keys.Select(a => new MenuItemViewModel() { Content = a });
-        }
 
         protected override void CreateConnection(ConnectorViewModel source, ConnectorViewModel? target)
         {

@@ -1,4 +1,5 @@
-﻿using NodifyOperations.Infrastructure;
+﻿using NodifyOperations;
+using NodifyOperations.Infrastructure;
 using System;
 using System.Collections.Generic;
 using static Utility.Conversions.ConversionHelper;
@@ -43,6 +44,8 @@ namespace Nodify.Demo.Infrastructure
 
         public const string Source = nameof(Source);
         public const string Target = nameof(Target);
+        public const string Interface = nameof(Interface);
+
         public IEnumerable<OperationInfo> GetOperations()
         {
             yield return new OperationInfo
@@ -51,7 +54,7 @@ namespace Nodify.Demo.Infrastructure
                     Type = OperationType.Normal,
                     Operation = new SourceOperation(),
                     MinInput = 1,
-                    MaxInput = 1
+                    MaxInput = 1,
             };
             yield return new OperationInfo
             {
@@ -66,22 +69,22 @@ namespace Nodify.Demo.Infrastructure
 
         public class SourceOperation : IOperation
         {
-            private readonly Func<bool, string> _func;
+            private readonly Func<bool, string> _func = a => a ? "Hello" : "Goodbye";
 
-            public SourceOperation() => _func = a => a ? "Hello" : "Goodbye";
+            public SourceOperation() { }
 
-            public object Execute(params object[] operands)
-                => _func.Invoke(ChangeType<bool>(operands[0]));
+            public IOValue[] Execute(params IOValue[] operands)
+                => new[] { new IOValue(default, _func.Invoke(ChangeType<bool>(operands[0].Value))) };
         }
 
         public class TargetOperation : IOperation
         {
-            private readonly Func<string, bool> _func;
+            private readonly Func<string, bool> _func = a => a switch { "Hello" => true, "Goodbye" => false, _ => false };
 
-            public TargetOperation() => _func = a => a switch { "Hello" => true, "Goodbye" => false, _ => false };
+            public TargetOperation() { }
 
-            public object Execute(params object[] operands)
-                => _func.Invoke(ChangeType<string>(operands[0]));
+            public IOValue[] Execute(params IOValue[] operands)
+                => new[] { new IOValue(default, _func.Invoke(ChangeType<string>(operands[0].Value))) };
         }
     }
 }

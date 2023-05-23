@@ -1,6 +1,7 @@
-﻿using System;
+﻿using NodifyOperations;
+using System;
 
-namespace Nodify.Demo
+namespace NodifyOperations
 {
     public class ValueOperation : IOperation
     {
@@ -8,7 +9,6 @@ namespace Nodify.Demo
 
         public ValueOperation(Func<double> func) => _func = func;
 
-        public object Execute(params object[] operands)
-            => _func();
+        public IOValue[] Execute(params IOValue[] operands) => new[] { new IOValue(default, _func())};
     }
 }

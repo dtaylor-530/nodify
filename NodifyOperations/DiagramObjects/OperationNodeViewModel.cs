@@ -1,13 +1,14 @@
-﻿using Nodify.Core;
+﻿using Nodify;
+using Nodify.Core;
 using System;
 using System.ComponentModel;
 using System.Linq;
 
-namespace Nodify.Demo
+namespace NodifyOperations
 {
     public class OperationNodeViewModel : NodeViewModel
     {
-        public static MessagesViewModel MessagesViewModel;
+        public static IObserver<ObservableObject> Observer;
 
         public OperationNodeViewModel()
         {
@@ -15,10 +16,10 @@ namespace Nodify.Demo
         }
 
 
-        public override void OnInputValueChanged()
+        public override void OnInputValueChanged(ConnectorViewModel connectorViewModel)
         {
 
-            MessagesViewModel.OnNext(this);
+            Observer.OnNext(this);
         }
     }
 }

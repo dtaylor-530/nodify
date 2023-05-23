@@ -1,19 +1,20 @@
-﻿using Nodify.Core;
+﻿using Nodify;
+using Nodify.Core;
 using System;
 
-namespace Nodify.Demo
+namespace NodifyOperations
 {
     public class OperationConnectionViewModel : ConnectionViewModel
     {
 
-        public static MessagesViewModel MessagesViewModel;
+        public static IObserver<ObservableObject> Observer;
 
 
         protected override void Output_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName==nameof(ConnectorViewModel.Value))
+            if (e.PropertyName == nameof(ConnectorViewModel.Value))
             {
-                MessagesViewModel.OnNext(this);
+                Observer.OnNext(this);
             }
         }
     }

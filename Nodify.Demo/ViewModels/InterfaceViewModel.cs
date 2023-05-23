@@ -2,39 +2,28 @@
 using Nodify.Demo.Infrastructure;
 using System.Collections.Generic;
 using Nodify.Core;
+using DryIoc;
+//using Autofac;
 
 namespace Nodify.Demo
 {
     public class InterfaceViewModel
     {
-        BooleanViewModel booleanInViewModel = new ();
-        ViewModel outViewModel = new ();
-        public InterfaceViewModel()
-        {  
-            ViewModels = new ObservableObject[] { booleanInViewModel, outViewModel };
-            booleanInViewModel.PropertyChanged += BooleanViewModel_PropertyChanged;
-            Globals.ViewModelOutputConnector.PropertyChanged += ViewModelOutputConnector_PropertyChanged;
-        }
+        private readonly IContainer container;
 
-        private void ViewModelOutputConnector_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        public InterfaceViewModel(IContainer container)
         {
-            if(e.PropertyName== nameof(ConnectorViewModel.Value))
-            {
-                outViewModel.Value = Globals.ViewModelOutputConnector.Value;
-            }
+            this.container = container;
         }
 
-        private void BooleanViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            Globals.ViewModelInputConnector.Value = booleanInViewModel.Value;
-        }
-
-        public ICollection<ObservableObject> ViewModels { get; }
+        public ICollection<ObservableObject> ViewModels => container.Resolve<ICollection<ObservableObject>>();
     }
 
 
     public class BooleanViewModel : ObservableObject
     {
+        public Guid Guid => Guids.Boolean;
+
         private bool _value;
 
         public bool Value
@@ -42,12 +31,12 @@ namespace Nodify.Demo
             get => _value;
             set => this.SetProperty(ref _value, value);
         }
-
-
     }
 
     public class ViewModel : ObservableObject
     {
+        public Guid Guid => Guids.Default;
+
         private object _value;
 
         public object Value
@@ -55,7 +44,5 @@ namespace Nodify.Demo
             get => _value;
             set => this.SetProperty(ref _value, value);
         }
-
-
     }
 }

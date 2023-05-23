@@ -1,8 +1,10 @@
-﻿namespace Nodify.Demo
+﻿using NodifyOperations;
+
+namespace NodifyOperations
 {
     public interface IOperation
     {
-        object Execute(params object[] operands);
+        IOValue[] Execute(params IOValue[] operands);
     }
 
     public interface IFilter

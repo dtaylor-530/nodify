@@ -1,4 +1,5 @@
-﻿using Nodify.Core;
+﻿using Nodify;
+using Nodify.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Reflection;
 using System.Windows;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Nodify.Demo
+namespace NodifyOperations
 {
     public static class OperationFactory
     {
@@ -181,7 +182,7 @@ namespace Nodify.Demo
                         };
                         op.Output.AddRange(new[] { connector });
                         op.Input.AddRange(inputs);
-                        op.OnInputValueChanged();
+                        //op.OnInputValueChanged();
                         return op;
                     }
 

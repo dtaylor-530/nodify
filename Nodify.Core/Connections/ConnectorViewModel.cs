@@ -5,7 +5,7 @@ namespace Nodify.Core
 {
     public class ConnectorViewModel : ObservableObject
     {
-        private NodeViewModel _operation = default!;
+        private NodeViewModel _node = default!;
 
         private string? _title;
         private object _value;
@@ -13,18 +13,6 @@ namespace Nodify.Core
         private bool _isInput;
         private Point _anchor;
 
-        //public ConnectionViewModel()
-        //{
-        //    this.PropertyChanged += ConnectorViewModel_PropertyChanged;
-        //}
-
-        //private void ConnectorViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    if(e.PropertyName==nameof(Value))
-        //    {
-        //        MessagesViewModel.OnNext(this);
-        //    }
-        //}
 
         public string? Title
         {
@@ -36,8 +24,6 @@ namespace Nodify.Core
         {
             get => _value;
             set => SetProperty(ref _value, value);
-                   //.Then(() => ValueObservers.ForEach(o => o.Value = value));
-
         }
 
         public bool IsConnected
@@ -61,12 +47,9 @@ namespace Nodify.Core
 
         public NodeViewModel Node
         {
-            get => _operation;
-            set => SetProperty(ref _operation, value);
+            get => _node;
+            set => SetProperty(ref _node, value);
         }
-
-        //public List<ConnectorViewModel> ValueObservers { get; } = new List<ConnectorViewModel>();
-
 
     }
 }

@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:op2="clr-namespace:Nodify.Demo"
-                    xmlns:core="clr-namespace:Nodify.Core;assembly=Nodify.Core"                    
-                    xmlns:op="clr-namespace:Nodify.Demo;assembly=NodifyOperations"
+                    xmlns:core="clr-namespace:Nodify.Core;assembly=Nodify.Core"  
                     xmlns:nod="clr-namespace:Nodify;assembly=Nodify.Shared"
+                    xmlns:op="clr-namespace:NodifyOperations;assembly=NodifyOperations"
                     xmlns:st="http://schemas.spicytaco.io/"
                     
                     >
@@ -57,7 +57,7 @@
         </st:AutoGrid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type op:MessagesViewModel}">
+    <DataTemplate DataType="{x:Type op2:MessagesViewModel}">
         <DockPanel>
             <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top">
                 <Button Command="{Binding Next}"   Style="{StaticResource HollowButton}" >next</Button>
@@ -65,6 +65,7 @@
             </WrapPanel>
             <UniformGrid  Columns="1">
                 <HeaderedItemsControl Header="Past" ItemsSource="{Binding Past, Mode=OneTime}"/>
+                <HeaderedItemsControl Header="Current" ItemsSource="{Binding Current, Mode=OneTime}"/>
                 <HeaderedItemsControl Header="Future"  ItemsSource="{Binding Future, Mode=OneTime}"/>
             </UniformGrid>
         </DockPanel>
@@ -100,7 +101,12 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type op2:DiagramsViewModel}" >
-        <ListBox MinWidth="100" SelectedItem="{Binding SelectedDiagram}" ItemsSource="{Binding Diagrams}"  Background="{DynamicResource NodifyEditor.BackgroundBrush}">
+        <StackPanel>
+            <!--<TextBlock>Diagrams</TextBlock>-->
+
+        <ListBox MinWidth="100" SelectedItem="{Binding SelectedDiagram}" 
+                 ItemsSource="{Binding Diagrams}" 
+                 Background="{DynamicResource NodifyEditor.BackgroundBrush}">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="Background" Value="{DynamicResource  Node.BackgroundBrush}"></Setter>
@@ -131,6 +137,7 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
+        </StackPanel>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type op2:MainViewModel}">

@@ -10,13 +10,10 @@ namespace Nodify.Core
     {
         private NodifyObservableCollection<NodeViewModel> _operations = new(), _messages = new();
         private NodifyObservableCollection<NodeViewModel> _selectedOperations = new();
-       
-
+        private MenuViewModel menu;
 
         public EditorViewModel(Diagram diagram)
-        {
-
-    
+        {   
 
             CreateConnectionCommand = new DelegateCommand<ConnectorViewModel>(
                 _ => CreateConnection(PendingConnection.Source, PendingConnection.Target),
@@ -78,14 +75,8 @@ namespace Nodify.Core
                         DisconnectConnector(output);
                     }
                 }
-            });
-
-            Menu = new MenuViewModel();
-  
-    
-            Menu.Items.AddRange(MenuItems());
-
-            Menu.Selected += OperationsMenu_Selected;
+            });  
+     
 
             foreach (var node in diagram.Nodes)
                 Nodes.Add(node);
@@ -95,9 +86,12 @@ namespace Nodify.Core
         }
 
 
-        protected virtual IEnumerable<MenuItemViewModel> MenuItems()
+        protected virtual IEnumerable<MenuItemViewModel> MenuItems
         {
-            yield break;
+            get
+            {
+                yield break;
+            }
         }
 
 
@@ -127,7 +121,20 @@ namespace Nodify.Core
 
         public NodifyObservableCollection<ConnectionViewModel> Connections { get; } = new NodifyObservableCollection<ConnectionViewModel>();
         public PendingConnectionViewModel PendingConnection { get; set; } = new PendingConnectionViewModel();
-        public MenuViewModel Menu { get; set; }
+        public MenuViewModel Menu
+        {
+            get
+            {
+                if (menu == null)
+                {
+                    menu = new MenuViewModel();
+                    menu.Selected += OperationsMenu_Selected;
+                    menu.Items.AddRange(MenuItems);
+
+                }
+                return menu;
+            }
+        }
 
         public INodifyCommand StartConnectionCommand { get; }
         public INodifyCommand CreateConnectionCommand { get; }

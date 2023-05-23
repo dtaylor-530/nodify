@@ -1,9 +1,9 @@
-﻿using Autofac;
-using Nodify.Demo;
+﻿//using Autofac;
+using DryIoc;
+using Nodify.Core;
 using Nodify.Demo.Infrastructure;
-using Nodify.Demo.ViewModels;
-using NodifyOperations.Infrastructure;
-using System.Collections.Generic;
+using NodifyOperations;
+using System;
 using System.Windows;
 
 namespace Nodify.Demo
@@ -17,51 +17,28 @@ namespace Nodify.Demo
         {
             base.OnStartup(e);
 
-            var builder = new ContainerBuilder();
+            //var container = Bootstrapper.Build();
+            var container = DryBootstrapper.Build();
 
-            builder.RegisterType<MethodsOperationsFactory>().As<IOperationsFactory>().SingleInstance();
-            builder.RegisterType<CustomOperationsFactory>().As<IOperationsFactory>().SingleInstance();
-
-            var x = new MessagesViewModel();
-            OperationNodeViewModel.MessagesViewModel = x;
-            OperationConnectionViewModel.MessagesViewModel = x;
-            Globals.Container = builder.Build();
-            Globals.Diagrams = new[] { new Diagram1() };
-
-            Dictionary<string, OperationInfo> dictionary = new();
-
-            foreach (var container in Globals.Container.Resolve<IEnumerable<IOperationsFactory>>())
-            {
-                foreach (var item in container.GetOperations())
-                {
-                    dictionary[item.Title] = item;
-                }
-            }
-
-            Dictionary<string, FilterInfo> filters = new();
-
-
-
-            Globals.Operations = dictionary;
-
-            x.Operations = dictionary;
-            x.Filters = filters;
-            var main = new MainViewModel { MessagesViewModel = x };
+            OperationNodeViewModel.Observer = container.Resolve<IObserver<ObservableObject>>();
+            OperationConnectionViewModel.Observer = container.Resolve<IObserver<ObservableObject>>();
 
             DockWindow dockWindow = new()
             {
-                DataContext = main
-            };
-            
-            Window window = new()
-            {
-                Content = main
+                DataContext = container.Resolve<MainViewModel>()
             };
 
-            
+            Window window = new()
+            {
+                Content = container.Resolve<MainViewModel>()
+            };
+
+
             dockWindow.Show();
             window.Show();
         }
 
     }
+
+
 }

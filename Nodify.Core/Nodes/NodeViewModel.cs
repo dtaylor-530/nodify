@@ -32,7 +32,7 @@ namespace Nodify.Core
         {
             if (e.PropertyName == nameof(ConnectorViewModel.Value))
             {
-                OnInputValueChanged();
+                OnInputValueChanged(sender as ConnectorViewModel);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Nodify.Core
 
         public INodifyObservableCollection<ConnectorViewModel> Output => output;
 
-        public virtual async void OnInputValueChanged()
+        public virtual void OnInputValueChanged(ConnectorViewModel connectorViewModel)
         {
         }
     }

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using NodifyOperations;
+using System;
 using static Utility.Conversions.ConversionHelper;
 
-namespace Nodify.Demo
+namespace NodifyOperations
 {
     public class UnaryOperation : IOperation
     {
@@ -9,7 +10,7 @@ namespace Nodify.Demo
 
         public UnaryOperation(Func<double, double> func) => _func = func;
 
-        public object Execute(params object[] operands)
-            => _func.Invoke(ChangeType<double>(operands[0]));
+        public IOValue[] Execute(params IOValue[] operands)
+            => new[] { new IOValue(default, _func.Invoke(ChangeType<double>(operands[0].Value))) };
     }
 }
