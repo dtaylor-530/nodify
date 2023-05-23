@@ -16,12 +16,6 @@
             BorderBrush="{StaticResource NodifyEditor.SelectionRectangleStrokeBrush}"
             BorderThickness="2"
             Visibility="{Binding IsVisible, Converter={shared:BooleanToVisibilityConverter}}">
-            <!--<Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>-->
-
             <ItemsControl Grid.Row="1" ItemsSource="{Binding Items}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type core:MenuItemViewModel}">
@@ -60,7 +54,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <!--</Grid>-->
         </Border>
     </DataTemplate>
 

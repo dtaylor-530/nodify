@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                     xmlns:st="http://schemas.spicytaco.io/"
              xmlns:local="clr-namespace:Nodify.Demo"
              xmlns:op="clr-namespace:Nodify.Demo"
+             xmlns:op2="clr-namespace:Nodify.Demo;assembly=Nodify.Operations"
              xmlns:core="clr-namespace:Nodify.Core;assembly=Nodify.Core"
              xmlns:nodify="https://miroiu.github.io/nodify"
              xmlns:shared="clr-namespace:Nodify;assembly=Nodify.Shared"           
@@ -71,13 +73,14 @@
                             Value="{Binding Value}" />
                         <Setter Property="HeaderTemplate">
                             <Setter.Value>
-                                <DataTemplate DataType="{x:Type core:ConnectionViewModel}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Title}"
-                                               Margin="0 0 5 0" />
-                                        <TextBox Text="{Binding Value}"
-                                             Visibility="{Binding IsConnected, Converter={shared:BooleanToVisibilityConverter Negate=True}}" />
-                                    </StackPanel>
+                                <DataTemplate>                                
+                             
+                                        <Expander Header="{Binding Title}" IsExpanded="False">
+                                            <Viewbox>
+                                                <ContentControl Content="{Binding Value}"></ContentControl>
+                                            </Viewbox>
+                                        </Expander>                                                                                             
+                                 
                                 </DataTemplate>
                             </Setter.Value>
                         </Setter>
@@ -93,9 +96,16 @@
                             Value="{Binding Anchor, Mode=OneWayToSource}" />
                         <Setter Property="HeaderTemplate">
                             <Setter.Value>
-                                <DataTemplate DataType="{x:Type core:ConnectionViewModel}">
-                                    <TextBox Text="{Binding Value}"
-                                         IsEnabled="False" />
+                                <DataTemplate >
+                                    <Expander Header="{Binding Title}" IsExpanded="False">
+                                        <Viewbox>
+                                            <ContentControl Content="{Binding Value}"
+                                        IsEnabled="False"  />
+                                        </Viewbox>
+                                    </Expander>
+
+                                    <!--<TextBox Text="{Binding Value}"
+                                         IsEnabled="False" />-->
                                 </DataTemplate>
                             </Setter.Value>
                         </Setter>

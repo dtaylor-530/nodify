@@ -1,13 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:op2="clr-namespace:Nodify.Demo"
+                    xmlns:local="clr-namespace:Nodify.Demo"
                     xmlns:core="clr-namespace:Nodify.Core;assembly=Nodify.Core"  
                     xmlns:nod="clr-namespace:Nodify;assembly=Nodify.Shared"
                     xmlns:op="clr-namespace:Nodify.Operations;assembly=Nodify.Operations"
                     xmlns:st="http://schemas.spicytaco.io/"
-                    
-                    >
-
+    >
     <Style TargetType="{x:Type HeaderedItemsControl}">
         <Setter Property="Template">
             <Setter.Value>
@@ -38,7 +36,6 @@
         </Setter>
     </Style>
 
-
     <DataTemplate DataType="{x:Type core:Key}">
         <UniformGrid  Columns="1" >
             <TextBlock Text="{Binding Guid}" />
@@ -57,7 +54,21 @@
         </st:AutoGrid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type op2:MessagesViewModel}">
+
+    <DataTemplate DataType="{x:Type op:PropertyChange}">
+        <st:AutoGrid Rows="*,*,*" Columns="*,*"  MinWidth="160" Margin="2" Background="{DynamicResource BackgroundBrush}">
+            <TextBlock Margin="1">Source</TextBlock>
+            <ContentControl Content="{Binding Source, Converter={x:Static local:TypeConverter.Instance}}" MinHeight="25" MinWidth="40" Margin="1"/>
+            <TextBlock Margin="1">Name</TextBlock>
+            <TextBlock Text="{Binding Name}" Margin="1"/>
+            <TextBlock Margin="1">Value</TextBlock>
+            <Viewbox Height="30" Width="60" Margin="1" >
+                <ContentControl Content="{Binding Value}" />
+            </Viewbox>        
+        </st:AutoGrid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:MessagesViewModel}">
         <DockPanel>
             <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top">
                 <Button Command="{Binding Next}"   Style="{StaticResource HollowButton}" >next</Button>
@@ -75,20 +86,20 @@
         <Border BorderBrush="{DynamicResource  Node.BorderBrush}" BorderThickness="6"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type op2:BooleanViewModel}">
+    <DataTemplate DataType="{x:Type local:BooleanViewModel}">
 
         <CheckBox MinWidth="100" MinHeight="40" IsChecked="{Binding Value}" Content="Check"/>
 
     </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type op2:ViewModel}">
+
+    <DataTemplate DataType="{x:Type local:ViewModel}">
 
         <ContentControl MinWidth="100" MinHeight="40" Content="{Binding Value}" ></ContentControl>
 
     </DataTemplate>
 
 
-    <DataTemplate DataType="{x:Type op2:InterfaceViewModel}">
+    <DataTemplate DataType="{x:Type local:InterfaceViewModel}">
         <Border BorderBrush="{DynamicResource  Node.BorderBrush}" BorderThickness="2" MinWidth="400" MinHeight="300">
             <ItemsControl MinWidth="100" ItemsSource="{Binding ViewModels}"/>
         </Border>
@@ -100,55 +111,55 @@
         </Border>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type op2:DiagramsViewModel}" >
+    <DataTemplate DataType="{x:Type local:DiagramsViewModel}" >
         <StackPanel>
             <!--<TextBlock>Diagrams</TextBlock>-->
 
-        <ListBox MinWidth="100" SelectedItem="{Binding SelectedDiagram}" 
+            <ListBox MinWidth="100" SelectedItem="{Binding SelectedDiagram}" 
                  ItemsSource="{Binding Diagrams}" 
                  Background="{DynamicResource NodifyEditor.BackgroundBrush}">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="Background" Value="{DynamicResource  Node.BackgroundBrush}"></Setter>
-                    <Setter Property="BorderBrush" Value="Transparent"></Setter>
-                    <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"></Setter>
-                    <Setter Property="Padding" Value="3"></Setter>
-                    <Setter Property="Cursor" Value="Hand"></Setter>
-                    <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <Border Name="Border"
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Background" Value="{DynamicResource  Node.BackgroundBrush}"></Setter>
+                        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"></Setter>
+                        <Setter Property="Padding" Value="3"></Setter>
+                        <Setter Property="Cursor" Value="Hand"></Setter>
+                        <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <Border Name="Border"
                                                         Background="{TemplateBinding Background}"
                                                         Padding="{TemplateBinding Padding}">
-                                    <ContentPresenter></ContentPresenter>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver"
+                                        <ContentPresenter></ContentPresenter>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver"
                                                              Value="True">
-                                        <Setter Property="Background"
+                                            <Setter Property="Background"
                                                                 TargetName="Border"
                                                                 Value="{DynamicResource NodeInput.BorderBrush}" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListBox.ItemContainerStyle>
-        </ListBox>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
         </StackPanel>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type op2:MainViewModel}">
+    <DataTemplate DataType="{x:Type local:MainViewModel}">
         <DockPanel   Background="{DynamicResource NodifyEditor.BackgroundBrush}">
             <!--<ContentControl Content="{Binding MessagesViewModel}" DockPanel.Dock="Right"></ContentControl>-->
             <!--<ContentControl Content="{Binding DiagramsViewModel}"></ContentControl>-->
             <ContentControl Content="{Binding InterfaceViewModel}" DockPanel.Dock="Bottom"></ContentControl>
             <!--<ContentControl Content="{Binding TabsViewModel}"></ContentControl>-->
         </DockPanel>
-        
-        
+
+
     </DataTemplate>
 
 </ResourceDictionary>
