@@ -97,13 +97,21 @@
                         <ContentControl Content="{Binding InterfaceViewModel}" ></ContentControl>
                     </avalondock:LayoutAnchorable>-->
                 </avalondock:LayoutAnchorablePane>
+
+                <avalondock:LayoutAnchorablePane DockWidth="400" >
+                    <avalondock:LayoutAnchorable x:Name="Screen12" Title="Interface" >
+                        <ContentControl Content="{Binding }" ></ContentControl>
+                    </avalondock:LayoutAnchorable>
+                </avalondock:LayoutAnchorablePane>
+                
                 <avalondock:LayoutAnchorablePane DockWidth="200" >
-                    <avalondock:LayoutAnchorable x:Name="Screen2" Title="Screen2" >
+                    <avalondock:LayoutAnchorable x:Name="Screen2" Title="Messages" >
                         <ContentControl Content="{Binding MessagesViewModel}" ></ContentControl>
                     </avalondock:LayoutAnchorable>
                 </avalondock:LayoutAnchorablePane>
 
             </avalondock:LayoutPanel>
+     
             <LayoutRoot.RightSide>
                 <LayoutAnchorSide>
                     <LayoutAnchorGroup>

@@ -3,11 +3,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:core="clr-namespace:Nodify.Core;assembly=Nodify.Core"
                     xmlns:local="clr-namespace:Nodify.Demo"
+                    xmlns:extra="clr-namespace:Nodify.Extra;assembly=Nodify.Extra"
                     xmlns:nodify="https://miroiu.github.io/nodify">
-
-
-
-    <!--<local:ItemToListConverter x:Key="ItemToListConverter" />-->
 
     <DataTemplate DataType="{x:Type core:MenuViewModel}">
         <Border Padding="7"
@@ -58,7 +55,7 @@
     </DataTemplate>
 
 
-    <DataTemplate DataType="{x:Type core:TabsViewModel}">
+    <DataTemplate DataType="{x:Type extra:TabsViewModel}">
         <shared:TabControlEx ItemsSource="{Binding Tabs}"
                              SelectedItem="{Binding SelectedEditor}" 
                              AddTabCommand="{Binding AddEditorCommand}"
@@ -77,7 +74,7 @@
         </shared:TabControlEx>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type core:TabViewModel}">
+    <DataTemplate DataType="{x:Type extra:TabViewModel}">
         <ContentControl Content="{Binding Content}"/>
     </DataTemplate>
 
@@ -100,7 +97,17 @@
                                       CompletedCommand="{Binding DataContext.CreateConnectionCommand, RelativeSource={RelativeSource AncestorType={x:Type nodify:NodifyEditor}}}" />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type local:MainViewModel}">
+        <DockPanel   Background="{DynamicResource NodifyEditor.BackgroundBrush}">
+            <Button DockPanel.Dock="Top" Command="{Binding ReloadCommand}">Reload</Button>
+            <!--<ContentControl Content="{Binding MessagesViewModel}" DockPanel.Dock="Right"></ContentControl>-->
+            <!--<ContentControl Content="{Binding DiagramsViewModel}"></ContentControl>-->
+            <ContentControl Content="{Binding InterfaceViewModel}" DockPanel.Dock="Bottom"></ContentControl>
+            <!--<ContentControl Content="{Binding TabsViewModel}"></ContentControl>-->
+        </DockPanel>
 
+
+    </DataTemplate>
     <!--<DataTemplate DataType="{x:Type local:ExpandoOperationViewModel}">
                     <nodify:Node Header="{Binding Title}"
                                  Content="{Binding}"

@@ -1,6 +1,6 @@
 ﻿//using Autofac;
 using DryIoc;
-using Nodify.Core;
+using Nodify.Abstractions;
 using System.Collections.Generic;
 using System.Linq;
 

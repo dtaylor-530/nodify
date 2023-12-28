@@ -18,24 +18,24 @@ namespace Nodify.Demo
             base.OnStartup(e);
 
             //var container = Bootstrapper.Build();
-            var container = DryBootstrapper.Build();
+            var container = Bootstrapper.Build();
 
-            OperationNodeViewModel.Observer = container.Resolve<IObserver<ObservableObject>>();
-            OperationConnectionViewModel.Observer = container.Resolve<IObserver<ObservableObject>>();
+            //OperationNodeViewModel.Observer = container.Resolve<IObserver<ObservableObject>>();
+            //OperationConnectionViewModel.Observer = container.Resolve<IObserver<ObservableObject>>();
 
             DockWindow dockWindow = new()
             {
                 DataContext = container.Resolve<MainViewModel>()
             };
 
-            Window window = new()
-            {
-                Content = container.Resolve<MainViewModel>()
-            };
+            //Window window = new()
+            //{
+            //    Content = container.Resolve<MainViewModel>()
+            //};
 
 
             dockWindow.Show();
-            window.Show();
+            //window.Show();
         }
 
     }

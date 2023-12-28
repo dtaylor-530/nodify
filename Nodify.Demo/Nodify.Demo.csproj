@@ -16,7 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Examples\Nodify.Shared\Nodify.Shared.csproj" />
-    <ProjectReference Include="..\Nodify.Core\Nodify.Core.csproj" />
+    <ProjectReference Include="..\Nodify.Core\Nodify.ViewModel.Core.csproj" />
+    <ProjectReference Include="..\Nodify.Extra\Nodify.ViewModel.Extra.csproj" />
     <ProjectReference Include="..\Nodify.Operations\Nodify.Operations.csproj" />
     <ProjectReference Include="..\Nodify\Nodify.csproj" />
   </ItemGroup>

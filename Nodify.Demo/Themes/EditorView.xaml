@@ -6,7 +6,6 @@
                      xmlns:st="http://schemas.spicytaco.io/"
              xmlns:local="clr-namespace:Nodify.Demo"
              xmlns:op="clr-namespace:Nodify.Demo"
-             xmlns:op2="clr-namespace:Nodify.Demo;assembly=Nodify.Operations"
              xmlns:core="clr-namespace:Nodify.Core;assembly=Nodify.Core"
              xmlns:nodify="https://miroiu.github.io/nodify"
              xmlns:shared="clr-namespace:Nodify;assembly=Nodify.Shared"           
@@ -45,9 +44,16 @@
                       Transform="{Binding ViewportTransform, ElementName=Editor}"
                       Drawing="{StaticResource SmallGridGeometry}" />
 
-    <DataTemplate DataType="{x:Type core:EditorViewModel}">
+
+    <!--<DataTemplate DataType="{x:Type local:OperationsEditorViewModel}">
+        <ContentControl Content="{Binding Diagram}">
+
+        </ContentControl>
+    </DataTemplate>-->
+
+    <DataTemplate DataType="{x:Type local:EditorViewModel}">
         <Grid>
-            <nodify:NodifyEditor DataContext="{Binding }"
+            <nodify:NodifyEditor DataContext="{Binding DiagramViewModel}"
                              ItemsSource="{Binding Nodes}"
                              Connections="{Binding Connections}"
                              SelectedItems="{Binding SelectedNodes}"
@@ -57,8 +63,7 @@
                              ConnectionTemplate="{StaticResource ConnectionTemplate}"
                              Background="{StaticResource SmallGridLinesDrawingBrush}"
                              ItemContainerStyle="{StaticResource ItemContainerStyle}"
-                             GridCellSize="15"
-                         
+                             GridCellSize="100"                         
                              x:Name="Editor">
                 <nodify:NodifyEditor.Resources>
                     <Style TargetType="{x:Type nodify:NodeInput}"

@@ -19,9 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nodify.Operations", "Nodify
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nodify.Demo", "Nodify.Demo\Nodify.Demo.csproj", "{8E2E0010-1889-4A9F-B4A1-022F1EB9028E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility.Conversions", "..\..\..\UtilityStandard\Utility.Conversions\Utility.Conversions\Utility.Conversions.csproj", "{EBE70079-DAA7-4A85-8BA6-E24A8A73F5B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility.Conversions", "..\..\..\Utility\Conversions\Utility.Conversions\Utility.Conversions.csproj", "{EBE70079-DAA7-4A85-8BA6-E24A8A73F5B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nodify.Core", "Nodify.Core\Nodify.Core.csproj", "{E2D3E381-327C-48F3-A486-ED369B0244A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nodify.ViewModel.Core", "Nodify.Core\Nodify.ViewModel.Core.csproj", "{E2D3E381-327C-48F3-A486-ED369B0244A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nodify.ViewModel.Extra", "Nodify.Extra\Nodify.ViewModel.Extra.csproj", "{917B57DF-B395-457E-BDA2-3CFD73C96E7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nodify.Abstractions", "Nodify.Abstractions\Nodify.Abstractions.csproj", "{301047AF-3249-4C05-94F7-C9EC1E16F7A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +69,14 @@ Global
 		{E2D3E381-327C-48F3-A486-ED369B0244A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2D3E381-327C-48F3-A486-ED369B0244A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2D3E381-327C-48F3-A486-ED369B0244A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{917B57DF-B395-457E-BDA2-3CFD73C96E7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{917B57DF-B395-457E-BDA2-3CFD73C96E7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{917B57DF-B395-457E-BDA2-3CFD73C96E7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{917B57DF-B395-457E-BDA2-3CFD73C96E7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{301047AF-3249-4C05-94F7-C9EC1E16F7A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{301047AF-3249-4C05-94F7-C9EC1E16F7A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{301047AF-3249-4C05-94F7-C9EC1E16F7A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{301047AF-3249-4C05-94F7-C9EC1E16F7A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,9 +84,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{423D54CA-9F42-4116-8755-13641F94151D} = {E467F53A-3CCA-4EDB-BD33-FC89CA3C526B}
 		{48569CA8-81C1-4B47-963B-0FC9358C5F01} = {E467F53A-3CCA-4EDB-BD33-FC89CA3C526B}
-		{499C8539-9973-4102-B976-57DB3F3C7DF3} = {E467F53A-3CCA-4EDB-BD33-FC89CA3C526B}
 		{7ADD1DAF-B589-4742-8E72-872D2842E73D} = {E467F53A-3CCA-4EDB-BD33-FC89CA3C526B}
-		{333F528E-1490-4437-AB3A-41CD7F987B56} = {E467F53A-3CCA-4EDB-BD33-FC89CA3C526B}
 		{8E2E0010-1889-4A9F-B4A1-022F1EB9028E} = {E467F53A-3CCA-4EDB-BD33-FC89CA3C526B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

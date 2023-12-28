@@ -4,6 +4,7 @@
                     xmlns:core="clr-namespace:Nodify.Core;assembly=Nodify.Core"  
                     xmlns:nod="clr-namespace:Nodify;assembly=Nodify.Shared"
                     xmlns:op="clr-namespace:Nodify.Operations;assembly=Nodify.Operations"
+                    xmlns:abs="clr-namespace:Nodify.Abstractions;assembly=Nodify.Abstractions"
                     xmlns:st="http://schemas.spicytaco.io/"
     >
     <Style TargetType="{x:Type HeaderedItemsControl}">
@@ -68,6 +69,10 @@
         </st:AutoGrid>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type core:ConnectorViewModel}">
+        <TextBox Width="100" Height="30" Background="Beige"  Text="{Binding Value}"></TextBox>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type local:MessagesViewModel}">
         <DockPanel>
             <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top">
@@ -86,26 +91,26 @@
         <Border BorderBrush="{DynamicResource  Node.BorderBrush}" BorderThickness="6"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type local:BooleanViewModel}">
+    <!--<DataTemplate DataType="{x:Type local:BooleanViewModel}">
 
         <CheckBox MinWidth="100" MinHeight="40" IsChecked="{Binding Value}" Content="Check"/>
 
-    </DataTemplate>
+    </DataTemplate>-->
 
-    <DataTemplate DataType="{x:Type local:ViewModel}">
+    <!--<DataTemplate DataType="{x:Type local:ViewModel}">
 
         <ContentControl MinWidth="100" MinHeight="40" Content="{Binding Value}" ></ContentControl>
 
-    </DataTemplate>
+    </DataTemplate>-->
 
 
-    <DataTemplate DataType="{x:Type local:InterfaceViewModel}">
+    <!--<DataTemplate DataType="{x:Type local:InterfaceViewModel}">
         <Border BorderBrush="{DynamicResource  Node.BorderBrush}" BorderThickness="2" MinWidth="400" MinHeight="300">
             <ItemsControl MinWidth="100" ItemsSource="{Binding ViewModels}"/>
         </Border>
-    </DataTemplate>
+    </DataTemplate>-->
 
-    <DataTemplate DataType="{x:Type core:Diagram}">
+    <DataTemplate DataType="{x:Type abs:Diagram}">
         <Border BorderBrush="{DynamicResource  Node.BorderBrush}" BorderThickness="2">
             <TextBlock Text="{Binding Name}"></TextBlock>
         </Border>
@@ -113,8 +118,6 @@
 
     <DataTemplate DataType="{x:Type local:DiagramsViewModel}" >
         <StackPanel>
-            <!--<TextBlock>Diagrams</TextBlock>-->
-
             <ListBox MinWidth="100" SelectedItem="{Binding SelectedDiagram}" 
                  ItemsSource="{Binding Diagrams}" 
                  Background="{DynamicResource NodifyEditor.BackgroundBrush}">
@@ -153,6 +156,7 @@
 
     <DataTemplate DataType="{x:Type local:MainViewModel}">
         <DockPanel   Background="{DynamicResource NodifyEditor.BackgroundBrush}">
+            <Button DockPanel.Dock="Top" Command="{Binding ReloadCommand}">Reload</Button>
             <!--<ContentControl Content="{Binding MessagesViewModel}" DockPanel.Dock="Right"></ContentControl>-->
             <!--<ContentControl Content="{Binding DiagramsViewModel}"></ContentControl>-->
             <ContentControl Content="{Binding InterfaceViewModel}" DockPanel.Dock="Bottom"></ContentControl>
