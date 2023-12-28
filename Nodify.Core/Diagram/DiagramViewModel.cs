@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using Nodify.Abstractions;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 
 namespace Nodify.Core
 {
-    public class EditorViewModel : ObservableObject
+    public class DiagramViewModel : ObservableObject
     {
         private NodifyObservableCollection<NodeViewModel> _operations = new(), _messages = new();
         private NodifyObservableCollection<NodeViewModel> _selectedOperations = new();
-        private MenuViewModel menu;
 
-        public EditorViewModel(Diagram diagram)
+        public event Action<(ConnectorViewModel source, ConnectorViewModel? target)> ConnectionCreated;
+
+        public DiagramViewModel()
         {   
 
             CreateConnectionCommand = new DelegateCommand<ConnectorViewModel>(
@@ -49,10 +52,10 @@ namespace Nodify.Core
             {
                 x.Input.WhenRemoved(RemoveConnection);
 
-                if (x is InputNodeViewModel ci)
-                {
-                    ci.Output.WhenRemoved(RemoveConnection);
-                }
+                //if (x is InputNodeViewModel ci)
+                //{
+                //    ci.Output.WhenRemoved(RemoveConnection);
+                //}
 
                 void RemoveConnection(ConnectorViewModel i)
                 {
@@ -77,11 +80,11 @@ namespace Nodify.Core
             });  
      
 
-            foreach (var node in diagram.Nodes)
-                Nodes.Add(node);
+            //foreach (var node in diagram.Nodes)
+            //    Nodes.Add(node);
 
-            foreach (var connection in diagram.Connections)
-                Connections.Add(connection);
+            //foreach (var connection in diagram.Connections)
+            //    Connections.Add(connection);
         }
 
 
@@ -94,10 +97,10 @@ namespace Nodify.Core
         }
 
 
-        protected virtual void OperationsMenu_Selected(Point location, MenuItemViewModel menuItem)
-        {
+        //protected virtual void OperationsMenu_Selected(Point location, MenuItemViewModel menuItem)
+        //{
 
-        }
+        //}
 
  
         //private void Op_InputChanged(NodeViewModel obj)
@@ -120,20 +123,6 @@ namespace Nodify.Core
 
         public NodifyObservableCollection<ConnectionViewModel> Connections { get; } = new NodifyObservableCollection<ConnectionViewModel>();
         public PendingConnectionViewModel PendingConnection { get; set; } = new PendingConnectionViewModel();
-        public MenuViewModel Menu
-        {
-            get
-            {
-                if (menu == null)
-                {
-                    menu = new MenuViewModel();
-                    menu.Selected += OperationsMenu_Selected;
-                    menu.Items.AddRange(MenuItems);
-
-                }
-                return menu;
-            }
-        }
 
         public INodifyCommand StartConnectionCommand { get; }
         public INodifyCommand CreateConnectionCommand { get; }
@@ -152,11 +141,12 @@ namespace Nodify.Core
 
         protected virtual void CreateConnection(ConnectorViewModel source, ConnectorViewModel? target)
         {
+            ConnectionCreated.Invoke((source, target));
             if (target == null)
             {
-                PendingConnection.IsVisible = true;
-                Menu.OpenAt(PendingConnection.TargetLocation);
-                Menu.Closed += OnOperationsMenuClosed;
+                //PendingConnection.IsVisible = true;
+                //Menu.OpenAt(PendingConnection.TargetLocation);
+                //Menu.Closed += OnOperationsMenuClosed;
                 return;
             }
 
@@ -174,11 +164,6 @@ namespace Nodify.Core
             });
         }
 
-        protected void OnOperationsMenuClosed()
-        {
-            PendingConnection.IsVisible = false;
-            Menu.Closed -= OnOperationsMenuClosed;
-        }
 
         protected void DeleteSelection()
         {

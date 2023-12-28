@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Nodify.Core.Common;
+using System;
 using System.Windows;
 
 namespace Nodify.Core
 {
-    public class MenuViewModel : BaseNodeViewModel
+    public class MenuViewModel : BaseViewModel
     {
         public event Action<Point, MenuItemViewModel> Selected;
 

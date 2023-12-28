@@ -12,7 +12,7 @@ namespace Nodify.Core
         public Guid Id { get; } = Guid.NewGuid();
 
 
-        public Key Key => new(Id, string.Empty);
+        public Key Key => new(Id, Title);
 
 
         public string Title

@@ -1,29 +1,37 @@
-﻿using System.Collections.Generic;
+﻿using Nodify.Core.Common;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace Nodify.Core
 {
-    public class ConnectorViewModel : ObservableObject
+    public enum ValueType
+    {
+
+    }
+
+    public class ConnectorViewModel : BaseViewModel
     {
         private NodeViewModel _node = default!;
 
-        private string? _title;
+
         private object _value;
         private bool _isConnected;
         private bool _isInput;
         private Point _anchor;
+        private ValueType _valueType;
 
 
-        public string? Title
-        {
-            get => _title;
-            set => SetProperty(ref _title, value);
-        }
-
-        public object Value
+          public object Value
         {
             get => _value;
             set => SetProperty(ref _value, value);
+        }
+
+        public ValueType ValueType
+        {
+            get => _valueType;
+            set => SetProperty(ref _valueType, value);
         }
 
         public bool IsConnected

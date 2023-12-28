@@ -1,4 +1,4 @@
-﻿using Nodify.Core;
+﻿using Nodify.Core.Common;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Linq;
 namespace Nodify.Core
 {
 
-    public class NodeViewModel : BaseNodeViewModel
+    public class NodeViewModel : BaseViewModel
     {
         public event Action<NodeViewModel> InputChanged;
 

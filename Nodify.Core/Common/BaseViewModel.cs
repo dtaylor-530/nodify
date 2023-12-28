@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 
-namespace Nodify.Core
+namespace Nodify.Core.Common
 {
-    public class BaseNodeViewModel : ObservableObject
+    public class BaseViewModel : ObservableObject
     {
         public event Action? Closed;
-
-        private bool _isVisible; 
+        
+        private bool _isVisible;
         private Point _location;
-        private Size _size; 
+        private Size _size;
         private string? _title;
         private bool _isActive;
         private bool _isSelected;
@@ -62,5 +66,6 @@ namespace Nodify.Core
         }
 
         public bool IsReadOnly { get; set; }
+
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
-namespace Nodify.Core
+namespace Nodify.Extra
 {
     public class TabsViewModel : ObservableObject
     {
@@ -51,7 +51,7 @@ namespace Nodify.Core
             Tabs.Add(tab);
         }
 
-        protected virtual object Content { get => new EditorViewModel(Diagram.Empty); }
+        protected virtual object Content { get => null; }
 
         private void Tab_Close(TabViewModel obj)
         {

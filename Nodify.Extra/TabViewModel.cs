@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Input;
-
-namespace Nodify.Core
+﻿namespace Nodify.Extra
 {
     public class TabViewModel : ObservableObject
     {
