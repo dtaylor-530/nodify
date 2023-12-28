@@ -29,5 +29,6 @@ namespace Nodify.Operations
     }
 
     public record PropertyChange<T>(T Generic, string? Name, object? Value) : PropertyChange(Generic, Name, Value);
+
     public record PropertyChange(object Source, string? Name, object? Value);
 }

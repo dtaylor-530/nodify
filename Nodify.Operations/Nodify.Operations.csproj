@@ -7,14 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DryIoc" Version="5.4.0" />
+    <Compile Remove="C:\Users\rytal\.nuget\packages\dryioc\5.4.0\contentFiles\cs\netstandard2.0\DryIoc\Container.cs" />
+    <Compile Remove="C:\Users\rytal\.nuget\packages\dryioc\5.4.0\contentFiles\cs\netstandard2.0\DryIoc\Expression.cs" />
+    <Compile Remove="C:\Users\rytal\.nuget\packages\dryioc\5.4.0\contentFiles\cs\netstandard2.0\DryIoc\FastExpressionCompiler.cs" />
+    <Compile Remove="C:\Users\rytal\.nuget\packages\dryioc\5.4.0\contentFiles\cs\netstandard2.0\DryIoc\ImTools.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DryIoc.dll" Version="5.4.3" />
     <PackageReference Include="System.Reactive" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\UtilityStandard\Utility.Conversions\Utility.Conversions\Utility.Conversions.csproj" />
-    <ProjectReference Include="..\Examples\Nodify.Shared\Nodify.Shared.csproj" />
-    <ProjectReference Include="..\Nodify.Core\Nodify.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\Utility\Conversions\Utility.Conversions\Utility.Conversions.csproj" />
+    <ProjectReference Include="..\Nodify.Abstractions\Nodify.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

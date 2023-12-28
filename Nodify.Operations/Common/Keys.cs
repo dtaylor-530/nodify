@@ -11,6 +11,7 @@
         public const string Exceptions = nameof(Exceptions);
         public const string Nodes = nameof(Nodes);
         public const string Connections = nameof(Connections);
+        public const string Connectors = nameof(Connectors);
         public const string Operations = nameof(Operations);
         public const string Filters = nameof(Filters);
     }

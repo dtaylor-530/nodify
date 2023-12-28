@@ -1,5 +1,6 @@
 ﻿using Nodify;
-using Nodify.Core;
+using Nodify.Abstractions;
+//using Nodify.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,11 +92,11 @@ namespace Nodify.Operations
                         }
                         else
                         {
-                            op.Inputs.Add(new(param.Name , param.HasDefaultValue? param.DefaultValue: GetDefaultValue(param.ParameterType)));
+                            op.Inputs.Add(new(param.Name, param.HasDefaultValue ? param.DefaultValue : GetDefaultValue(param.ParameterType)));
                         }
                     }
 
-                  
+
 
                     result.Add(op);
                 }
@@ -118,13 +119,10 @@ namespace Nodify.Operations
 
         }
 
-        public static NodeViewModel CreateNode(OperationInfo info)
+        public static Node CreateNode(OperationInfo info)
         {
-            var inputs = info.Inputs.Select(input => new ConnectorViewModel
-            {
-                Title = input.Name,
-                Value = input.DefaultValue
-            });
+            var inputs = info.Inputs.Select(input => input.Name);
+
 
             switch (info.Type)
             {
@@ -172,15 +170,15 @@ namespace Nodify.Operations
 
                 default:
                     {
-                        var op = new OperationNodeViewModel
+                        var op = new Node
                         {
-                            Title = info.Title,
+                            Key = info.Title,
                         };
-                        var connector = new ConnectorViewModel
-                        {
-                            Node = op
-                        };
-                        op.Output.AddRange(new[] { connector });
+                        //var connector = new ConnectorViewModel
+                        //{
+                        //    Node = op
+                        //};
+                        op.Output.AddRange(new[] { "Output" });
                         op.Input.AddRange(inputs);
                         //op.OnInputValueChanged();
                         return op;
