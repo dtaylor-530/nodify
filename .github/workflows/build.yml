@@ -1,15 +1,22 @@
 name: Build
 
-on: [push, pull_request]
+on:
+  push:
+    branches: ["master", "release-v*"]
+    paths-ignore:
+      - "docs/**"
+  pull_request:
+    paths-ignore:
+      - "docs/**"
 
 jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2.1.0
-      with:
-        dotnet-version: '6.0.x'
-    - name: Build
-      run: dotnet build --configuration Release
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+      - name: Build
+        run: dotnet build --configuration Release

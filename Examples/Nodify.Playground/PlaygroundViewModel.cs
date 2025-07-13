@@ -19,6 +19,14 @@ namespace Nodify.Playground
 
             BindingOperations.EnableCollectionSynchronization(GraphViewModel.Nodes, GraphViewModel.Nodes);
             BindingOperations.EnableCollectionSynchronization(GraphViewModel.Connections, GraphViewModel.Connections);
+
+            Settings.PropertyChanged += OnSettingsChanged;
+        }
+
+        private void OnSettingsChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(PlaygroundSettings.ShouldConnectNodes))
+                OnPropertyChanged(nameof(ConnectNodesText));
         }
 
         public ICommand GenerateRandomNodesCommand { get; }
@@ -26,6 +34,8 @@ namespace Nodify.Playground
         public ICommand ToggleConnectionsCommand { get; }
         public ICommand ResetCommand { get; }
         public PlaygroundSettings Settings => PlaygroundSettings.Instance;
+
+        public string ConnectNodesText => Settings.ShouldConnectNodes ? "CONNECT NODES" : "DISCONNECT NODES";
 
         private void ResetGraph()
         {
@@ -36,10 +46,24 @@ namespace Nodify.Playground
 
         private async void GenerateRandomNodes()
         {
-            var nodes = RandomNodesGenerator.GenerateNodes<FlowNodeViewModel>(new NodesGeneratorSettings(Settings.MinNodes)
+            uint minNodesByType = Settings.MinNodes / 2;
+            uint maxNodesByType = Settings.MaxNodes / 2;
+
+            var nodes = RandomNodesGenerator.GenerateNodes<FlowNodeViewModel>(new NodesGeneratorSettings(minNodesByType)
             {
-                MinNodesCount = Settings.MinNodes,
-                MaxNodesCount = Settings.MaxNodes,
+                MinNodesCount = minNodesByType,
+                MaxNodesCount = maxNodesByType,
+                MinInputCount = Settings.MinConnectors,
+                MaxInputCount = Settings.MaxConnectors,
+                MinOutputCount = Settings.MinConnectors,
+                MaxOutputCount = Settings.MaxConnectors,
+                GridSnap = EditorSettings.Instance.GridSpacing
+            });
+
+            var verticalNodes = RandomNodesGenerator.GenerateNodes<VerticalNodeViewModel>(new NodesGeneratorSettings(minNodesByType)
+            {
+                MinNodesCount = minNodesByType,
+                MaxNodesCount = maxNodesByType,
                 MinInputCount = Settings.MinConnectors,
                 MaxInputCount = Settings.MaxConnectors,
                 MinOutputCount = Settings.MinConnectors,
@@ -49,6 +73,7 @@ namespace Nodify.Playground
 
             GraphViewModel.Nodes.Clear();
             await CopyToAsync(nodes, GraphViewModel.Nodes);
+            await CopyToAsync(verticalNodes, GraphViewModel.Nodes);
 
             if (Settings.ShouldConnectNodes)
             {

@@ -1,4 +1,6 @@
-﻿namespace Nodify.Playground
+﻿using System.Windows.Controls;
+
+namespace Nodify.Playground
 {
     public class FlowNodeViewModel : NodeViewModel
     {
@@ -14,6 +16,8 @@
 
         public FlowNodeViewModel()
         {
+            Orientation = Orientation.Horizontal;
+
             Input.WhenAdded(c => c.Node = this)
                  .WhenRemoved(c => c.Disconnect());
 

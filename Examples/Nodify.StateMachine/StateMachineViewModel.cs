@@ -17,8 +17,16 @@ namespace Nodify.StateMachine
                 Conditions = new NodifyObservableCollection<BlackboardItemReferenceViewModel>(BlackboardDescriptor.GetAvailableItems<IBlackboardCondition>())
             };
 
-            Transitions.WhenAdded(c => c.Source.Transitions.Add(c.Target))
-            .WhenRemoved(c => c.Source.Transitions.Remove(c.Target))
+            Transitions.WhenAdded(c =>
+            {
+                c.Source.Transitions.Add(c.Target);
+                c.Target.Transitions.Add(c.Source);
+            })
+            .WhenRemoved(c =>
+            {
+                c.Source.Transitions.Remove(c.Target);
+                c.Target.Transitions.Remove(c.Source);
+            })
             .WhenCleared(c => c.ForEach(i =>
             {
                 i.Source.Transitions.Clear();
@@ -128,9 +136,9 @@ namespace Nodify.StateMachine
                 IsEditable = false
             });
 
-            var currentDelayKey = Blackboard.Keys.FirstOrDefault(k => k.Name == "Current Delay");
-            var originalDelayKey = Blackboard.Keys.FirstOrDefault(k => k.Name == "Original Delay");
-            var welcomeKey = Blackboard.Keys.FirstOrDefault(k => k.Name == "Welcome");
+            var currentDelayKey = Blackboard.Keys.First(k => k.Name == "Current Delay");
+            var originalDelayKey = Blackboard.Keys.First(k => k.Name == "Original Delay");
+            var welcomeKey = Blackboard.Keys.First(k => k.Name == "Welcome");
 
             States.Add(new StateViewModel
             {

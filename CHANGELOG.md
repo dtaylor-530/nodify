@@ -6,6 +6,227 @@
 > - Features:
 > - Bugfixes:
 
+#### **Version 7.1.0**
+
+> - Breaking Changes:
+>	- Added ProcessHandledEvents to IInputHandler and removed it from InputProcessor
+>	- Renamed EditorGestures.Editor.ResetViewportLocation to EditorGestures.Editor.ResetViewport
+> - Features:
+>	- Introduced a new BringIntoView method overload in NodifyEditor that accepts an offset from the viewport edges
+>	- Added BringIntoViewEdgeOffset to NodifyEditor to control the viewport edge offset when bringing the focused element into view
+>	- Added ResetViewport to NodifyEditor to reset the viewport's location and zoom
+>	- Improved tab and directional navigation, ensuring that focused elements are automatically brought into view
+>	- Added keyboard navigation layers for nodes, connections and decorators; restricting keyboard navigation to the active layer
+>	- Added ActiveNavigationLayer, ActivateNextNavigationLayer, ActivatePreviousNavigationLayer, RegisterNavigationLayer, RemoveNavigationLayer and ActivateNavigationLayer to NodifyEditor for keyboard layers management
+>	- Added KeyboardNavigationLayer property to NodifyEditor that allows navigating through the ItemContainers
+>	- Added AutoRegisterConnectionsLayer, AutoRegisterDecoratorsLayer, AutoFocusFirstElement, AutoPanOnNodeFocus, PanViewportOnKeyboardDrag and MinimumNavigationStepSize to NodifyEditor
+>	- Added EditorGestures.Editor.Keyboard for keyboard navigation gestures
+>	- Added FindNextFocusTarget, OnElementFocused and OnKeyboardNavigationLayerActivated virtual methods to NodifyEditor
+>	- Added new gestures for keyboard navigation available in EditorGestures.Editor.Keyboard
+>	- Added ToggleContentSelection to GroupingNode and its corresponding gesture to toggle the selection of nodes inside the group
+>	- Added ZoomIn, ZoomOut and ResetViewport methods to the Minimap control
+>	- Added ZoomIn, ZoomOut, ResetViewport and Pan gestures to EditorGestures.Minimap
+>	- Added NavigationStepSize static property to Minimap
+>	- Added Unbind to all gestures inside EditorGestures
+>	- Added the KeyComboGesture that requires a trigger key to be held down before pressing a combo key
+>	- Added FocusVisualPen and FocusVisualPadding dependency properties to BaseConnection
+>	- Added default focus visuals for base editor controls that can be included by referencing the FocusVisual.xaml file
+>	- Added MaxHotKeys and HotKeysDisplayMode static configuration fields to PendingConnection
+>	- Added HotKeyControl with its corresponding theme resources to display the hotkeys for a pending connection
+
+#### **Version 7.0.4**
+
+> - Features:
+>	- Added AsRef extension method to InputGesture to convert it to an InputGestureRef
+> - Bugfixes:
+>	- Fixed an issue where the gesture used for EditorGestures.Editor.SelectAll extracted from the ApplicationCommands was assumed to be a KeyGesture
+>	- Fixed overrides of DrawDirectionalArrowheadGeometry virtual method not working in subclasses of the built in connections
+>	- Fixed a memory leak caused by the auto panning timer
+
+#### **Version 7.0.3**
+
+> - Bugfixes:
+>	- Fixed an issue where the SelectedEvent and UnselectedEvent events on the ItemContainer were not raised when the selection was completed
+
+#### **Version 7.0.2**
+
+> - Features:
+>	- Added EditorGestures.Editor.SelectAll 
+> - Bugfixes:
+>	- Fixed an issue where the EditorCommands.SelectAll gesture could not be customized
+
+#### **Version 7.0.1**
+
+> - Bugfixes:
+>	- Fixed an issue where connections would not gain focus when selected, which could prevent editor keybindings from functioning in certain scenarios
+>	- Resolved an issue where selecting a node did not deselect connections and vice versa
+>	- Fixed a bug preventing ItemContainers from being selected when the mouse could not be captured
+>	- Fixed an issue with key detection in Japanese IME environments, causing issues with the MouseGesture
+
+#### **Version 7.0.0**
+
+> - Breaking Changes:
+>	- Made the setter of NodifyEditor.IsPanning private
+>	- Made SelectionHelper internal
+>	- Renamed HandleRightClickAfterPanningThreshold to MouseActionSuppressionThreshold in NodifyEditor
+>	- Renamed StartCutting to BeginCutting in NodifyEditor
+>	- Renamed Connector.EnableStickyConnections to ConnectorState.EnabledToggledConnectingMode
+>	- Renamed PushItems to UpdatePushedArea and StartPushingItems to BeginPushingItems in NodifyEditor
+>	- Renamed UnselectAllConnection to UnselectAllConnections in NodifyEditor
+>	- Removed DragStarted, DragDelta and DragCompleted routed events from ItemContainer
+>	- Replaced the System.Windows.Input.MouseGesture with Nodify.Interactivity.MouseGesture for default EditorGesture mappings
+>	- Removed State, GetInitialState, PushState, PopState and PopAllStates from NodifyEditor and ItemContainer
+>	- Replaced EditorState and ContainerState with InputElementState
+>	- Moved AllowCuttingCancellation from CuttingLine to NodifyEditor
+>	- Moved AllowDraggingCancellation from ItemContainer to NodifyEditor
+>	- Moved EditorGestures under the Nodify.Interactivity namespace
+>	- Moved editor events under the Nodify.Events namespace
+> - Features:
+>	- Added BeginPanning, UpdatePanning, EndPanning, CancelPanning and AllowPanningCancellation to NodifyEditor and Minimap
+>	- Added MouseLocation, ZoomAtPosition and GetLocationInsideMinimap to Minimap
+>	- Added UpdateCuttingLine to NodifyEditor
+>	- Added Select, BeginSelecting, UpdateSelection, EndSelecting, CancelSelecting and AllowSelectionCancellation to NodifyEditor
+>	- Added IsDragging, BeginDragging, UpdateDragging, EndDragging and CancelDragging to NodifyEditor
+>	- Added AlignSelection and AlignContainers methods to NodifyEditor
+>	- Added LockSelection and UnlockSelection methods to NodifyEditor and EditorCommands
+>	- Added ItemsMoved routed event to NodifyEditor
+>	- Added HasCustomContextMenu dependency property to NodifyEditor, ItemContainer, Connector and BaseConnection
+>	- Added Select, BeginDragging, UpdateDragging, EndDragging and CancelDragging to ItemContainer
+>	- Added PreserveSelectionOnRightClick configuration field to ItemContainer
+>	- Added BeginConnecting, UpdatePendingConnection, EndConnecting, CancelConnecting and RemoveConnections methods to Connector
+>	- Added FindTargetConnector and FindConnectionTarget methods to Connector
+>	- Added a custom MouseGesture with support for key combinations
+>	- Added InputProcessor to NodifyEditor, ItemContainer, Connector, BaseConnection and Minimap, enabling the extension of controls with custom states
+>	- Added DragState to simplify creating click-and-drag interactions, with support for initiating and completing them using the keyboard
+>	- Added InputElementStateStack, InputElementStateStack.DragState and InputElementStateStack.InputElementState to manage transitions between states in UI elements
+>	- Added InputProcessor.Shared to enable the addition of global input handlers
+>	- Move the viewport to the mouse position when zooming on the Minimap if ResizeToViewport is false
+>	- Added SplitAtLocation and Remove methods to BaseConnection
+>	- Added AllowPanningWhileSelecting, AllowPanningWhileCutting and AllowPanningWhilePushingItems to EditorState
+>	- Added AllowZoomingWhilePanning, AllowZoomingWhileSelecting, AllowZoomingWhileCutting and AllowZoomingWhilePushingItems to EditorState
+>	- Added EnableToggledSelectingMode, EnableToggledPanningMode, EnableToggledPushingItemsMode and EnableToggledCuttingMode to EditorState
+>	- Added MinimapState.EnableToggledPanningMode
+>	- Added ContainerState.EnableToggledDraggingMode
+>	- Added Unbind to InputGestureRef and EditorGestures.SelectionGestures
+>	- Added EnableHitTesting to PendingConnection
+> - Bugfixes:
+>	- Fixed an issue where the ItemContainer was selected by releasing the mouse button on it, even when the mouse was not captured
+>	- Fixed an issue where the ItemContainer could open its context menu even when it was not selected
+>	- Fixed an issue where the Home button caused the editor to fail to display items when contained within a ScrollViewer
+>	- Fixed an issue where connector optimization did not work when SelectedItems was not data-bound
+>	- Fixed EditorCommands.Align to perform a single arrange invalidation instead of one for each aligned container
+>	- Fixed an issue where controls would capture the mouse unnecessarily; they now capture it only in response to a defined gesture
+>	- Fixed an issue where the minimap could update the viewport without having the mouse captured
+>	- Fixed ItemContainer.Select and NodifyEditor.SelectArea to clear the existing selection and select the containers within the same transaction
+>	- Fixed an issue where editor interactions failed to cancel upon losing mouse capture
+>	- Fixed an issue where selecting a new connection would not clear the previous selection within the same transaction
+	
+#### **Version 6.6.0**
+
+> - Features:
+>	- Added InputGroupStyle and OutputGroupStyle to Node
+>	- Added PanWithMouseWheel, PanHorizontalModifierKey and PanVerticalModifierKey to EditorGestures.Editor
+>	- Added CornerRadius dependency property to LineConnection, CircuitConnection and StepConnection
+>	- Added EditorGestures.Editor.PushItems gesture used to start pushing ItemContainers vertically or horizontally
+>	- Added PushedAreaStyle, PushedAreaOrientation and IsPushingItems dependency properties to NodifyEditor
+>	- Added NodifyEditor.SnapToGrid utility function
+> - Bugfixes:
+>	- Fixed ItemContainer.BorderBrush and ItemContainer.SelectedBrush not reacting to theme changes
+
+#### **Version 6.5.0**
+
+> - Features:
+>	- Added SelectedConnection, SelectedConnections, CanSelectMultipleConnections and CanSelectMultipleItems dependency properties to NodifyEditor
+>	- Added IsSelected and IsSelectable attached dependency properties to BaseConnection
+>	- Added PrioritizeBaseConnectionForSelection static field to BaseConnection
+>	- Added EditorGestures.Connection.Selection
+>	- Added support for ScrollViewer in NodifyEditor (implements IScrollInfo)
+>	- Added NodifyEditor.ScrollIncrement dependency property
+
+#### **Version 6.4.0**
+
+> - Features:
+>	- Added OutlineBrush and OutlineThickness dependency properties to BaseConnection to support increasing the selection area without increasing the stroke thickness
+>	- Added IsAnimatingDirectionalArrows and DirectionalArrowsAnimationDuration dependency properties to BaseConnection to support controlling the animation from XAML
+
+#### **Version 6.3.0**
+
+> - Features:
+>	- Added a CuttingLine control that removes intersecting connections
+>	- Added CuttingLineStyle, CuttingStartedCommand, CuttingCompletedCommand, IsCutting, EnableCuttingLinePreview and CuttingConnectionTypes to NodifyEditor
+>	- Added EditorGestures.Editor.Cutting and EditorGestures.Editor.CancelAction
+> - Bugfixes:
+>	- Fixed connection styles not inheriting from the BaseConnection style
+
+#### **Version 6.2.0**
+
+> - Features:
+>	- Added a Minimap control and EditorGestures.Minimap
+>	- Added ContentContainerStyle, HeaderContainerStyle and FooterContainerStyle dependency properties to Node
+>	- Added BringIntoView that takes a Rect parameter to NodifyEditor
+>	- Added the NodifyEditor's DataContext as the parameter of the ItemsSelectStartedCommand, ItemsSelectCompletedCommand, ItemsDragStartedCommand and ItemsDragCompletedCommand commands
+> - Bugfixes:
+>	- Fixed hover effect and padding of NodeInput and NodeOutput for vertical orientation
+>	- Fixed ItemContainers being selected sometimes when double clicking the canvas
+
+#### **Version 6.1.0**
+
+> - Features:
+>	- Added new built-in connection type: StepConnection
+> - Bugfixes:
+>	- Fixed CircuitConnection directional arrows not interpolating correctly
+>	- Fixed BaseConnection SplitEvent and DisconnectEvent not being raised if the corresponding command is null
+>	- Fixed DecoratorContainer scaling with zoom when not referencing a theme in App.xaml
+>	- Fixed style not applying to the default Connection template outside App.xaml
+	
+#### **Version 6.0.0**
+
+> - Breaking Changes:
+>	- Added a parameter for the orientation to DrawArrowGeometry, DrawDefaultArrowhead, DrawRectangleArrowhead and DrawEllipseArrowhead in BaseConnection
+>	- Added source and target parameters to GetTextPosition in BaseConnection
+>	- EditorGestures is now a singleton instead of a static class (can be inherited to create custom mappings)
+>	- Selection gestures for ItemContainer and GroupingNode are now separated from the NodifyEditor selection gestures
+>	- Renamed EditorGestures.Editor.Zoom to ZoomModifierKey
+> - Features:
+>	- Added SourceOrientation and TargetOrientation to BaseConnection to support vertical connectors (vertical/mixed connection orientation)
+>	- Added DirectionalArrowsCount to BaseConnection to allow drawing multipe arrows on a connection flowing in the connection direction
+>	- Added DrawDirectionalArrowsGeometry and DrawDirectionalArrowheadGeometry to BaseConnection to allow customizing the directional arrows
+>	- Improved EditorGestures to allow changing input gestures at runtime
+>	- Added new gesture types: AnyGesture, AllGestures, and InputGestureRef
+>	- Added Orientation dependency property to NodeInput and NodeOutput
+>	- Added DirectionalArrowsOffset dependency property to BaseConnection
+>	- Added StartAnimation and StopAnimation methods to BaseConnection
+> - Bugfixes:
+>	- Fixed BaseConnection.Text not always displaying in the center of the connection
+>	- Fixed a bug where the item container would incorrectly transition to the dragging state on mouse over
+
+#### **Version 5.2.0**
+
+> - Features:
+>	- Added Text to BaseConnection, allowing displaying of text on connections
+>	- Added Foreground, FontSize, FontWeight, FontStyle, FontStretch and FontFamily to BaseConnection, allowing styling the displaying text
+> - Bugfixes:
+>   - Fixed MouseCapture not being released when EnableStickyConnections is enabled and the PendingConnection is canceled by a key gesture 
+
+#### **Version 5.1.0**
+
+> - Features:
+>   - Added ItemContainer.SelectedBorderThickness dependency property
+>   - Added NodifyEditor.GetLocationInsideEditor
+> - Bugfixes:
+>   - Fixed PendingConnection.PreviewTarget not being set to null when there is no actual target
+>   - Fixed PendingConnection.PreviewTarget not being set on Connector.PendingConnectionStartedEvent
+>   - Fixed PendingConnection.PreviewTarget not being set to null on Connector.PendingConnectionCompletedEvent
+>   - Fixed connectors panel not being affected by Node.VerticalAlignment
+>   - Changing BorderThickness causes layout shift when selecting an item container
+>   - Fixed the unintentional movement caused by snapping correction
+
+#### **Version 5.0.2**
+
+> - Bugfixes:
+>   - Fixed NodeOutput content horizontal alignment
+>   - Fixed Connector not opening Context Menu
+
 #### **Version 5.0.1**
 
 > - Bugfixes:
@@ -26,7 +247,6 @@
 >   - Added BaseConnection.ArrowShape dependency property to allow configurable arrowhead shape
 >   - Added NodifyEditor.EnableDraggingContainersOptimizations to allow receiving ItemContainer.Location updates in realtime
 >   - Added ConnectionOffsetMode.Static to allow offsetting the source and target points of the connection on the X and the Y axis without revolving around the source or target points
-> - Bugfixes:
 
 #### **Version 4.1.0**
 

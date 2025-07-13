@@ -79,12 +79,10 @@ namespace Nodify.Playground
 
         public void SplitConnection(ConnectionViewModel connection, Point location)
         {
-            var connector = connection.Output;
-
-            var knot = new KnotNodeViewModel
+            var knot = new KnotNodeViewModel(connection.Output.Node.Orientation)
             {
                 Location = location,
-                Flow = connector.Flow,
+                Flow = connection.Output.Flow,
                 Connector = new ConnectorViewModel
                 {
                     MaxConnections = connection.Output.MaxConnections + connection.Input.MaxConnections,
@@ -93,7 +91,7 @@ namespace Nodify.Playground
             };
             connection.Graph.Nodes.Add(knot);
 
-            AddConnection(connector, knot.Connector);
+            AddConnection(connection.Output, knot.Connector);
             AddConnection(knot.Connector, connection.Input);
 
             connection.Remove();
@@ -110,6 +108,26 @@ namespace Nodify.Playground
             };
 
             nodes[0].Graph.Nodes.Add(comment);
+        }
+
+        /// <summary>
+        /// Rewires all connections from the source connector to the target connector if possible.
+        /// </summary>
+        /// <remarks>The source must be an input connector.</remarks>
+        public void Rewire(ConnectorViewModel source, ConnectorViewModel target)
+        {
+            if (source == target || source.Flow != ConnectorFlow.Input)
+                return;
+
+            var connectionsToRewire = source.Connections.ToList();
+            foreach (var connection in connectionsToRewire)
+            {
+                if (CanAddConnection(connection.Output, target))
+                {
+                    source.Node.Graph.Connections.Remove(connection);
+                    AddConnection(connection.Output, target);
+                }
+            }
         }
     }
 }

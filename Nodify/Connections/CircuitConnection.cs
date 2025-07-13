@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Nodify
@@ -25,34 +26,88 @@ namespace Nodify
         static CircuitConnection()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CircuitConnection), new FrameworkPropertyMetadata(typeof(CircuitConnection)));
+            NodifyEditor.CuttingConnectionTypes.Add(typeof(CircuitConnection));
         }
 
         protected override ((Point ArrowStartSource, Point ArrowStartTarget), (Point ArrowEndSource, Point ArrowEndTarget)) DrawLineGeometry(StreamGeometryContext context, Point source, Point target)
         {
-            double direction = Direction == ConnectionDirection.Forward ? 1d : -1d;
-            var spacing = new Vector(Spacing * direction, 0d);
-            var arrowOffset = new Vector(ArrowSize.Width * direction, 0d);
-            Point endPoint = Spacing > 0 ? target - arrowOffset : target;
-
-            Point p1 = source + spacing;
-            Point p3 = endPoint - spacing;
-            Point p2 = GetControlPoint(p1, p3);
+            var (p0, p1, p2) = GetLinePoints(source, target);
 
             context.BeginFigure(source, false, false);
-            context.LineTo(p1, true, true);
-            context.LineTo(p2, true, true);
-            context.LineTo(p3, true, true);
+            if (CornerRadius > 0)
+            {
+                AddSmoothCorner(context, source, p0, p1, CornerRadius);
+                AddSmoothCorner(context, p0, p1, p2, CornerRadius);
+                AddSmoothCorner(context, p1, p2, target, CornerRadius);
+            }
+            else
+            {
+                context.LineTo(p0, true, true);
+                context.LineTo(p1, true, true);
+                context.LineTo(p2, true, true);
+            }
             context.LineTo(target, true, true);
 
             if (Spacing < 1d)
             {
-                return ((p2, source), (p2, target));
+                return ((p1, source), (p1, target));
             }
 
-            return ((p1, source), (p2, target));
+            return ((p0, source), (p1, target));
         }
 
-        private Point GetControlPoint(Point source, Point target)
+        protected override Point GetTextPosition(FormattedText text, Point source, Point target)
+        {
+            var (p0, p1, p2) = GetLinePoints(source, target);
+
+            Vector deltaSource = p1 - p0;
+            Vector deltaTarget = p2 - p1;
+
+            if (deltaSource.LengthSquared > deltaTarget.LengthSquared)
+            {
+                return new Point((p0.X + p1.X - text.Width) / 2, (p0.Y + p1.Y - text.Height) / 2);
+            }
+
+            return new Point((p2.X + p1.X - text.Width) / 2, (p2.Y + p1.Y - text.Height) / 2);
+        }
+
+        protected override void DrawDirectionalArrowsGeometry(StreamGeometryContext context, Point source, Point target)
+        {
+            var (p0, p1, p2) = GetLinePoints(source, target);
+
+            double spacing = 1d / (DirectionalArrowsCount + 1);
+            for (int i = 1; i <= DirectionalArrowsCount; i++)
+            {
+                double t = (spacing * i + DirectionalArrowsOffset).WrapToRange(0d, 1d);
+                var (segment, to) = InterpolateLine(p0, p1, p2, t);
+
+                var direction = segment.SegmentStart - segment.SegmentEnd;
+                DrawDirectionalArrowheadGeometry(context, direction, to);
+            }
+        }
+
+        private (Point P0, Point P1, Point P2) GetLinePoints(in Point source, in Point target)
+        {
+            double direction = Direction == ConnectionDirection.Forward ? 1d : -1d;
+            var spacing = new Vector(Spacing * direction, 0d);
+            var spacingVertical = new Vector(spacing.Y, spacing.X);
+            var arrowOffset = new Vector(ArrowSize.Width * direction, 0d);
+
+            if (TargetOrientation == Orientation.Vertical)
+            {
+                (arrowOffset.X, arrowOffset.Y) = (arrowOffset.Y, arrowOffset.X);
+            }
+
+            Point endPoint = Spacing > 0 ? target - arrowOffset : target;
+
+            Point p1 = source + (SourceOrientation == Orientation.Vertical ? spacingVertical : spacing);
+            Point p3 = endPoint - (TargetOrientation == Orientation.Vertical ? spacingVertical : spacing);
+            Point p2 = GetControlPoint(p1, p3);
+
+            return (p1, p2, p3);
+        }
+
+        private Point GetControlPoint(in Point source, in Point target)
         {
             Vector delta = target - source;
             double tangent = Math.Tan(Angle * Degrees);

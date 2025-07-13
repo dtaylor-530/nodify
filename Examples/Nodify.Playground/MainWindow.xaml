@@ -8,12 +8,13 @@
         xmlns:nodify="https://miroiu.github.io/nodify"
         mc:Ignorable="d"
         Title="MainWindow"
-        Height="600"
-        Width="1200">
+        Height="700"
+        Width="1300">
 
     <Window.Resources>
         <shared:DebugConverter x:Key="DebugConverter" />
         <shared:ToStringConverter x:Key="ToStringConverter" />
+        <shared:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
     </Window.Resources>
 
     <Window.DataContext>
@@ -42,16 +43,16 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal">
                     <Button Command="{Binding GenerateRandomNodesCommand}"
-                            Content="GENERATE RANDOM NODES"
+                            Content="GENERATE NODES"
                             ToolTip="Generate nodes using the specified settings."
+                            Style="{StaticResource HollowButton}" />
+                    <Button Command="{Binding ToggleConnectionsCommand}"
+                            Content="{Binding ConnectNodesText}"
+                            ToolTip="Will add new connections if Connect Nodes is checked, otherwise it will disconnect nodes."
                             Style="{StaticResource HollowButton}" />
                     <Button Command="{Binding PerformanceTestCommand}"
                             Content="PERFORMANCE TEST"
                             ToolTip="You will encounter rendering performance issues. Try disabling the connections to see the difference."
-                            Style="{StaticResource HollowButton}" />
-                    <Button Command="{Binding ToggleConnectionsCommand}"
-                            Content="CONNECT / DISCONNECT"
-                            ToolTip="Will add new connections if Connect Nodes is checked, otherwise it will disconnect nodes."
                             Style="{StaticResource HollowButton}" />
                     <Button Command="{Binding ResetCommand}"
                             Content="RESET PLAYGROUND"
@@ -69,6 +70,10 @@
                     <Button Command="{Binding GraphViewModel.CommentSelectionCommand}"
                             Content="COMMENT SELECTION"
                             ToolTip="Creates a comment node containing the selected nodes."
+                            Style="{StaticResource HollowButton}" />
+                    <Button Click="AnimateConnections_Click"
+                            Content="TOGGLE CONNECTIONS ANIMATION"
+                            ToolTip="Starts or stops animating the directional arrows on all connections (see DirectionalArrowsCount)"
                             Style="{StaticResource HollowButton}" />
                 </StackPanel>
 
@@ -104,62 +109,76 @@
                 </Style>
             </Expander.Style>
 
-            <ScrollViewer>
-                <Grid IsSharedSizeScope="True"
-                      Width="330">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Margin="0 0 5 10">
+                    <TextBlock Margin="0 0 0 3">Search:</TextBlock>
+                    <TextBox Text="{Binding Source={x:Static local:PlaygroundSettings.Instance}, Path=SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                             Padding="4" />
+                </StackPanel>
+                <ScrollViewer Grid.Row="1">
+                    <Grid IsSharedSizeScope="True"
+                          Width="330">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
 
-                    <Expander Header="Playground Settings"
-                              Padding="0 5 0 0"
-                              BorderThickness="0 0 0 1"
-                              IsExpanded="True"
-                              BorderBrush="{DynamicResource BackgroundBrush}">
-                        <Expander.Style>
-                            <Style TargetType="{x:Type Expander}"
-                                   BasedOn="{StaticResource {x:Type Expander}}">
-                                <Setter Property="Tag"
-                                        Value="{StaticResource ExpandRightIcon}" />
-                                <Style.Triggers>
-                                    <Trigger Property="IsExpanded"
-                                             Value="True">
-                                        <Setter Property="Tag"
-                                                Value="{StaticResource ExpandDownIcon}" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Expander.Style>
+                        <Expander Header="Playground Settings"
+                                  Padding="0 5 0 0"
+                                  BorderThickness="0 0 0 1"
+                                  IsExpanded="True"
+                                  BorderBrush="{DynamicResource BackgroundBrush}">
+                            <Expander.Style>
+                                <Style TargetType="{x:Type Expander}"
+                                       BasedOn="{StaticResource {x:Type Expander}}">
+                                    <Setter Property="Tag"
+                                            Value="{StaticResource ExpandRightIcon}" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsExpanded"
+                                                 Value="True">
+                                            <Setter Property="Tag"
+                                                    Value="{StaticResource ExpandDownIcon}" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Expander.Style>
+                            <Border BorderThickness="1"
+                                    Padding="10"
+                                    HorizontalAlignment="Stretch">
+                                <local:SettingsView Items="{Binding Source={x:Static local:PlaygroundSettings.Instance}, Path=Settings}" />
+                            </Border>
+                        </Expander>
 
-                        <local:PlaygroundSettingsView />
-                    </Expander>
+                        <Expander Header="Editor Settings"
+                                  Padding="0 5 0 0"
+                                  BorderThickness="0 0 0 1"
+                                  IsExpanded="True"
+                                  BorderBrush="{DynamicResource BackgroundBrush}"
+                                  Grid.Row="1">
+                            <Expander.Style>
+                                <Style TargetType="{x:Type Expander}"
+                                       BasedOn="{StaticResource {x:Type Expander}}">
+                                    <Setter Property="Tag"
+                                            Value="{StaticResource ExpandRightIcon}" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsExpanded"
+                                                 Value="True">
+                                            <Setter Property="Tag"
+                                                    Value="{StaticResource ExpandDownIcon}" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Expander.Style>
 
-                    <Expander Header="Editor Settings"
-                              Padding="0 5 0 0"
-                              BorderThickness="0 0 0 1"
-                              IsExpanded="True"
-                              BorderBrush="{DynamicResource BackgroundBrush}"
-                              Grid.Row="1">
-                        <Expander.Style>
-                            <Style TargetType="{x:Type Expander}"
-                                   BasedOn="{StaticResource {x:Type Expander}}">
-                                <Setter Property="Tag"
-                                        Value="{StaticResource ExpandRightIcon}" />
-                                <Style.Triggers>
-                                    <Trigger Property="IsExpanded"
-                                             Value="True">
-                                        <Setter Property="Tag"
-                                                Value="{StaticResource ExpandDownIcon}" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Expander.Style>
-
-                        <local:EditorSettingsView />
-                    </Expander>
-                </Grid>
-            </ScrollViewer>
+                            <local:EditorSettingsView />
+                        </Expander>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
         </Expander>
 
         <!--INFORMATION-->
@@ -178,27 +197,45 @@
                         <Setter Property="Foreground"
                                 Value="{DynamicResource ForegroundBrush}" />
                         <Setter Property="Margin"
-                                Value="0 0 10 0" />
+                                Value="0 0 15 0" />
                     </Style>
                 </Grid.Resources>
 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock ToolTip="The number of selected items.">
                         <TextBlock.Inlines>
-                            <Run Text="Selected: " />
+                            <Run Text="Selected nodes: " />
                             <Run Foreground="YellowGreen"
                                  Text="{Binding GraphViewModel.SelectedNodes.Count, Mode=OneWay}" />
                             <Run Text="/" />
                             <Run Text="{Binding GraphViewModel.Nodes.Count, Mode=OneWay}" />
                         </TextBlock.Inlines>
                     </TextBlock>
-                    <TextBlock ToolTip="The number of connections.">
+                    <TextBlock ToolTip="The number of selected connections.">
                         <TextBlock.Inlines>
-                            <Run Text="Connections: " />
+                            <Run Text="Selected connections: " />
                             <Run Foreground="YellowGreen"
-                                 Text="{Binding GraphViewModel.Connections.Count, Mode=OneWay}" />
+                                 Text="{Binding GraphViewModel.SelectedConnections.Count, Mode=OneWay}" />
+                            <Run Text="/" />
+                            <Run Text="{Binding GraphViewModel.Connections.Count, Mode=OneWay}" />
                         </TextBlock.Inlines>
                     </TextBlock>
+
+                    <Border Visibility="{Binding GraphViewModel.KeyboardNavigationLayer, Converter={StaticResource StringToVisibilityConverter}}"
+                            ToolTip="Press CTRL+[ or CTRL+] in the editor to change the keyboard navigation layer."
+                            Padding="14 0 0 0"
+                            Height="16"
+                            CornerRadius="3"
+                            Background="{DynamicResource PanelBackgroundBrush}"
+                            BorderThickness="1"
+                            BorderBrush="{DynamicResource BorderBrush}">
+                        <TextBlock>
+                            <Run Text="Navigating: " />
+                            <Run Foreground="{DynamicResource ForegroundBrush}"
+                                 Text="{Binding GraphViewModel.KeyboardNavigationLayer, Mode=OneWay}" />
+                        </TextBlock>
+                    </Border>
+
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal"
@@ -222,6 +259,13 @@
                             <Run Text="Zoom: " />
                             <Run Foreground="DodgerBlue"
                                  Text="{Binding Zoom, Mode=OneWay, Converter={StaticResource ToStringConverter}, Source={x:Static local:EditorSettings.Instance}}" />
+                        </TextBlock.Inlines>
+                    </TextBlock>
+                    <TextBlock ToolTip="The estimated frame rate. (my be buggy)">
+                        <TextBlock.Inlines>
+                            <Run Text="FPS: " />
+                            <Run Foreground="LawnGreen"
+                                 Name="FPSText" />
                         </TextBlock.Inlines>
                     </TextBlock>
                 </StackPanel>

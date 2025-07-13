@@ -24,6 +24,19 @@
                       Offset="1" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="FadeOpacityMaskVertical"
+                         StartPoint="0 0"
+                         EndPoint="0 1">
+        <GradientStop Color="#22FFFFFF"
+                      Offset="0" />
+        <GradientStop Color="#88FFFFFF"
+                      Offset="0.3" />
+        <GradientStop Color="#88FFFFFF"
+                      Offset="0.7" />
+        <GradientStop Color="#22FFFFFF"
+                      Offset="1" />
+    </LinearGradientBrush>
+
     <Style TargetType="{x:Type local:NodeOutput}">
         <Setter Property="BorderBrush"
                 Value="DodgerBlue" />
@@ -44,7 +57,8 @@
                                 OpacityMask="{StaticResource FadeOpacityMask}"
                                 Background="{TemplateBinding BorderBrush}" />
 
-                        <StackPanel Orientation="Horizontal"
+                        <StackPanel Orientation="{TemplateBinding Orientation}"
+                                    HorizontalAlignment="Right"
                                     Margin="{TemplateBinding Padding}">
 
                             <ContentPresenter ContentSource="Header" />
@@ -53,12 +67,25 @@
                                      Focusable="False"
                                      Margin="5 0 0 0"
                                      VerticalAlignment="Center"
+                                     HorizontalAlignment="Center"
                                      Background="Transparent"
                                      BorderBrush="{TemplateBinding BorderBrush}"
                                      Template="{TemplateBinding ConnectorTemplate}" />
                         </StackPanel>
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="Orientation"
+                                 Value="Vertical">
+                            <Setter TargetName="PART_Connector"
+                                    Property="Margin"
+                                    Value="0 5 0 0" />
+                            <Setter Property="Padding"
+                                    Value="2 4" />
+                            <Setter TargetName="Highlight"
+                                    Property="OpacityMask"
+                                    Value="{StaticResource FadeOpacityMaskVertical}" />
+                        </Trigger>
+
                         <Trigger Property="IsConnected"
                                  Value="True">
                             <Setter TargetName="PART_Connector"

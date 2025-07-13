@@ -1,4 +1,6 @@
-﻿namespace Nodify.Playground
+﻿using System.Windows.Controls;
+
+namespace Nodify.Playground
 {
     public class PendingConnectionViewModel : ObservableObject
     {
@@ -13,7 +15,13 @@
         public ConnectorViewModel? Source
         {
             get => _source;
-            set => SetProperty(ref _source, value);
+            set
+            {
+                if(SetProperty(ref _source, value))
+                {
+                    SetTargetOrientation();
+                }
+            }
         }
 
         private object? _previewTarget;
@@ -29,11 +37,18 @@
             }
         }
 
-        private string _previewText = "Drop on connector";
-        public string PreviewText
+        private string? _previewText;
+        public string? PreviewText
         {
             get => _previewText;
             set => SetProperty(ref _previewText, value);
+        }
+
+        private Orientation _targetOrientation;
+        public Orientation TargetOrientation
+        {
+            get => _targetOrientation;
+            set => SetProperty(ref _targetOrientation, value);
         }
 
         protected virtual void OnPreviewTargetChanged()
@@ -44,7 +59,20 @@
                 ConnectorViewModel con when con == Source => $"Can't connect to self",
                 ConnectorViewModel con => $"{(canConnect ? "Connect" : "Can't connect")} to {con.Title ?? "pin"}",
                 FlowNodeViewModel flow => $"{(canConnect ? "Connect" : "Can't connect")} to {flow.Title ?? "node"}",
-                _ => $"Drop on connector"
+                _ => null
+            };
+
+            SetTargetOrientation();
+        }
+
+        private void SetTargetOrientation()
+        {
+            TargetOrientation = PreviewTarget switch
+            {
+                ConnectorViewModel con when con.Node is FlowNodeViewModel flow => flow.Orientation,
+                FlowNodeViewModel flow => flow.Orientation,
+                NodifyEditorViewModel editor when Source?.Node is FlowNodeViewModel flow => flow.Orientation,
+                _ => Orientation.Horizontal,
             };
         }
     }

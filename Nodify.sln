@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.4.33403.182
+VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nodify", "Nodify\Nodify.csproj", "{A4349FD1-2774-42F2-90FD-7D8F4CA8BB71}"
 EndProject
@@ -26,6 +26,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nodify.ViewModel.Extra", "Nodify.Extra\Nodify.ViewModel.Extra.csproj", "{917B57DF-B395-457E-BDA2-3CFD73C96E7B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nodify.Abstractions", "Nodify.Abstractions\Nodify.Abstractions.csproj", "{301047AF-3249-4C05-94F7-C9EC1E16F7A6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{88D231A7-D09F-492F-887F-DDBC46398284}"
+	ProjectSection(SolutionItems) = preProject
+		CHANGELOG.md = CHANGELOG.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nodify.Shapes", "Examples\Nodify.Shapes\Nodify.Shapes.csproj", "{BAD92DB9-BDCA-4BB7-8F24-B7D3FE470476}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +59,7 @@ Global
 		{7ADD1DAF-B589-4742-8E72-872D2842E73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7ADD1DAF-B589-4742-8E72-872D2842E73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7ADD1DAF-B589-4742-8E72-872D2842E73D}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{333F528E-1490-4437-AB3A-41CD7F987B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{333F528E-1490-4437-AB3A-41CD7F987B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{333F528E-1490-4437-AB3A-41CD7F987B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -77,6 +84,12 @@ Global
 		{301047AF-3249-4C05-94F7-C9EC1E16F7A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{301047AF-3249-4C05-94F7-C9EC1E16F7A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{301047AF-3249-4C05-94F7-C9EC1E16F7A6}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+		{BAD92DB9-BDCA-4BB7-8F24-B7D3FE470476}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAD92DB9-BDCA-4BB7-8F24-B7D3FE470476}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAD92DB9-BDCA-4BB7-8F24-B7D3FE470476}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAD92DB9-BDCA-4BB7-8F24-B7D3FE470476}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> nodify_master
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,7 +98,11 @@ Global
 		{423D54CA-9F42-4116-8755-13641F94151D} = {E467F53A-3CCA-4EDB-BD33-FC89CA3C526B}
 		{48569CA8-81C1-4B47-963B-0FC9358C5F01} = {E467F53A-3CCA-4EDB-BD33-FC89CA3C526B}
 		{7ADD1DAF-B589-4742-8E72-872D2842E73D} = {E467F53A-3CCA-4EDB-BD33-FC89CA3C526B}
+<<<<<<< HEAD
 		{8E2E0010-1889-4A9F-B4A1-022F1EB9028E} = {E467F53A-3CCA-4EDB-BD33-FC89CA3C526B}
+=======
+		{BAD92DB9-BDCA-4BB7-8F24-B7D3FE470476} = {E467F53A-3CCA-4EDB-BD33-FC89CA3C526B}
+>>>>>>> nodify_master
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B9E59DB6-FB93-48F3-A8E0-1E549009E043}
