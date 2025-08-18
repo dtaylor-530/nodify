@@ -147,6 +147,7 @@ namespace Nodify
         public static readonly DependencyProperty IsSelectableProperty = DependencyProperty.RegisterAttached("IsSelectable", typeof(bool), typeof(BaseConnection), new FrameworkPropertyMetadata(BoxValue.False));
         public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.RegisterAttached("IsSelected", typeof(bool), typeof(BaseConnection), new FrameworkPropertyMetadata(BoxValue.False, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnIsSelectedChanged));
         public static readonly DependencyProperty HasCustomContextMenuProperty = NodifyEditor.HasCustomContextMenuProperty.AddOwner(typeof(BaseConnection));
+        public static readonly DependencyProperty LoopCountProperty = DependencyProperty.Register("LoopCount", typeof(int?), typeof(BaseConnection), new PropertyMetadata(null));
 
         private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -469,6 +470,15 @@ namespace Nodify
             set => SetValue(HasCustomContextMenuProperty, value);
         }
 
+
+
+        public int? LoopCount
+        {
+            get { return (int?)GetValue(LoopCountProperty); }
+            set { SetValue(LoopCountProperty, value); }
+        }
+
+     
         /// <summary>
         /// Gets a value indicating whether the connection has a context menu.
         /// </summary>
@@ -843,7 +853,7 @@ namespace Nodify
         public void StartAnimation(double duration = 1.5d)
         {
             StopAnimation();
-            this.StartLoopingAnimation(DirectionalArrowsOffsetProperty, DirectionalArrowsOffset + 1d, duration);
+            this.StartLoopingAnimation(DirectionalArrowsOffsetProperty, DirectionalArrowsOffset + 1d, duration, LoopCount);
         }
 
         /// <summary>Stops the animation started by <see cref="StartAnimation(double)"/></summary>
