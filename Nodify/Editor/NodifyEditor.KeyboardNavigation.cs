@@ -11,6 +11,18 @@ namespace Nodify
 {
     public partial class NodifyEditor : IKeyboardNavigationLayer, IKeyboardNavigationLayerGroup
     {
+
+
+        public bool AutoPanOnNodeFocus
+        {
+            get { return (bool)GetValue(AutoPanOnNodeFocusProperty); }
+            set { SetValue(AutoPanOnNodeFocusProperty, value); }
+        }
+
+        public static readonly DependencyProperty AutoPanOnNodeFocusProperty =
+            DependencyProperty.Register("AutoPanOnNodeFocus", typeof(bool), typeof(NodifyEditor), new PropertyMetadata(true));
+
+
         /// <summary>
         /// Gets or sets the default viewport edge offset applied when bringing an item into view as a result of keyboard focus. 
         /// </summary>
@@ -24,8 +36,7 @@ namespace Nodify
         /// <summary>
         /// Automatically pan the viewport when a node is focused via keyboard navigation.
         /// </summary>
-        public static bool AutoPanOnNodeFocus { get; set; } = true;
-
+        //public static bool AutoPanOnNodeFocus { get => autoPanOnNodeFocus; set => autoPanOnNodeFocus = value; }
         /// <summary>
         /// Automatically registers the decorators layer for keyboard navigation.
         /// </summary>
@@ -57,6 +68,7 @@ namespace Nodify
 
         private readonly List<IKeyboardNavigationLayer> _navigationLayers = new List<IKeyboardNavigationLayer>();
         private IKeyboardNavigationLayer? _activeKeyboardNavigationLayer;
+        private static bool autoPanOnNodeFocus = true;
 
         #region Focus Handling
 

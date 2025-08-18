@@ -14,6 +14,8 @@
 
     <Style x:Key="DefaultHeaderContainerStyle"
            TargetType="Border">
+        <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
         <Setter Property="CornerRadius"
                 Value="3 3 0 0" />
         <Setter Property="Padding"

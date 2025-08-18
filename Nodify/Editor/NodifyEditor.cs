@@ -4,11 +4,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using Size = System.Windows.Size;
 
 namespace Nodify
 {
@@ -45,7 +47,13 @@ namespace Nodify
         public static readonly DependencyProperty MinViewportZoomProperty = DependencyProperty.Register(nameof(MinViewportZoom), typeof(double), typeof(NodifyEditor), new FrameworkPropertyMetadata(0.1d, OnMinViewportZoomChanged, CoerceMinViewportZoom));
         public static readonly DependencyProperty MaxViewportZoomProperty = DependencyProperty.Register(nameof(MaxViewportZoom), typeof(double), typeof(NodifyEditor), new FrameworkPropertyMetadata(BoxValue.Double2, OnMaxViewportZoomChanged, CoerceMaxViewportZoom));
         public static readonly DependencyProperty ViewportLocationProperty = DependencyProperty.Register(nameof(ViewportLocation), typeof(Point), typeof(NodifyEditor), new FrameworkPropertyMetadata(BoxValue.Point, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnViewportLocationChanged));
-        public static readonly DependencyProperty ViewportSizeProperty = DependencyProperty.Register(nameof(ViewportSize), typeof(Size), typeof(NodifyEditor), new FrameworkPropertyMetadata(BoxValue.Size));
+        public static readonly DependencyProperty ViewportSizeProperty = DependencyProperty.Register(nameof(ViewportSize), typeof(Size), typeof(NodifyEditor), new FrameworkPropertyMetadata(BoxValue.Size, changed));
+
+        private static void changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var editor = (NodifyEditor)d;
+        }
+
         public static readonly DependencyProperty ItemsExtentProperty = DependencyProperty.Register(nameof(ItemsExtent), typeof(Rect), typeof(NodifyEditor), new FrameworkPropertyMetadata(BoxValue.Rect, OnItemsExtentChanged));
         public static readonly DependencyProperty DecoratorsExtentProperty = DependencyProperty.Register(nameof(DecoratorsExtent), typeof(Rect), typeof(NodifyEditor), new FrameworkPropertyMetadata(BoxValue.Rect));
 
@@ -353,6 +361,14 @@ namespace Nodify
         public static readonly DependencyProperty DisableZoomingProperty = DependencyProperty.Register(nameof(DisableZooming), typeof(bool), typeof(NodifyEditor), new FrameworkPropertyMetadata(BoxValue.False));
         public static readonly DependencyProperty HasCustomContextMenuProperty = DependencyProperty.Register(nameof(HasCustomContextMenu), typeof(bool), typeof(NodifyEditor), new FrameworkPropertyMetadata(BoxValue.False));
         public static readonly DependencyProperty DecoratorsProperty = DependencyProperty.Register(nameof(Decorators), typeof(IEnumerable), typeof(NodifyEditor));
+        public static readonly DependencyProperty ArrangementProperty =    DependencyProperty.Register("Arrangement", typeof(Arrangement), typeof(NodifyEditor), new PropertyMetadata());
+
+        public Arrangement Arrangement
+        {
+            get { return (Arrangement)GetValue(ArrangementProperty); }
+            set { SetValue(ArrangementProperty, value); }
+        }
+
 
         private static object OnCoerceGridCellSize(DependencyObject d, object value)
             => (uint)value > 0u ? value : BoxValue.UInt1;
@@ -778,7 +794,9 @@ namespace Nodify
         /// <remarks>Does nothing if <paramref name="area"/> is null and there's no items.</remarks>
         public void FitToScreen(Rect? area = null)
         {
-            Rect extent = area ?? ItemsExtent;
+            var itemsExtent = ItemsExtent;
+            //Rect extent = area ?? CalculateValidItemsExtent();
+            Rect extent = area ?? itemsExtent;
             extent.Inflate(FitToScreenExtentMargin, FitToScreenExtentMargin);
 
             if (extent.Width > 0 && extent.Height > 0)
@@ -972,6 +990,8 @@ namespace Nodify
             ViewportSize = new Size(ActualWidth / zoom, ActualHeight / zoom);
 
             OnViewportUpdated();
+
+            FitToScreen();
         }
 
         #region Utilities

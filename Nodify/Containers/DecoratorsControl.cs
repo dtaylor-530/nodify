@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace Nodify
 {
@@ -121,7 +122,7 @@ namespace Nodify
 
         protected virtual void OnElementFocused(IKeyboardFocusTarget<DecoratorContainer> target)
         {
-            if (NodifyEditor.AutoPanOnNodeFocus)
+            if (Editor?.AutoPanOnNodeFocus ==true)
             {
                 Editor?.BringIntoView(target.Bounds, NodifyEditor.BringIntoViewEdgeOffset);
             }

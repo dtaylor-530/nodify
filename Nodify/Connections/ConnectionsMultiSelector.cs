@@ -159,7 +159,7 @@ namespace Nodify
 
         protected virtual void OnElementFocused(IKeyboardFocusTarget<ConnectionContainer> target)
         {
-            if (NodifyEditor.AutoPanOnNodeFocus)
+            if (Editor?.AutoPanOnNodeFocus == true)
             {
                 Editor?.BringIntoView(target.Bounds, NodifyEditor.BringIntoViewEdgeOffset);
             }

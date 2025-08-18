@@ -74,7 +74,7 @@ namespace Nodify.Interactivity
                     if (Keyboard.FocusedElement is ItemContainer itemContainer)
                     {
                         itemContainer.Select(SelectionType.Invert);
-                        if (NodifyEditor.AutoPanOnNodeFocus)
+                        if (Element.AutoPanOnNodeFocus)
                         {
                             Element.BringIntoView(itemContainer.Bounds, NodifyEditor.BringIntoViewEdgeOffset);
                         }
@@ -82,7 +82,7 @@ namespace Nodify.Interactivity
                     else if (Keyboard.FocusedElement is ConnectionContainer connectionContainer)
                     {
                         connectionContainer.Select(SelectionType.Invert);
-                        if (NodifyEditor.AutoPanOnNodeFocus)
+                        if (Element.AutoPanOnNodeFocus)
                         {
                             Element.BringIntoView(connectionContainer.Bounds, NodifyEditor.BringIntoViewEdgeOffset);
                         }
