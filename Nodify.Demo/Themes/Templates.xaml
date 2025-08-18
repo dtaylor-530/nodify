@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:shared="clr-namespace:Nodify;assembly=Nodify.Shared"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:core="clr-namespace:Nodify.Core;assembly=Nodify.Core"
+                    xmlns:core="clr-namespace:Nodify.Core;assembly=Nodify.ViewModel.Core"
                     xmlns:local="clr-namespace:Nodify.Demo"
-                    xmlns:extra="clr-namespace:Nodify.Extra;assembly=Nodify.Extra"
+                    xmlns:extra="clr-namespace:Nodify.Extra;assembly=Nodify.ViewModel.Extra"
                     xmlns:nodify="https://miroiu.github.io/nodify">
 
     <DataTemplate DataType="{x:Type core:MenuViewModel}">

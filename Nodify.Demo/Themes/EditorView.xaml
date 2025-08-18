@@ -6,10 +6,10 @@
                      xmlns:st="http://schemas.spicytaco.io/"
              xmlns:local="clr-namespace:Nodify.Demo"
              xmlns:op="clr-namespace:Nodify.Demo"
-             xmlns:core="clr-namespace:Nodify.Core;assembly=Nodify.Core"
+             xmlns:core="clr-namespace:Nodify.Core;assembly=Nodify.ViewModel.Core"
              xmlns:nodify="https://miroiu.github.io/nodify"
-             xmlns:shared="clr-namespace:Nodify;assembly=Nodify.Shared"           
-             mc:Ignorable="d">
+             xmlns:shared="clr-namespace:Nodify;assembly=Nodify.Shared" xmlns:core1="clr-namespace:Nodify.Core;assembly=Nodify.ViewModel.Core"
+                     mc:Ignorable="d">
 
     <Style x:Key="ItemContainerStyle"
                TargetType="{x:Type nodify:ItemContainer}"

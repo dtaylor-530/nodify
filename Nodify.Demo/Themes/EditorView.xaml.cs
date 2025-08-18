@@ -11,7 +11,7 @@ namespace Nodify.Demo
         public EditorView()
         {
             EventManager.RegisterClassHandler(typeof(NodifyEditor), UIElement.MouseLeftButtonDownEvent, new MouseButtonEventHandler(CloseOperationsMenu));
-            EventManager.RegisterClassHandler(typeof(ItemContainer), ItemContainer.DragStartedEvent, new RoutedEventHandler(CloseOperationsMenu));
+            //EventManager.RegisterClassHandler(typeof(ItemContainer), ItemContainer.DragStartedEvent, new RoutedEventHandler(CloseOperationsMenu));
             EventManager.RegisterClassHandler(typeof(NodifyEditor), UserControl.MouseRightButtonUpEvent, new MouseButtonEventHandler(OpenOperationsMenu));
         }
 
