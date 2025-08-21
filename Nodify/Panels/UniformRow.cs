@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Utility.WPF.Panels
@@ -29,7 +31,7 @@ namespace Utility.WPF.Panels
             return MeasureOverride(constraint, InternalChildren, ItemMargin);
         }
 
-        public static Size MeasureOverride(Size constraint, UIElementCollection internalChildren, double itemMargin = 5.0)
+        public static Size MeasureOverride(Size constraint, IList internalChildren, double itemMargin = 5.0)
         {
             if (internalChildren.Count == 0)
                 return new Size(0, 0);
@@ -49,7 +51,7 @@ namespace Utility.WPF.Panels
             // Measure each child, keeping track of maximum desired width and height.
             for (int i = 0; i < internalChildren.Count; i++)
             {
-                UIElement child = internalChildren[i];
+                UIElement child = internalChildren[i] as UIElement;
 
                 if (child.Visibility == Visibility.Collapsed)
                     continue;
@@ -79,7 +81,7 @@ namespace Utility.WPF.Panels
             return ArrangeOverride(InternalChildren, arrangeSize, ItemMargin);
         }
 
-        public static Size ArrangeOverride(UIElementCollection internalChildren, Size arrangeSize, double itemMargin = 5.0)
+        public static Size ArrangeOverride(IList internalChildren, Size arrangeSize, double itemMargin = 5.0)
         {
             if (internalChildren.Count == 0)
                 return arrangeSize;
@@ -124,7 +126,7 @@ namespace Utility.WPF.Panels
             return arrangeSize;
         }
 
-        private static int GetVisibleChildrenCount(UIElementCollection internalChildren)
+        private static int GetVisibleChildrenCount(IList internalChildren)
         {
             int count = 0;
             foreach (UIElement child in internalChildren)

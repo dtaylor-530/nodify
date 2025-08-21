@@ -87,7 +87,7 @@ namespace Utility.Structs
             stringBuilder.Remove(stringBuilder.Length - 1, 1);
             return stringBuilder.ToString();
         }
-        private static int[] ParseKeyToPath(string key)
+        public static int[] ParseKeyToPath(string key)
         {
             if (string.IsNullOrWhiteSpace(key))
                 return Array.Empty<int>();

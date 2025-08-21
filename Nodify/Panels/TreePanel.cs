@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -98,7 +99,7 @@ namespace Utility.WPF.Panels
             return finalSize;
         }
 
-        public static List<TreeNode> BuildTreeStructure(UIElementCollection Children, string? KeyPropertyName = null)
+        public static List<TreeNode> BuildTreeStructure(IEnumerable Children, string? KeyPropertyName = null)
         {
             var allNodes = new List<TreeNode>();
 
@@ -139,7 +140,7 @@ namespace Utility.WPF.Panels
         }
 
 
-        private static ITreeIndex GetTreeItem(UIElement element, string? KeyPropertyName = null)
+        public static ITreeIndex GetTreeItem(UIElement element, string? KeyPropertyName = null)
         {
             if (element is ITreeIndex directItem)
                 return directItem;
@@ -150,7 +151,8 @@ namespace Utility.WPF.Panels
                 var key = property.GetValue(element) as string;
                 if (key != null)
                 {
-                    return new TreeNode((Utility.Structs.Index)key) { Element = element };
+                    if (Utility.Structs.Index.ParseKeyToPath(key) is { } arr && arr.Length > 0)
+                        return new TreeNode((Utility.Structs.Index)key) { Element = element };
                 }
             }
             else if (element is FrameworkElement _fe && _fe.DataContext.GetType().GetProperties().FirstOrDefault(p => p.Name == KeyPropertyName) is { } _property)
@@ -158,10 +160,14 @@ namespace Utility.WPF.Panels
                 var key = _property.GetValue(_fe.DataContext) as string;
                 if (key != null)
                 {
-                    return new TreeNode((Utility.Structs.Index)key) { Element = element };
+                    if (Utility.Structs.Index.ParseKeyToPath(key) is { } arr && arr.Length > 0)
+                    {
+                        return new TreeNode((Utility.Structs.Index)key) { Element = element };
+                    }
                 }
             }
-            throw new Exception($"Element of type {element.GetType()} does not implement ITreeIndex or have a valid DataContext with ITreeIndex or KeyPropertyName '{KeyPropertyName}'.");
+            return null;
+            //throw new Exception($"Element of type {element.GetType()} does not implement ITreeIndex or have a valid DataContext with ITreeIndex or KeyPropertyName '{KeyPropertyName}'.");
         }
 
 
@@ -201,8 +207,8 @@ namespace Utility.WPF.Panels
                 var elementSize = node.Element.DesiredSize;
                 double x = level * IndentSize;
                 node.Element.Arrange(new Rect(x, currentY, elementSize.Width, elementSize.Height));
-       
- 
+
+
 
                 if (node.Element is ILocation location)
                 {
