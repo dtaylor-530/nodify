@@ -310,9 +310,9 @@ namespace Nodify
 
             if (element is FrameworkElement { DataContext: { } dataContext } _fe)
             {
-                var data = dataContext.GetType().GetProperty("Data").GetValue(dataContext);
-                var str = data.GetType().ToString();
-                if (str.Contains("Observable"))
+                var data = dataContext.GetType().GetProperty("Data")?.GetValue(dataContext);
+                var str = data?.GetType().ToString();
+                if (str?.Contains("Observable")==true)
                     return ItemPositionType.Left;
             }
             return ItemPositionType.Center;

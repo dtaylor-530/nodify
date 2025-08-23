@@ -59,7 +59,7 @@ namespace Nodify
             double minX = double.MaxValue;
             double minY = double.MaxValue;
 
-            double maxX = double.MinValue;
+            double maxX = 0;
             double maxY = double.MinValue;
 
             var halfWidth = finalSize.Width / 2;

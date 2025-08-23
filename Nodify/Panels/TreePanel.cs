@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using Size = System.Windows.Size;
 
 namespace Utility.WPF.Panels
@@ -133,6 +130,8 @@ namespace Utility.WPF.Panels
                 else if (node.Level > 1)
                 {
                     var parent = FindParentNode(allNodes, node.Index);
+                    if (parent == null)
+                        throw new Exception("asd34ddd");
                     parent?.Children.Add(node);
                 }
             }
