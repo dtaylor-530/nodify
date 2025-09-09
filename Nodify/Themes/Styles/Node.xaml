@@ -101,7 +101,20 @@
                                                   ItemsSource="{TemplateBinding Input}"
                                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                   ItemTemplate="{TemplateBinding InputConnectorTemplate}"
-                                                  Focusable="False" />
+                                                  Focusable="False" >
+                                        <!--<ItemsControl.Style>
+                                            <Style TargetType="ItemsControl">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsConnectorsReversed}" Value="True">
+                                                        <Setter Property="ItemsSource" Value="{Binding Output}"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsConnectorsReversed}" Value="False">
+                                                        <Setter Property="ItemsSource" Value="{Binding Input}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ItemsControl.Style>-->
+                                    </ItemsControl>
 
                                     <!--Content-->
                                     <Border Grid.Column="1"
