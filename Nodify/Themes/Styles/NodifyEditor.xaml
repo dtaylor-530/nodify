@@ -70,9 +70,10 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             ClipToBounds="True">
                         <Canvas RenderTransform="{TemplateBinding ViewportTransform}">
+ 
                             <!--<local:NodifyCanvas x:Name="PART_ItemsHost"
                                                 IsItemsHost="True"
-                                                Arrangement="{Binding Arrangement, RelativeSource={RelativeSource TemplatedParent}}"
+                                            
                                                 Extent="{Binding ItemsExtent, Mode=OneWayToSource, RelativeSource={RelativeSource TemplatedParent}}" />-->
                             <local:CompositePanel x:Name="PART_ItemsHost"
                                                 IsItemsHost="True"                                             

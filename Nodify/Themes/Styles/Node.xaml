@@ -63,6 +63,7 @@
                 Value="{StaticResource DefaultHeaderContainerStyle}" />
         <Setter Property="FooterContainerStyle"
                 Value="{StaticResource DefaultFooterContainerStyle}" />
+        <Setter Property="IsConnectorsReversed" Value="{Binding IsConnectorsReversed}"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:Node}">
@@ -77,7 +78,6 @@
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-
                             <!--Header-->
                             <Border Visibility="{TemplateBinding HasHeader, Converter={StaticResource BooleanToVisibilityConverter}}"
                                     Background="{TemplateBinding HeaderBrush}"
@@ -87,7 +87,7 @@
                             </Border>
 
                             <!--Body-->
-                            <Border Style="{TemplateBinding ContentContainerStyle}"
+                       <Border Style="{TemplateBinding ContentContainerStyle}"
                                     Grid.Row="1">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -102,20 +102,8 @@
                                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                   ItemTemplate="{TemplateBinding InputConnectorTemplate}"
                                                   Focusable="False" >
-                                        <!--<ItemsControl.Style>
-                                            <Style TargetType="ItemsControl">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsConnectorsReversed}" Value="True">
-                                                        <Setter Property="ItemsSource" Value="{Binding Output}"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding IsConnectorsReversed}" Value="False">
-                                                        <Setter Property="ItemsSource" Value="{Binding Input}"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ItemsControl.Style>-->
                                     </ItemsControl>
-
+                                    
                                     <!--Content-->
                                     <Border Grid.Column="1"
                                             Padding="16 0 16 0"
@@ -130,8 +118,10 @@
                                                   ItemTemplate="{TemplateBinding OutputConnectorTemplate}"
                                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                   HorizontalContentAlignment="Right"
-                                                  Grid.Column="2"
-                                                  Focusable="False" />
+                                            
+                                                  Focusable="False" >
+                                    
+                                    </ItemsControl>
                                 </Grid>
                             </Border>
 
@@ -148,6 +138,88 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Orientation}" Value="Horizontal">
+                <Setter Property="Template" >
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type local:Node}">
+                            <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="3">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--Header-->
+                                    <Border Visibility="{TemplateBinding HasHeader, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Background="{TemplateBinding HeaderBrush}"
+                                    Style="{TemplateBinding HeaderContainerStyle}"
+                                    Grid.RowSpan="3">
+                                        <ContentPresenter ContentSource="Header" />
+                                    </Border>
+
+                                    <!--Body-->
+                                    <Border Style="{TemplateBinding ContentContainerStyle}"
+                                    Grid.Column="1">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!--Data IN-->
+                                            <ItemsControl x:Name="PART_Input"
+                                                  ItemsSource="{TemplateBinding Input}"
+                                                  VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                                  ItemTemplate="{TemplateBinding InputConnectorTemplate}"
+                                                  Grid.Column="0"
+                                                  Focusable="False" >
+                            
+                                            </ItemsControl>
+
+                                            <!--Content-->
+                                            <Border Grid.Column="1"
+                                            Padding="16 0 16 0"
+                                            Background="{TemplateBinding ContentBrush}">
+                                                <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                                            </Border>
+
+                                            <!--Data OUT-->
+                                            <ItemsControl x:Name="PART_Output"
+                                                  ItemsSource="{TemplateBinding Output}"
+                                                  ItemTemplate="{TemplateBinding OutputConnectorTemplate}"
+                                                  VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                                  HorizontalContentAlignment="Right"
+                                                  Grid.Column="2"
+                                                  Focusable="False" >
+                               
+                                            </ItemsControl>
+                                        </Grid>
+                                    </Border>
+
+                                    <!--Footer-->
+                                    <Border Visibility="{TemplateBinding HasFooter, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                    Background="{TemplateBinding FooterBrush}"
+                                    Style="{TemplateBinding FooterContainerStyle}"
+                                    Grid.Column="2"
+                                    Grid.RowSpan="3">
+                                        <ContentPresenter ContentSource="Footer" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

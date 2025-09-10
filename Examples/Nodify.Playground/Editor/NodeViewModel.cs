@@ -20,6 +20,8 @@ namespace Nodify.Playground
             set => SetProperty(ref _location, value);
         }
 
+        public bool IsConnectorsReversed => Orientation == Orientation.Horizontal;
+
         public Orientation Orientation { get; protected set; }
 
         public ICommand DeleteCommand { get; }

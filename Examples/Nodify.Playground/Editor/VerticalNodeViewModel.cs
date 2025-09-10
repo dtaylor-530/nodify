@@ -6,7 +6,7 @@ namespace Nodify.Playground
     {
         public VerticalNodeViewModel()
         {
-            Orientation = Orientation.Vertical;
+            Orientation = Orientation.Horizontal;
         }
     }
 }

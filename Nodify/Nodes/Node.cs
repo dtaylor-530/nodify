@@ -36,6 +36,14 @@ namespace Nodify
         public static readonly DependencyProperty ContentContainerStyleProperty = DependencyProperty.Register(nameof(ContentContainerStyle), typeof(Style), typeof(Node));
         public static readonly DependencyProperty HeaderContainerStyleProperty = DependencyProperty.Register(nameof(HeaderContainerStyle), typeof(Style), typeof(Node));
         public static readonly DependencyProperty FooterContainerStyleProperty = DependencyProperty.Register(nameof(FooterContainerStyle), typeof(Style), typeof(Node));
+        public static readonly DependencyProperty IsConnectorsReversedProperty = DependencyProperty.Register(nameof(IsConnectorsReversed), typeof(bool), typeof(Node), new PropertyMetadata());
+
+
+        public bool IsConnectorsReversed
+        {
+            get { return (bool)GetValue(IsConnectorsReversedProperty); }
+            set { SetValue(IsConnectorsReversedProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the brush used for the background of the <see cref="ContentControl.Content"/> of this <see cref="Node"/>.

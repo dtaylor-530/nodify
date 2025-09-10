@@ -526,8 +526,8 @@
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type local:VerticalNodeViewModel}">
-                    <nodify:Node Header="{Binding Input}"
-                                 Footer="{Binding Output}"
+                    <nodify:Node Header="{Binding Output}"
+                                 Footer="{Binding Input}"
                                  Content="{Binding Title}">
                         <nodify:Node.ContentTemplate>
                             <DataTemplate>
@@ -541,12 +541,12 @@
                                               Focusable="False">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate DataType="{x:Type local:ConnectorViewModel}">
-                                            <nodify:NodeInput Orientation="Vertical" />
+                                            <nodify:NodeInput Orientation="Horizontal" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal"
+                                            <StackPanel Orientation="Vertical"
                                                         HorizontalAlignment="Center" />
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
@@ -559,12 +559,12 @@
                                               Focusable="False">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate DataType="{x:Type local:ConnectorViewModel}">
-                                            <nodify:NodeOutput Orientation="Vertical" />
+                                            <nodify:NodeOutput Orientation="Horizontal" />
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal"
+                                            <StackPanel Orientation="Vertical"
                                                         HorizontalAlignment="Center" />
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>

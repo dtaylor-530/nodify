@@ -24,7 +24,7 @@ namespace Nodify
     public class NodifyGroupedCanvas : Panel
     {
         const int RowSpace = 100;
-        const int ColumnSpace = 200;
+        const int ColumnSpace = 400;
         const int GroupRowSpacing = 150; // Extra spacing between groups
         const int TypeColumnSpacing = 50; // Spacing between left/right type columns
 
@@ -60,7 +60,7 @@ namespace Nodify
 
 
 
-        public static readonly DependencyProperty ExtentProperty = DependencyProperty.Register(nameof(Extent), typeof(Rect), typeof(NodifyCanvas), new FrameworkPropertyMetadata(BoxValue.Rect));
+        public static readonly DependencyProperty ExtentProperty = DependencyProperty.Register(nameof(Extent), typeof(Rect), typeof(NodifyGroupedCanvas), new FrameworkPropertyMetadata(BoxValue.Rect));
 
         /// <summary>The area covered by the children of this panel.</summary>
         public Rect Extent
@@ -312,7 +312,9 @@ namespace Nodify
             {
                 var data = dataContext.GetType().GetProperty("Data")?.GetValue(dataContext);
                 var str = data?.GetType().ToString();
-                if (str?.Contains("Observable")==true)
+                if (str?.Contains("Observable") == true)
+                    return ItemPositionType.Left;
+                if (str?.Contains("Ref5") == true)
                     return ItemPositionType.Left;
             }
             return ItemPositionType.Center;
