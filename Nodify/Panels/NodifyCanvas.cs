@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using Nodify.Panels;
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
-using Utility.WPF.Panels;
 
 namespace Nodify
 {

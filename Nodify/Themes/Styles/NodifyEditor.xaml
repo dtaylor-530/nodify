@@ -76,7 +76,8 @@
                                             
                                                 Extent="{Binding ItemsExtent, Mode=OneWayToSource, RelativeSource={RelativeSource TemplatedParent}}" />-->
                             <local:CompositePanel x:Name="PART_ItemsHost"
-                                                IsItemsHost="True"                                             
+                                                IsItemsHost="True"       
+                                                Converter="{TemplateBinding Converter}"
                                                 Extent="{Binding ItemsExtent, Mode=OneWayToSource, RelativeSource={RelativeSource TemplatedParent}}" />
 
                             <local:ConnectionsMultiSelector  x:Name="PART_ConnectionsHost"
@@ -175,7 +176,7 @@
                                 </local:CuttingLine.EndPoint>
                             </local:CuttingLine>
 
-                            <local:DecoratorsControl ItemsSource="{TemplateBinding Decorators}"
+                            <local:DecoratorsControl ItemsSource="{TemplateBinding Decorators, Converter={x:Static local:DefaultConverter.Instance}}"
                                                      ItemContainerStyle="{TemplateBinding DecoratorContainerStyle}"
                                                      ItemTemplate="{TemplateBinding DecoratorTemplate}"
                                                      IsTabStop="False">

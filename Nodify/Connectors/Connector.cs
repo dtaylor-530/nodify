@@ -23,6 +23,7 @@ namespace Nodify
         public static readonly RoutedEvent PendingConnectionDragEvent = EventManager.RegisterRoutedEvent(nameof(PendingConnectionDrag), RoutingStrategy.Bubble, typeof(PendingConnectionEventHandler), typeof(Connector));
         public static readonly RoutedEvent DisconnectEvent = EventManager.RegisterRoutedEvent(nameof(Disconnect), RoutingStrategy.Bubble, typeof(ConnectorEventHandler), typeof(Connector));
 
+
         /// <summary>Triggered by the <see cref="EditorGestures.ConnectorGestures.Connect"/> gesture.</summary>
         public event PendingConnectionEventHandler PendingConnectionStarted
         {
@@ -63,7 +64,13 @@ namespace Nodify
         private static readonly DependencyPropertyKey IsPendingConnectionPropertyKey = DependencyProperty.RegisterReadOnly(nameof(IsPendingConnection), typeof(bool), typeof(Connector), new FrameworkPropertyMetadata(BoxValue.False));
         public static readonly DependencyProperty IsPendingConnectionProperty = IsPendingConnectionPropertyKey.DependencyProperty;
         public static readonly DependencyProperty HasCustomContextMenuProperty = NodifyEditor.HasCustomContextMenuProperty.AddOwner(typeof(Connector));
+        public static readonly DependencyProperty HeaderStyleProperty = DependencyProperty.Register(nameof(HeaderStyle), typeof(Style), typeof(Connector), new PropertyMetadata());
 
+        public Style HeaderStyle
+        {
+            get { return (Style)GetValue(HeaderStyleProperty); }
+            set { SetValue(HeaderStyleProperty, value); }
+        }
         /// <summary>
         /// Gets the location in graph space coordinates where <see cref="Connection"/>s can be attached to. 
         /// Bind with <see cref="System.Windows.Data.BindingMode.OneWayToSource"/>

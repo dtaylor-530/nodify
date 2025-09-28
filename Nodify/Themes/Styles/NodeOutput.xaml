@@ -37,6 +37,7 @@
                       Offset="1" />
     </LinearGradientBrush>
 
+
     <Style TargetType="{x:Type local:NodeOutput}">
         <Setter Property="BorderBrush"
                 Value="DodgerBlue" />
@@ -61,7 +62,10 @@
                                     HorizontalAlignment="Right"
                                     Margin="{TemplateBinding Padding}">
 
-                            <ContentPresenter ContentSource="Header" />
+                            <ContentControl Style="{TemplateBinding HeaderStyle}">
+                                <ContentPresenter ContentSource="Header" />
+                            </ContentControl>
+                   
 
                             <Control x:Name="PART_Connector"
                                      Focusable="False"

@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Nodify.Panels;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using Size = System.Windows.Size;
 
-namespace Utility.WPF.Panels
+namespace Nodify.Panels
 
 {
     public interface IIndex : IReadOnlyList<int>, IComparable<IIndex>, IEquatable<IIndex>, IComparable
@@ -50,6 +52,18 @@ namespace Utility.WPF.Panels
         public static readonly DependencyProperty ItemSpacingProperty = DependencyProperty.Register(nameof(ItemSpacing), typeof(double), typeof(TreePanel), new PropertyMetadata(5.0, OnLayoutPropertyChanged));
         public static readonly DependencyProperty KeyPropertyNameProperty = DependencyProperty.Register("KeyPropertyName", typeof(string), typeof(TreePanel), new PropertyMetadata("Key"));
 
+
+        public IValueConverter IndexConverter
+        {
+            get { return (IValueConverter)GetValue(IndexConverterProperty); }
+            set { SetValue(IndexConverterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IndexConverterProperty =
+            DependencyProperty.Register("IndexConverter", typeof(int), typeof(TreePanel), new PropertyMetadata());
+
+
         public string KeyPropertyName
         {
             get { return (string)GetValue(KeyPropertyNameProperty); }
@@ -80,7 +94,7 @@ namespace Utility.WPF.Panels
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var treeNodes = BuildTreeStructure(Children, KeyPropertyName);
+            var treeNodes = BuildTreeStructure(Children, KeyPropertyName, IndexConverter);
             double maxWidth = 0;
             double totalHeight = 0;
 
@@ -90,22 +104,22 @@ namespace Utility.WPF.Panels
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var treeNodes = BuildTreeStructure(Children, KeyPropertyName);
+            var treeNodes = BuildTreeStructure(Children, KeyPropertyName, IndexConverter);
             double currentY = 0;
             ArrangeTreeNodes(treeNodes, 0, IndentSize, ItemSpacing, ref currentY);
             return finalSize;
         }
 
-        public static List<TreeNode> BuildTreeStructure(IEnumerable Children, string? KeyPropertyName = null)
+        public static List<TreeNode> BuildTreeStructure(IEnumerable Children, string? KeyPropertyName = null, IValueConverter? converter= null)
         {
             var allNodes = new List<TreeNode>();
 
             foreach (UIElement child in Children)
             {
-                var treeItem = GetTreeItem(child, KeyPropertyName);
-                if (treeItem != null)
+                var index = GetTreeIndex(child, KeyPropertyName, converter);
+                if (index != null)
                 {
-                    var node = new TreeNode(treeItem.Index)
+                    var node = new TreeNode(index) 
                     {
                         Element = child,
                     };
@@ -139,19 +153,23 @@ namespace Utility.WPF.Panels
         }
 
 
-        public static ITreeIndex GetTreeItem(UIElement element, string? KeyPropertyName = null)
+        public static IIndex GetTreeIndex(UIElement element, string? KeyPropertyName = null, IValueConverter? indexConverter = null)
         {
             if (element is ITreeIndex directItem)
-                return directItem;
+                return directItem.Index;
             else if (element is FrameworkElement fe && fe.DataContext is ITreeIndex contextItem)
-                return contextItem;
+                return contextItem.Index;
+            else if (element is FrameworkElement fe2 && indexConverter?.Convert(fe2.DataContext, typeof(IIndex), default, default) is IIndex index)
+                return index;
             else if (element.GetType().GetProperties().FirstOrDefault(p => p.Name == KeyPropertyName) is { } property)
             {
                 var key = property.GetValue(element) as string;
                 if (key != null)
                 {
-                    if (Utility.Structs.Index.ParseKeyToPath(key) is { } arr && arr.Length > 0)
-                        return new TreeNode((Utility.Structs.Index)key) { Element = element };
+   
+                    if (Index.ParseKeyToPath(key) is { } arr && arr.Length > 0)
+                        return (Index)key;
+
                 }
             }
             else if (element is FrameworkElement _fe && _fe.DataContext.GetType().GetProperties().FirstOrDefault(p => p.Name == KeyPropertyName) is { } _property)
@@ -159,9 +177,9 @@ namespace Utility.WPF.Panels
                 var key = _property.GetValue(_fe.DataContext) as string;
                 if (key != null)
                 {
-                    if (Utility.Structs.Index.ParseKeyToPath(key) is { } arr && arr.Length > 0)
+                    if (Index.ParseKeyToPath(key) is { } arr && arr.Length > 0)
                     {
-                        return new TreeNode((Utility.Structs.Index)key) { Element = element };
+                        return (Index)key;
                     }
                 }
             }
@@ -179,22 +197,29 @@ namespace Utility.WPF.Panels
             return allNodes.FirstOrDefault(node =>
                 node.Index != null &&
                 node.Index.Count == parentPath.Length &&
-                node.Index.Equals((Utility.Structs.Index)parentPath));
+                node.Index.Equals((Index)parentPath));
         }
 
         public static void MeasureTreeNodes(List<TreeNode> nodes, Size availableSize, double IndentSize, double ItemSpacing, ref double maxWidth, ref double totalHeight)
         {
             foreach (var node in nodes)
             {
-                node.Element.Measure(availableSize);
-                var elementSize = node.Element.DesiredSize;
-                double nodeWidth = (node.Level - 1) * IndentSize + elementSize.Width;
-                maxWidth = Math.Max(maxWidth, nodeWidth);
-                totalHeight += elementSize.Height + ItemSpacing;
-
-                if (node.Children.Count > 0)
+                try
                 {
-                    MeasureTreeNodes(node.Children, availableSize, IndentSize, ItemSpacing, ref maxWidth, ref totalHeight);
+                    node.Element.Measure(availableSize);
+                    var elementSize = node.Element.DesiredSize;
+                    double nodeWidth = (node.Level - 1) * IndentSize + elementSize.Width;
+                    maxWidth = Math.Max(maxWidth, nodeWidth);
+                    totalHeight += elementSize.Height + ItemSpacing;
+
+                    if (node.Children.Count > 0)
+                    {
+                        MeasureTreeNodes(node.Children, availableSize, IndentSize, ItemSpacing, ref maxWidth, ref totalHeight);
+                    }
+                }
+                catch(Exception ex)
+                {
+
                 }
             }
         }
@@ -205,13 +230,19 @@ namespace Utility.WPF.Panels
             {
                 var elementSize = node.Element.DesiredSize;
                 double x = level * IndentSize;
-                node.Element.Arrange(new Rect(x, currentY, elementSize.Width, elementSize.Height));
+                try
+                {
+                    node.Element.Arrange(new Rect(x, currentY, Math.Max(50, elementSize.Width), Math.Max(50, elementSize.Height)));
 
+                }
+                catch(Exception ex)
+                {
 
+                }
 
                 if (node.Element is ILocation location)
                 {
-                    location.Location = new Point((float)(x), (float)(currentY));
+                    location.Location = new Point((float)x, (float)currentY);
                 }
                 currentY += elementSize.Height + ItemSpacing;
                 if (node.Children.Count > 0)

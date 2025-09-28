@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using Utility.WPF.Panels;
 
 
-namespace Utility.Structs
+namespace Nodify.Panels
 {
     public struct Index : IIndex
     {
@@ -39,13 +38,13 @@ namespace Utility.Structs
         {
             if (other == null) return 1;
 
-            int minLength = Math.Min(this.Count, other.Count);
+            int minLength = Math.Min(Count, other.Count);
             for (int i = 0; i < minLength; i++)
             {
                 int comparison = collection[i].CompareTo(other[i]);
                 if (comparison != 0) return comparison;
             }
-            return this.Count.CompareTo(other.Count);
+            return Count.CompareTo(other.Count);
         }
 
         public int CompareTo(object? obj)
@@ -56,9 +55,9 @@ namespace Utility.Structs
 
         public bool Equals(IIndex? other)
         {
-            if (this.Count != other?.Count)
+            if (Count != other?.Count)
                 return false;
-            for (int i = 0; i < this.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 if (this[i] != other?[i]) return false;
             }

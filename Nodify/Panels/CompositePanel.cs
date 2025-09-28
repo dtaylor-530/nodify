@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Nodify.Panels;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Xml.Linq;
-using Utility.WPF.Panels;
 
 namespace Nodify
 {
@@ -13,6 +14,18 @@ namespace Nodify
     {
 
         public static readonly DependencyProperty ExtentProperty = DependencyProperty.Register(nameof(Extent), typeof(Rect), typeof(CompositePanel), new FrameworkPropertyMetadata(BoxValue.Rect));
+
+
+        public IValueConverter Converter
+        {
+            get { return (IValueConverter)GetValue(ConverterProperty); }
+            set { SetValue(ConverterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IndexConverter.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ConverterProperty =
+            DependencyProperty.Register("Converter", typeof(IValueConverter), typeof(CompositePanel), new PropertyMetadata());
+
 
         public CompositePanel()
         {
@@ -29,6 +42,10 @@ namespace Nodify
 
         protected override Size MeasureOverride(Size availableSize)
         {
+            if(availableSize.Width == double.PositiveInfinity || availableSize.Height == double.PositiveInfinity)
+            {
+                availableSize = new Size(3000,3000);
+            }
             var halfWidth = new Size(availableSize.Width / 2, availableSize.Height);
 
 
@@ -36,13 +53,13 @@ namespace Nodify
             listStandard.Clear();
             for (int i = 0; i < Children.Count; i++)
             {
-                if (TreePanel.GetTreeItem(Children[i], "Key") is { })
+                if (TreePanel.GetTreeIndex(Children[i], "Key", Converter) is { })
                     listTree.Add(Children[i]);
                 else
                     listStandard.Add(Children[i]);
             }
 
-            var treeNodes = TreePanel.BuildTreeStructure(listTree, "Key");
+            var treeNodes = TreePanel.BuildTreeStructure(listTree, "Key", Converter);
             double maxWidth = 0;
             double totalHeight = 0;
 
@@ -66,7 +83,7 @@ namespace Nodify
 
             //if (Arrangement == Arrangement.Tree)
             //{
-            var treeNodes = TreePanel.BuildTreeStructure(listTree, "Key");
+            var treeNodes = TreePanel.BuildTreeStructure(listTree, "Key", Converter);
             var rootNodes = TreePanel.rootNodes(treeNodes);
             double currentY = 0;
             TreePanel.ArrangeTreeNodes(rootNodes, 0, 100, 100, ref currentY);
