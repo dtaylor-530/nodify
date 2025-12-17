@@ -8,7 +8,7 @@ using System.Windows.Media;
 namespace Nodify
 {
     /// <summary>
-    /// Represents a control that has a list of <see cref="Input"/> <see cref="Connector"/>s and a list of <see cref="Output"/> <see cref="Connector"/>s.
+    /// Represents a control that has a list of <see cref="Inputs"/> <see cref="Connector"/>s and a list of <see cref="Outputs"/> <see cref="Connector"/>s.
     /// </summary>
     [TemplatePart(Name = ElementInputItemsControl, Type = typeof(ItemsControl))]
     [TemplatePart(Name = ElementOutputItemsControl, Type = typeof(ItemsControl))]
@@ -31,8 +31,8 @@ namespace Nodify
         protected static readonly DependencyPropertyKey HasFooterPropertyKey = DependencyProperty.RegisterReadOnly(nameof(HasFooter), typeof(bool), typeof(Node), new FrameworkPropertyMetadata(BoxValue.False));
         public static readonly DependencyProperty HasFooterProperty = HasFooterPropertyKey.DependencyProperty;
         public static readonly DependencyProperty OutputConnectorTemplateProperty = DependencyProperty.Register(nameof(OutputConnectorTemplate), typeof(DataTemplate), typeof(Node));
-        public static readonly DependencyProperty InputProperty = DependencyProperty.Register(nameof(Input), typeof(IEnumerable), typeof(Node));
-        public static readonly DependencyProperty OutputProperty = DependencyProperty.Register(nameof(Output), typeof(IEnumerable), typeof(Node));
+        public static readonly DependencyProperty InputsProperty = DependencyProperty.Register(nameof(Inputs), typeof(IEnumerable), typeof(Node));
+        public static readonly DependencyProperty OutputsProperty = DependencyProperty.Register(nameof(Outputs), typeof(IEnumerable), typeof(Node));
         public static readonly DependencyProperty ContentContainerStyleProperty = DependencyProperty.Register(nameof(ContentContainerStyle), typeof(Style), typeof(Node));
         public static readonly DependencyProperty HeaderContainerStyleProperty = DependencyProperty.Register(nameof(HeaderContainerStyle), typeof(Style), typeof(Node));
         public static readonly DependencyProperty FooterContainerStyleProperty = DependencyProperty.Register(nameof(FooterContainerStyle), typeof(Style), typeof(Node));
@@ -91,7 +91,7 @@ namespace Nodify
         }
 
         /// <summary>
-        /// Gets or sets the template used to display the content of the control's <see cref="Input"/> connectors.
+        /// Gets or sets the template used to display the content of the control's <see cref="Inputs"/> connectors.
         /// </summary>
         public DataTemplate InputConnectorTemplate
         {
@@ -100,7 +100,7 @@ namespace Nodify
         }
 
         /// <summary>
-        /// Gets or sets the template used to display the content of the control's <see cref="Output"/> connectors.
+        /// Gets or sets the template used to display the content of the control's <see cref="Outputs"/> connectors.
         /// </summary>
         public DataTemplate OutputConnectorTemplate
         {
@@ -111,19 +111,19 @@ namespace Nodify
         /// <summary>
         /// Gets or sets the data for the input <see cref="Connector"/>s of this control.
         /// </summary>
-        public IEnumerable Input
+        public IEnumerable Inputs
         {
-            get => (IEnumerable)GetValue(InputProperty);
-            set => SetValue(InputProperty, value);
+            get => (IEnumerable)GetValue(InputsProperty);
+            set => SetValue(InputsProperty, value);
         }
 
         /// <summary>
         /// Gets or sets the data for the output <see cref="Connector"/>s of this control.
         /// </summary>
-        public IEnumerable Output
+        public IEnumerable Outputs
         {
-            get => (IEnumerable)GetValue(OutputProperty);
-            set => SetValue(OutputProperty, value);
+            get => (IEnumerable)GetValue(OutputsProperty);
+            set => SetValue(OutputsProperty, value);
         }
 
         /// <summary>

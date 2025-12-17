@@ -98,7 +98,7 @@
 
                                     <!--Data IN-->
                                     <ItemsControl x:Name="PART_Input"
-                                                  ItemsSource="{TemplateBinding Input}"
+                                                  ItemsSource="{TemplateBinding Inputs}"
                                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                   ItemTemplate="{TemplateBinding InputConnectorTemplate}"
                                                   Focusable="False" >
@@ -114,7 +114,7 @@
 
                                     <!--Data OUT-->
                                     <ItemsControl x:Name="PART_Output"
-                                                  ItemsSource="{TemplateBinding Output}"
+                                                  ItemsSource="{TemplateBinding Outputs}"
                                                   ItemTemplate="{TemplateBinding OutputConnectorTemplate}"
                                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                   HorizontalContentAlignment="Right"
@@ -176,7 +176,7 @@
 
                                             <!--Data IN-->
                                             <ItemsControl x:Name="PART_Input"
-                                                  ItemsSource="{TemplateBinding Input}"
+                                                  ItemsSource="{TemplateBinding Inputs}"
                                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                   ItemTemplate="{TemplateBinding InputConnectorTemplate}"
                                                   Grid.Column="0"
@@ -194,7 +194,7 @@
 
                                             <!--Data OUT-->
                                             <ItemsControl x:Name="PART_Output"
-                                                  ItemsSource="{TemplateBinding Output}"
+                                                  ItemsSource="{TemplateBinding Outputs}"
                                                   ItemTemplate="{TemplateBinding OutputConnectorTemplate}"
                                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                   HorizontalContentAlignment="Right"
