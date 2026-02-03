@@ -15,6 +15,8 @@ namespace Nodify
 
         public static readonly DependencyProperty ExtentProperty = DependencyProperty.Register(nameof(Extent), typeof(Rect), typeof(CompositePanel), new FrameworkPropertyMetadata(BoxValue.Rect));
 
+        const double PanelSize = 200;
+        const double ItemLength = 100;
 
         public IValueConverter Converter
         {
@@ -42,9 +44,9 @@ namespace Nodify
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            if(availableSize.Width == double.PositiveInfinity || availableSize.Height == double.PositiveInfinity)
+            if (availableSize.Width == double.PositiveInfinity || availableSize.Height == double.PositiveInfinity)
             {
-                availableSize = new Size(3000,3000);
+                availableSize = new Size(3000, 3000);
             }
             var halfWidth = new Size(availableSize.Width / 2, availableSize.Height);
 
@@ -64,7 +66,6 @@ namespace Nodify
             double totalHeight = 0;
 
             TreePanel.MeasureTreeNodes(treeNodes, availableSize, 20, 20, ref maxWidth, ref totalHeight);
-
 
             var measure2 = NodifyGroupedCanvas.MeasureOverride(listStandard, availableSize);
 
@@ -92,8 +93,7 @@ namespace Nodify
                 changeExtent(ref minX, ref minY, ref maxX, ref maxY, new Rect(((ILocation)node.Element).Location, node.Element.RenderSize));
             }
 
-            var x = NodifyGroupedCanvas.ArrangeOverride(listStandard, new Rect(new Point(maxX +100, 0), new Size(maxX + 100, 0)));
-
+            var _ = HexagonGrid.ArrangeOverride(listStandard, finalSize, PanelSize, ItemLength, new Size(maxX + 100, 0), true);
 
             for (int i = 0; i < listStandard.Count; i++)
             {
