@@ -67,7 +67,7 @@ namespace Nodify
 
             TreePanel.MeasureTreeNodes(treeNodes, availableSize, 20, 20, ref maxWidth, ref totalHeight);
 
-            var measure2 = NodifyGroupedCanvas.MeasureOverride(listStandard, availableSize);
+            var measure2 = HexagonGrid.MeasureOverride(listStandard, ItemLength);
 
             return new Size(maxWidth + measure2.Width, totalHeight + measure2.Height);
         }
