@@ -176,7 +176,7 @@
                                 </local:CuttingLine.EndPoint>
                             </local:CuttingLine>
 
-                            <local:DecoratorsControl ItemsSource="{TemplateBinding Decorators, Converter={x:Static local:DefaultConverter.Instance}}"
+                            <local:DecoratorsControl ItemsSource="{TemplateBinding Decorators}"
                                                      ItemContainerStyle="{TemplateBinding DecoratorContainerStyle}"
                                                      ItemTemplate="{TemplateBinding DecoratorTemplate}"
                                                      IsTabStop="False">
