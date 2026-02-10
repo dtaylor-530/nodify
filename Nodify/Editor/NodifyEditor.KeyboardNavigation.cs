@@ -147,7 +147,7 @@ namespace Nodify
 
             // When any focusable elements inside the editor - that are most likely inside containers (textbox, checkbox etc) - lose focus,
             // and the focus goes outside the editor, we must focus its container first, otherwise focus the editor (don't allow focus to escape)
-            if (isKeyboardInitiated && e.OldFocus is DependencyObject oldFocus && !IsNavigationTrigger(oldFocus) && IsAncestorOf(oldFocus) && (e.NewFocus is DependencyObject newFocus && !IsAncestorOf(newFocus)))
+            if (DisablePanning == false && isKeyboardInitiated && e.OldFocus is DependencyObject oldFocus && !IsNavigationTrigger(oldFocus) && IsAncestorOf(oldFocus) && (e.NewFocus is DependencyObject newFocus && !IsAncestorOf(newFocus)))
             {
                 var container = oldFocus.GetParent(IsNavigationTrigger);
                 if (container is UIElement elem && elem.Focus())
