@@ -12,6 +12,7 @@ namespace Nodify
         
         public static readonly DependencyProperty HeaderProperty = HeaderedContentControl.HeaderProperty.AddOwner(typeof(NodeOutput));
         public static readonly DependencyProperty HeaderTemplateProperty = HeaderedContentControl.HeaderTemplateProperty.AddOwner(typeof(NodeOutput));
+        public static readonly DependencyProperty HeaderTemplateSelectorProperty = HeaderedContentControl.HeaderTemplateSelectorProperty.AddOwner(typeof(NodeOutput));
         public static readonly DependencyProperty ConnectorTemplateProperty = NodeInput.ConnectorTemplateProperty.AddOwner(typeof(NodeOutput));
         public static readonly DependencyProperty OrientationProperty = NodeInput.OrientationProperty.AddOwner(typeof(NodeOutput), new FrameworkPropertyMetadata(Orientation.Horizontal, FrameworkPropertyMetadataOptions.AffectsMeasure));
 
@@ -31,6 +32,12 @@ namespace Nodify
         {
             get => (DataTemplate)GetValue(HeaderTemplateProperty);
             set => SetValue(HeaderTemplateProperty, value);
+        }
+        
+        public DataTemplateSelector HeaderTemplateSelector
+        {
+            get => (DataTemplateSelector)GetValue(HeaderTemplateSelectorProperty);
+            set => SetValue(HeaderTemplateSelectorProperty, value);
         }
         
         /// <summary>

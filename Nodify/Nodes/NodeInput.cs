@@ -12,6 +12,7 @@ namespace Nodify
 
         public static readonly DependencyProperty HeaderProperty = HeaderedContentControl.HeaderProperty.AddOwner(typeof(NodeInput));
         public static readonly DependencyProperty HeaderTemplateProperty = HeaderedContentControl.HeaderTemplateProperty.AddOwner(typeof(NodeInput));
+        public static readonly DependencyProperty HeaderTemplateSelectorProperty = HeaderedContentControl.HeaderTemplateSelectorProperty.AddOwner(typeof(NodeInput));
         public static readonly DependencyProperty ConnectorTemplateProperty = DependencyProperty.Register(nameof(ConnectorTemplate), typeof(ControlTemplate), typeof(NodeInput));
         public static readonly DependencyProperty OrientationProperty = StackPanel.OrientationProperty.AddOwner(typeof(NodeInput), new FrameworkPropertyMetadata(Orientation.Horizontal, FrameworkPropertyMetadataOptions.AffectsMeasure));
         public static readonly DependencyProperty IsEditingProperty = DependencyProperty.Register("IsEditing", typeof(bool), typeof(NodeInput), new PropertyMetadata(changed));
@@ -46,6 +47,14 @@ namespace Nodify
         {
             get => (DataTemplate)GetValue(HeaderTemplateProperty);
             set => SetValue(HeaderTemplateProperty, value);
+        }
+        /// <summary>
+        /// Gets or sets the template used to display the content of the control's header.
+        /// </summary>
+        public DataTemplateSelector HeaderTemplateSelector
+        {
+            get => (DataTemplateSelector)GetValue(HeaderTemplateSelectorProperty);
+            set => SetValue(HeaderTemplateSelectorProperty, value);
         }
 
         /// <summary>

@@ -69,7 +69,9 @@
                                      BorderBrush="{TemplateBinding BorderBrush}"
                                      Template="{TemplateBinding ConnectorTemplate}" />
 
-                            <ContentPresenter ContentSource="Header" />
+                            <ContentControl Style="{TemplateBinding HeaderStyle}">
+                                <ContentPresenter ContentSource="Header" />
+                            </ContentControl>
                         </StackPanel>
                     </Grid>
                     <ControlTemplate.Triggers>
