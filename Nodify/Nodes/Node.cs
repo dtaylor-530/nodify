@@ -39,6 +39,18 @@ namespace Nodify
         public static readonly DependencyProperty IsConnectorsReversedProperty = DependencyProperty.Register(nameof(IsConnectorsReversed), typeof(bool), typeof(Node), new PropertyMetadata());
 
 
+
+        public Orientation Orientation
+        {
+            get { return (Orientation)GetValue(OrientationProperty); }
+            set { SetValue(OrientationProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Orientation.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty OrientationProperty =
+            DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(Node), new PropertyMetadata(Orientation.Vertical));
+
+
         public bool IsConnectorsReversed
         {
             get { return (bool)GetValue(IsConnectorsReversedProperty); }

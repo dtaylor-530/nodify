@@ -96,13 +96,13 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <!--Data IN-->
+                                    <!--Data IN--><!--
                                     <ItemsControl x:Name="PART_Input"
                                                   ItemsSource="{TemplateBinding Inputs}"
                                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                   ItemTemplate="{TemplateBinding InputConnectorTemplate}"
                                                   Focusable="False" >
-                                    </ItemsControl>
+                                    </ItemsControl>-->
                                     
                                     <!--Content-->
                                     <Border Grid.Column="1"
@@ -113,7 +113,7 @@
                                     </Border>
 
                                     <!--Data OUT-->
-                                    <ItemsControl x:Name="PART_Output"
+                                    <!--<ItemsControl x:Name="PART_Output"
                                                   ItemsSource="{TemplateBinding Outputs}"
                                                   ItemTemplate="{TemplateBinding OutputConnectorTemplate}"
                                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
@@ -121,7 +121,7 @@
                                             
                                                   Focusable="False" >
                                     
-                                    </ItemsControl>
+                                    </ItemsControl>-->
                                 </Grid>
                             </Border>
 
@@ -140,7 +140,7 @@
         </Setter>
 
         <Style.Triggers>
-            <DataTrigger Binding="{Binding Orientation}" Value="Horizontal">
+            <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="Template" >
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type local:Node}">
@@ -149,7 +149,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding="{TemplateBinding Padding}"
                             CornerRadius="3">
-                                <Grid>
+                                <Grid >
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
@@ -175,14 +175,14 @@
                                             </Grid.ColumnDefinitions>
 
                                             <!--Data IN-->
-                                            <ItemsControl x:Name="PART_Input"
+                                            <!--<ItemsControl x:Name="PART_Input"
                                                   ItemsSource="{TemplateBinding Inputs}"
                                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                   ItemTemplate="{TemplateBinding InputConnectorTemplate}"
                                                   Grid.Column="0"
                                                   Focusable="False" >
                             
-                                            </ItemsControl>
+                                            </ItemsControl>-->
 
                                             <!--Content-->
                                             <Border Grid.Column="1"
@@ -193,7 +193,7 @@
                                             </Border>
 
                                             <!--Data OUT-->
-                                            <ItemsControl x:Name="PART_Output"
+                                            <!--<ItemsControl x:Name="PART_Output"
                                                   ItemsSource="{TemplateBinding Outputs}"
                                                   ItemTemplate="{TemplateBinding OutputConnectorTemplate}"
                                                   VerticalAlignment="{TemplateBinding VerticalAlignment}"
@@ -201,7 +201,7 @@
                                                   Grid.Column="2"
                                                   Focusable="False" >
                                
-                                            </ItemsControl>
+                                            </ItemsControl>-->
                                         </Grid>
                                     </Border>
 
@@ -218,7 +218,7 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-            </DataTrigger>
+            </Trigger>
         </Style.Triggers>
     </Style>
 
