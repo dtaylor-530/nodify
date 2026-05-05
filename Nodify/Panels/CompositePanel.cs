@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -84,10 +85,10 @@ namespace Nodify
 
             //if (Arrangement == Arrangement.Tree)
             //{
-            var treeNodes = TreePanel.BuildTreeStructure(listTree, "Key", Converter);
+            var treeNodes = TreePanel.BuildTreeStructure(listTree, "Key", Converter).ToArray();
             var rootNodes = TreePanel.rootNodes(treeNodes);
             double currentY = 0;
-            TreePanel.ArrangeTreeNodes(rootNodes, 0, 100, 100, ref currentY);
+            TreePanel.ArrangeTreeNodes(rootNodes.ToArray(), 0, 100, 100, ref currentY);
             foreach (var node in treeNodes)
             {
                 changeExtent(ref minX, ref minY, ref maxX, ref maxY, new Rect(((ILocation)node.Element).Location, node.Element.RenderSize));

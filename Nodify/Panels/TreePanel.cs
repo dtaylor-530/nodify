@@ -45,7 +45,7 @@ namespace Nodify.Panels
     }
 
 
-    // Custom Panel that arranges items in a hierarchical tree structure
+    // custom Panel that arranges items in a hierarchical tree structure
     public class TreePanel : Panel
     {
         public static readonly DependencyProperty IndentSizeProperty = DependencyProperty.Register(nameof(IndentSize), typeof(double), typeof(TreePanel), new PropertyMetadata(20.0, OnLayoutPropertyChanged));
@@ -94,7 +94,7 @@ namespace Nodify.Panels
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var treeNodes = BuildTreeStructure(Children, KeyPropertyName, IndexConverter);
+            var treeNodes = BuildTreeStructure(Children, KeyPropertyName, IndexConverter).ToArray();
             double maxWidth = 0;
             double totalHeight = 0;
 
@@ -110,48 +110,52 @@ namespace Nodify.Panels
             return finalSize;
         }
 
-        public static List<TreeNode> BuildTreeStructure(IEnumerable Children, string? KeyPropertyName = null, IValueConverter? converter= null)
+        public static IEnumerable<TreeNode> BuildTreeStructure(IEnumerable Children, string? KeyPropertyName = null, IValueConverter? converter = null)
         {
-            var allNodes = new List<TreeNode>();
-
             foreach (UIElement child in Children)
             {
                 var index = GetTreeIndex(child, KeyPropertyName, converter);
                 if (index != null)
                 {
-                    var node = new TreeNode(index) 
+                    var node = new TreeNode(index)
                     {
                         Element = child,
                     };
-                    allNodes.Add(node);
+                    yield return node;
+                }
+                else
+                {
+
                 }
             }
-
-            return allNodes;
         }
 
-        public static List<TreeNode> rootNodes(List<TreeNode> allNodes)
+        public static IEnumerable<TreeNode> rootNodes(IEnumerable<TreeNode> allNodes)
         {
-            allNodes.Sort();
+            var lookup = new Dictionary<string, TreeNode>();
+            int i = 0;
 
-            var rootNodes = new List<TreeNode>();
-            foreach (var node in allNodes)
+            foreach (var node in allNodes.OrderBy(n => n.Level))
             {
-                if (node.Level == 1)
-                {
-                    rootNodes.Add(node);
-                }
-                else if (node.Level > 1)
-                {
-                    var parent = FindParentNode(allNodes, node.Index);
-                    if (parent == null)
-                        throw new Exception("asd34ddd");
-                    parent?.Children.Add(node);
-                }
-            }
-            return rootNodes;
-        }
+                lookup[node.Index.ToString()] = node;
 
+                if (i == 0)
+                {
+                    yield return node;
+                }
+                else
+                {
+                    string parentKey = string.Join(".", node.Index.Take(node.Index.Count - 1));
+
+                    if (lookup.TryGetValue(parentKey, out var parent))
+                    {
+                        if (parent.Children.Contains(node) == false)
+                            parent.Children.Add(node);
+                    }
+                }
+                i++;
+            }
+        }
 
         public static IIndex GetTreeIndex(UIElement element, string? KeyPropertyName = null, IValueConverter? indexConverter = null)
         {
@@ -166,7 +170,7 @@ namespace Nodify.Panels
                 var key = property.GetValue(element) as string;
                 if (key != null)
                 {
-   
+
                     if (Index.ParseKeyToPath(key) is { } arr && arr.Length > 0)
                         return (Index)key;
 
@@ -188,19 +192,9 @@ namespace Nodify.Panels
         }
 
 
-        public static TreeNode FindParentNode(List<TreeNode> allNodes, IReadOnlyList<int> childPath)
-        {
-            if (childPath == null || childPath.Count <= 1)
-                return null;
 
-            var parentPath = childPath.Take(childPath.Count - 1).ToArray();
-            return allNodes.FirstOrDefault(node =>
-                node.Index != null &&
-                node.Index.Count == parentPath.Length &&
-                node.Index.Equals((Index)parentPath));
-        }
 
-        public static void MeasureTreeNodes(List<TreeNode> nodes, Size availableSize, double IndentSize, double ItemSpacing, ref double maxWidth, ref double totalHeight)
+        public static void MeasureTreeNodes(IEnumerable<TreeNode> nodes, Size availableSize, double IndentSize, double ItemSpacing, ref double maxWidth, ref double totalHeight)
         {
             foreach (var node in nodes)
             {
@@ -217,14 +211,14 @@ namespace Nodify.Panels
                         MeasureTreeNodes(node.Children, availableSize, IndentSize, ItemSpacing, ref maxWidth, ref totalHeight);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                 }
             }
         }
 
-        public static void ArrangeTreeNodes(List<TreeNode> nodes, int level, double IndentSize, double ItemSpacing, ref double currentY)
+        public static void ArrangeTreeNodes(IEnumerable<TreeNode> nodes, int level, double IndentSize, double ItemSpacing, ref double currentY)
         {
             foreach (var node in nodes)
             {
@@ -235,7 +229,7 @@ namespace Nodify.Panels
                     node.Element.Arrange(new Rect(x, currentY, Math.Max(50, elementSize.Width), Math.Max(50, elementSize.Height)));
 
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                 }
