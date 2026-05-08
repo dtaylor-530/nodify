@@ -134,12 +134,17 @@ namespace Nodify.Panels
         {
             var lookup = new Dictionary<string, TreeNode>();
             int i = 0;
-
+            int level = 0;
             foreach (var node in allNodes.OrderBy(n => n.Level))
             {
                 lookup[node.Index.ToString()] = node;
 
                 if (i == 0)
+                {
+                    level = node.Level;
+                    yield return node;
+                }
+                else if (node.Level <= level)
                 {
                     yield return node;
                 }
