@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 
 namespace Nodify.Panels
 {
     public struct Index : IIndex
     {
+        const string regexString = @"^\d+(\.\d+)*$";
+        static readonly Regex regex = new Regex(regexString);
+
         private readonly int[] collection;
         public Index(params int[] indexes)
         {
@@ -86,10 +90,12 @@ namespace Nodify.Panels
             stringBuilder.Remove(stringBuilder.Length - 1, 1);
             return stringBuilder.ToString();
         }
-        public static int[] ParseKeyToPath(string key)
+        public static int[]? ParseKeyToPath(string key)
         {
             if (string.IsNullOrWhiteSpace(key))
-                return Array.Empty<int>();
+                return null;
+            if (regex.IsMatch(key) == false)
+                return null;
 
             try
             {
@@ -97,7 +103,7 @@ namespace Nodify.Panels
             }
             catch
             {
-                return Array.Empty<int>();
+                return null;
             }
         }
         IEnumerator IEnumerable.GetEnumerator()
